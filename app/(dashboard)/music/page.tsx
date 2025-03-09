@@ -49,9 +49,10 @@ interface MediaProps {
 const directory = getAbsolutePath(`../${getVersion()}/music`);
 const SongCards = (props: MediaProps) => {
   const { loading = false } = props;
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   return (
     <DataList<Song>
-      endpoint={`${directory}/music.json`}
+      endpoint={`${server_url}/${directory}/music.json`}
       skeleton={SkeletonGrid}
       render={(data) => (
         <Fragment>
@@ -75,7 +76,7 @@ const SongCards = (props: MediaProps) => {
                             <CardMedia
                               component="img"
                               sx={{ maxHeight: 175 }}
-                              image={`${directory}/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`}
+                              image={`${server_url}/${directory}/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`}
                               alt={item.name}
                             />
                           )}
