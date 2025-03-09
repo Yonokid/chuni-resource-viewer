@@ -8,16 +8,14 @@ const directory = getAbsolutePath(`../${getVersion()}/movie`);
 const MoviePage = () => {
   return (
     <DataDetail
-      endpoint={`${SERVER_URL}/${directory}/movie.json`}
+      endpoint={`${SERVER_URL}${directory}/movie.json`}
       render={(movie: Movie) => (
         <div>
           <h2>{movie.name}</h2>
           <p>{movie.id}</p>
           <p>{movie.filename}</p>
           <video>
-            <source
-              src={`${SERVER_URL}/${directory}/${movie.mp4name}`}
-            ></source>
+            <source src={`${SERVER_URL}${directory}/${movie.mp4name}`}></source>
           </video>
         </div>
       )}

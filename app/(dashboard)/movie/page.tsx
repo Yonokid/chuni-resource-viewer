@@ -14,7 +14,7 @@ const directory = getAbsolutePath(`../${getVersion()}/movie`);
 const Movies = () => {
   return (
     <DataList<Movie>
-      endpoint={`${SERVER_URL}/${directory}/movie.json`}
+      endpoint={`${SERVER_URL}${directory}/movie.json`}
       render={(data) => (
         <List>
           {data.map((item: BaseData, index: number) => (
