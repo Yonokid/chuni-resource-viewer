@@ -55,9 +55,9 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
 
 async function loadNavigation() {
   try {
-    // Dynamically load the navigation data
+    const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
     const navigationData = await import(
-      `/public/${getVersion()}/navigation.json`
+      `/${server_url}/${getVersion()}/navigation.json`
     );
 
     // Map the data to the NAVIGATION constant
