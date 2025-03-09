@@ -10,6 +10,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import { SERVER_URL } from "@/app/layout";
 
 interface Chart {
   difficulty: number;
@@ -49,10 +50,9 @@ interface MediaProps {
 const directory = getAbsolutePath(`../${getVersion()}/music`);
 const SongCards = (props: MediaProps) => {
   const { loading = false } = props;
-  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   return (
     <DataList<Song>
-      endpoint={`${server_url}/${directory}/music.json`}
+      endpoint={`${SERVER_URL}/${directory}/music.json`}
       skeleton={SkeletonGrid}
       render={(data) => (
         <Fragment>
@@ -76,7 +76,7 @@ const SongCards = (props: MediaProps) => {
                             <CardMedia
                               component="img"
                               sx={{ maxHeight: 175 }}
-                              image={`${server_url}/${directory}/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`}
+                              image={`${SERVER_URL}/${directory}/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`}
                               alt={item.name}
                             />
                           )}

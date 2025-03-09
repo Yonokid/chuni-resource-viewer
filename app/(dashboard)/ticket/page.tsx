@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
+import { SERVER_URL } from "@/app/layout";
 
 export interface Ticket extends BaseData {
   explainText: string;
@@ -12,7 +13,7 @@ const directory = getAbsolutePath(`../${getVersion()}/ticket`);
 const Tickets = () => {
   return (
     <DataList<Ticket>
-      endpoint={`${directory}/ticket.json`}
+      endpoint={`${SERVER_URL}/${directory}/ticket.json`}
       render={(data) => (
         <List>
           {data.map((item: Ticket, index: number) => (

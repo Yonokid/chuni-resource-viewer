@@ -2,12 +2,13 @@
 import { Present } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
+import { SERVER_URL } from "@/app/layout";
 
 const directory = getAbsolutePath(`../${getVersion()}/present`);
 const PresentPage = () => {
   return (
     <DataDetail
-      endpoint={`${directory}/present.json`}
+      endpoint={`${SERVER_URL}/${directory}/present.json`}
       render={(present: Present) => (
         <div>
           <h2>{present.name}</h2>

@@ -16,6 +16,7 @@ import {
   AccordionSummary,
 } from "./AccordionTheming";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
+import { SERVER_URL } from "@/app/layout";
 
 const directory = getAbsolutePath(`../${getVersion()}/chara`);
 const CharaPage = () => {
@@ -26,11 +27,11 @@ const CharaPage = () => {
     };
   return (
     <DataDetail
-      endpoint={`${directory}/chara.json`}
+      endpoint={`${SERVER_URL}/${directory}/chara.json`}
       render={(chara: Chara) => (
         <>
           <Image
-            src={`${getAbsolutePath(`../chara`)}/CHU_UI_Character_${(parseInt(chara.id, 10) / 10).toString().padStart(4, "0")}_00_00.webp`}
+            src={`${SERVER_URL}/${getAbsolutePath(`../chara`)}/CHU_UI_Character_${(parseInt(chara.id, 10) / 10).toString().padStart(4, "0")}_00_00.webp`}
             alt="Jacket"
             width="1080"
             height="1080"

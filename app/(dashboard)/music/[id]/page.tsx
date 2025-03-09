@@ -23,6 +23,7 @@ import {
 import { TabContext, TabPanel } from "@mui/lab";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
 import AudioPlayer from "./AudioPlayer";
+import { SERVER_URL } from "@/app/layout";
 
 const difficulties: string[] = [
   "BASIC",
@@ -48,8 +49,8 @@ const SongPage = () => {
 
   const getAudioSrc = (id: string) => {
     return audioType === "normal"
-      ? `${directory}/music${id.padStart(4, "0")}.mp3`
-      : `${directory}/music${id.padStart(4, "0")}_pre.mp3`;
+      ? `${SERVER_URL}/${directory}/music${id.padStart(4, "0")}.mp3`
+      : `${SERVER_URL}/${directory}/music${id.padStart(4, "0")}_pre.mp3`;
   };
 
   return (
@@ -70,7 +71,7 @@ const SongPage = () => {
             }}
           >
             <Image
-              src={`${directory}/CHU_UI_Jacket_${song.id.padStart(4, "0")}.webp`}
+              src={`${SERVER_URL}/${directory}/CHU_UI_Jacket_${song.id.padStart(4, "0")}.webp`}
               alt="Jacket"
               width="400"
               height="400"

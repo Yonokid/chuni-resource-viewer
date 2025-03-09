@@ -10,6 +10,7 @@ import DataList, { BaseData } from "@/app/Components/Data";
 import FitText from "@/app/Components/FitText";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
 import Link from "next/link";
+import { SERVER_URL } from "@/app/layout";
 
 export interface Chara extends BaseData {
   illustratorName: string;
@@ -43,7 +44,7 @@ const directory = getAbsolutePath(`../${getVersion()}/chara`);
 const CharaCards = () => {
   return (
     <DataList<Chara>
-      endpoint={`${directory}/chara.json`}
+      endpoint={`${SERVER_URL}/${directory}/chara.json`}
       skeleton={SkeletonGrid}
       render={(data) => (
         <Fragment>
@@ -60,7 +61,7 @@ const CharaCards = () => {
                         <CardMedia
                           component="img"
                           sx={{ maxHeight: 175 }}
-                          image={`chara/CHU_UI_Character_${(parseInt(item.id, 10) / 10).toString().padStart(4, "0")}_00_02.webp`}
+                          image={`${SERVER_URL}/chara/CHU_UI_Character_${(parseInt(item.id, 10) / 10).toString().padStart(4, "0")}_00_02.webp`}
                           alt={item.name}
                         />
                         <Box sx={{ margin: 2 }}>

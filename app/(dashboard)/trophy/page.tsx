@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
+import { SERVER_URL } from "@/app/layout";
 
 export interface Trophy extends BaseData {
   explainText: string;
@@ -12,7 +13,7 @@ const directory = getAbsolutePath(`../${getVersion()}/trophy`);
 const Trophies = () => {
   return (
     <DataList<Trophy>
-      endpoint={`${directory}/trophy.json`}
+      endpoint={`${SERVER_URL}/${directory}/trophy.json`}
       render={(data) => (
         <List>
           {data.map((item: Trophy, index: number) => (

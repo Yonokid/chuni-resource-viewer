@@ -52,16 +52,22 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
 
   return iconMap[iconName];
 };
+export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 async function loadNavigation() {
   try {
-    const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-    const navigationData = await import(
-      `${server_url}/${getVersion()}/navigation.json`
-    );
+    const version = getVersion();
+
+    const response = await fetch(`${SERVER_URL}/${version}/navigation.json`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const navigationData = await response.json();
 
     // Map the data to the NAVIGATION constant
-    const NAVIGATION = navigationData.default.map((item: any) => ({
+    const NAVIGATION = navigationData.map((item: any) => ({
       ...item,
       icon: item.icon ? getIconComponent(item.icon) : undefined,
     }));

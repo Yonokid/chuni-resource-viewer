@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
+import { SERVER_URL } from "@/app/layout";
 
 export interface Stage extends BaseData {}
 
@@ -10,7 +11,7 @@ const directory = getAbsolutePath(`../${getVersion()}/stage`);
 const Stages = () => {
   return (
     <DataList<BaseData>
-      endpoint={`${directory}/stage.json`}
+      endpoint={`${SERVER_URL}/${directory}/stage.json`}
       render={(data) => (
         <List>
           {data.map((item: BaseData, index: number) => (
