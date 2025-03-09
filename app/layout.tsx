@@ -57,7 +57,7 @@ async function loadNavigation() {
   try {
     const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
     const navigationData = await import(
-      `/${server_url}/${getVersion()}/navigation.json`
+      `${server_url}/${getVersion()}/navigation.json`
     );
 
     // Map the data to the NAVIGATION constant
