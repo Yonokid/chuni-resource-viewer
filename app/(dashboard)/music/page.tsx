@@ -10,7 +10,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { Fragment, useState } from "react";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 interface Chart {
   difficulty: number;

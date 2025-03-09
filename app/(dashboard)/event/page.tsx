@@ -4,7 +4,7 @@ import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import Image from "next/image";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 export interface Event extends BaseData {
   ddsBannerId: string;

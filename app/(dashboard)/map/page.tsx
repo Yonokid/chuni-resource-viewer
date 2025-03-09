@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 export interface Map extends BaseData {
   ddsMapId: string;

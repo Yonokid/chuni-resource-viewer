@@ -25,6 +25,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { SERVER_URL } from "@/app/utils/global";
 
 interface NavigationItem {
   kind?: "page";
@@ -52,7 +53,6 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
 
   return iconMap[iconName];
 };
-export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 async function loadNavigation() {
   try {

@@ -16,7 +16,7 @@ import {
   AccordionSummary,
 } from "./AccordionTheming";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 const directory = getAbsolutePath(`../${getVersion()}/chara`);
 const CharaPage = () => {

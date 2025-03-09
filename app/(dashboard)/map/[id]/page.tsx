@@ -3,7 +3,7 @@ import { Map } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import Image from "next/image";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 const directory = getAbsolutePath(`../${getVersion()}/map`);
 const MapPage = () => {

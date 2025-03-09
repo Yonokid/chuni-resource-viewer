@@ -2,7 +2,7 @@
 import { Skill } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 const directory = getAbsolutePath(`../${getVersion()}/skill`);
 const SkillPage = () => {

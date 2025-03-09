@@ -10,7 +10,7 @@ import DataList, { BaseData } from "@/app/Components/Data";
 import FitText from "@/app/Components/FitText";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
 import Link from "next/link";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 export interface Chara extends BaseData {
   illustratorName: string;

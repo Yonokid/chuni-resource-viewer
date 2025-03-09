@@ -4,6 +4,8 @@ export function getAbsolutePath(relativePath: string): string {
   return path.resolve(__dirname, relativePath);
 }
 
+export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
 export const gameVersion: { [key: string]: string } = {
   "10000": "CHUNITHM",
   "10500": "CHUNITHM PLUS",

@@ -23,7 +23,7 @@ import {
 import { TabContext, TabPanel } from "@mui/lab";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
 import AudioPlayer from "./AudioPlayer";
-import { SERVER_URL } from "@/app/layout";
+import { SERVER_URL } from "@/app/utils/global";
 
 const difficulties: string[] = [
   "BASIC",
