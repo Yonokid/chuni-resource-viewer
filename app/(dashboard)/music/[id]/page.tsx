@@ -55,7 +55,7 @@ const SongPage = () => {
 
   return (
     <DataDetail
-      endpoint={`${directory}/music.json`}
+      endpoint={`${SERVER_URL}/${directory}/music.json`}
       render={(song: Song) => (
         <Fragment>
           <Typography variant="h4">{song.name}</Typography>
