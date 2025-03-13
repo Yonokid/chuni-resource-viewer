@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "SEGA_KakuGothic-DB";
+  src:
+    local("SEGA_KakuGothic-DB"),
+    url(fonts/SEGA_KakuGothicDB.TTF) format("truetype");
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

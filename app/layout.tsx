@@ -93,7 +93,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       });
   }, []);
 
-  const version = "0.0.1";
+  const version = "0.0.3";
   const BRANDING = {
     title: `Chuni Viewer ${version}`,
     logo: <Image src="/favicon.ico" width="40" height="40" alt=""></Image>,

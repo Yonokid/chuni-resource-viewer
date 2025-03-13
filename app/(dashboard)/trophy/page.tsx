@@ -4,9 +4,11 @@ import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getVersion, getAbsolutePath } from "@/app/utils/global";
 import { SERVER_URL } from "@/app/utils/global";
+import AnimatedTitle from "../../Components/AnimatedTitle";
 
 export interface Trophy extends BaseData {
   explainText: string;
+  rareType: string;
 }
 
 const directory = getAbsolutePath(`../${getVersion()}/trophy`);
@@ -19,9 +21,11 @@ const Trophies = () => {
           {data.map((item: Trophy, index: number) => (
             <Fragment key={index}>
               <ListItemButton component="a" href={`trophy/${item.id}`}>
-                <ListItemText primary={item.name} />
+                <ListItemText>
+                  <AnimatedTitle key={item.id} item={item} />
+                </ListItemText>
                 <ListItemText
-                  sx={{ textAlign: "right" }}
+                  sx={{ textAlign: "right", flex: "0 0 45%" }}
                   primary={item.explainText}
                 />
               </ListItemButton>
