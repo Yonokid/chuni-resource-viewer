@@ -1,10 +1,9 @@
 //All credits go to DNARoma and the contributors at
 //https://github.com/Sekai-World/sekai-viewer/blob/dev/src/pages/music/MusicDetail.tsx
 //Thank you
-//I have updated this version to use Grid2
 import {
   Container,
-  Grid2,
+  Grid,
   IconButton,
   Link,
   Paper,
@@ -111,9 +110,9 @@ const AudioPlayer: React.FC<{
   return (
     <Paper>
       <Container>
-        <Grid2 container justifyContent="space-between" alignItems="center">
-          <Grid2 size={{ xs: 2, md: 1 }}>{formatTime(playbackTime)}</Grid2>
-          <Grid2 size={{ xs: 7, md: 9 }}>
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid size={{ xs: 2, md: 1 }}>{formatTime(playbackTime)}</Grid>
+          <Grid size={{ xs: 7, md: 9 }}>
             <Slider
               value={playbackTime}
               onChange={seekHandler}
@@ -121,11 +120,11 @@ const AudioPlayer: React.FC<{
               max={totalTime}
               step={0.1}
             />
-          </Grid2>
-          <Grid2 size={{ xs: 2, md: 1 }}>{formatTime(totalTime)}</Grid2>
-        </Grid2>
-        <Grid2 container justifyContent="space-between" alignItems="center">
-          <Grid2 size={{ xs: 2, md: 1 }}>
+          </Grid>
+          <Grid size={{ xs: 2, md: 1 }}>{formatTime(totalTime)}</Grid>
+        </Grid>
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid size={{ xs: 2, md: 1 }}>
             <Tooltip title="Download">
               <IconButton
                 onClick={() => {
@@ -142,8 +141,8 @@ const AudioPlayer: React.FC<{
                 )}
               </IconButton>
             </Tooltip>
-          </Grid2>
-          <Grid2 size={{ xs: 2, md: 1 }}>
+          </Grid>
+          <Grid size={{ xs: 2, md: 1 }}>
             <IconButton
               onClick={() => {
                 setIsPlay(!isPlay);
@@ -154,14 +153,14 @@ const AudioPlayer: React.FC<{
             >
               {isPlay ? <Pause /> : <PlayArrow />}
             </IconButton>
-          </Grid2>
-          <Grid2
+          </Grid>
+          <Grid
             size={{ xs: 4, md: 3 }}
             container
             justifyContent="space-between"
             alignItems="center"
           >
-            <Grid2 size={{ xs: 2 }}>
+            <Grid size={{ xs: 2 }}>
               <IconButton
                 onClick={() => {
                   setIsMute(!isMute);
@@ -171,8 +170,8 @@ const AudioPlayer: React.FC<{
               >
                 {isMute ? <VolumeOff /> : <VolumeUp />}
               </IconButton>
-            </Grid2>
-            <Grid2 size={{ xs: 7, md: 8 }}>
+            </Grid>
+            <Grid size={{ xs: 7, md: 8 }}>
               <Slider
                 value={volume}
                 onChange={(_, v) => {
@@ -180,9 +179,9 @@ const AudioPlayer: React.FC<{
                   sound?.volume((v as number) / 100);
                 }}
               />
-            </Grid2>
-          </Grid2>
-        </Grid2>
+            </Grid>
+          </Grid>
+        </Grid>
       </Container>
     </Paper>
   );

@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-import { Grid2, Box, Skeleton } from "@mui/material";
+import { Grid, Box, Skeleton } from "@mui/material";
 import React, { Fragment } from "react";
 import DataList, { BaseData } from "@/app/Components/Data";
 import FitText from "@/app/Components/FitText";
@@ -48,7 +48,7 @@ const CharaCards = () => {
         <Fragment>
           {data &&
             data.map((item: Chara, index: number) => (
-              <Grid2 key={index}>
+              <Grid key={index}>
                 <Link
                   href={`chara/${item.id.padStart(4, "0")}`}
                   style={{ textDecoration: "none" }}
@@ -81,7 +81,7 @@ const CharaCards = () => {
                     </CardActionArea>
                   </Card>
                 </Link>
-              </Grid2>
+              </Grid>
             ))}
         </Fragment>
       )}
@@ -92,9 +92,9 @@ const CharaCards = () => {
 export default function CharaPage() {
   return (
     <>
-      <Grid2 container spacing={2}>
+      <Grid container spacing={2}>
         <CharaCards />
-      </Grid2>
+      </Grid>
     </>
   );
 }

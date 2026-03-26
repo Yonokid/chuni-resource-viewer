@@ -9,7 +9,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { Fragment } from "react";
 import {
-  Grid2,
+  Grid,
   Typography,
   Paper,
   Table,
@@ -58,7 +58,7 @@ const SongPage = () => {
         <Fragment>
           <Typography variant="h4">{song.name}</Typography>
           <Typography variant="subtitle1">{song.artistName}</Typography>
-          <Grid2
+          <Grid
             container
             direction="column"
             spacing={2}
@@ -69,12 +69,15 @@ const SongPage = () => {
             }}
           >
             <Image
-              src={getBaseUrl("chuni", `music/CHU_UI_Jacket_${song.id.padStart(4, "0")}.webp`)}
+              src={getBaseUrl(
+                "chuni",
+                `music/CHU_UI_Jacket_${song.id.padStart(4, "0")}.webp`,
+              )}
               alt="Jacket"
               width="400"
               height="400"
             ></Image>
-            <Grid2
+            <Grid
               container
               direction="column"
               spacing={2}
@@ -84,7 +87,7 @@ const SongPage = () => {
               }}
             >
               <Paper>
-                <Grid2
+                <Grid
                   container
                   spacing={2}
                   sx={{
@@ -114,7 +117,7 @@ const SongPage = () => {
                       />
                     </RadioGroup>
                   </FormControl>
-                </Grid2>
+                </Grid>
               </Paper>
               <Box sx={{ minWidth: 800 }}>
                 <AudioPlayer src={getAudioSrc(song.id)}></AudioPlayer>
@@ -145,10 +148,10 @@ const SongPage = () => {
                   </TableRow>
                 </TableBody>
               </Table>
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
           <Typography variant="h5">Difficulties</Typography>
-          <Grid2
+          <Grid
             container
             direction="column"
             spacing={2}
@@ -187,7 +190,7 @@ const SongPage = () => {
                 </TabPanel>
               ))}
             </TabContext>
-          </Grid2>
+          </Grid>
         </Fragment>
       )}
     />

@@ -2,7 +2,7 @@
 import DataList, { BaseData } from "@/app/Components/Data";
 import FitText from "@/app/Components/FitText";
 import { getBaseUrl } from "@/app/utils/global";
-import { Box, Grid2, Skeleton } from "@mui/material";
+import { Box, Grid, Skeleton } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
@@ -56,7 +56,7 @@ const SongCards = (props: MediaProps) => {
         <Fragment>
           {data &&
             data.map((item: Song, index: number) => (
-              <Grid2 key={index}>
+              <Grid key={index}>
                 <Link
                   href={`music/${item.id.padStart(4, "0")}`}
                   style={{ textDecoration: "none" }}
@@ -74,7 +74,10 @@ const SongCards = (props: MediaProps) => {
                             <CardMedia
                               component="img"
                               sx={{ maxHeight: 175 }}
-                              image={getBaseUrl("chuni", `music/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`)}
+                              image={getBaseUrl(
+                                "chuni",
+                                `music/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`,
+                              )}
                               alt={item.name}
                             />
                           )}
@@ -95,7 +98,7 @@ const SongCards = (props: MediaProps) => {
                     </CardActionArea>
                   </Card>
                 </Link>
-              </Grid2>
+              </Grid>
             ))}
         </Fragment>
       )}
@@ -106,9 +109,9 @@ const SongCards = (props: MediaProps) => {
 export default function MusicPage() {
   return (
     <>
-      <Grid2 container spacing={2}>
+      <Grid container spacing={2}>
         <SongCards />
-      </Grid2>
+      </Grid>
     </>
   );
 }

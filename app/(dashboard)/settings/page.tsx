@@ -7,7 +7,7 @@ import {
   FormControl,
   FormLabel,
   Typography,
-  Grid2,
+  Grid,
 } from "@mui/material";
 import { gameVersions, getVersion, setVersion } from "@/app/utils/global";
 import { Fragment, useState } from "react";
@@ -46,16 +46,16 @@ function GameVersionSelector({ game }: { game: string }) {
 export default function SettingsPage() {
   return (
     <Fragment>
-      <Grid2 container direction="column" spacing={4}>
+      <Grid container direction="column" spacing={4}>
         {Object.keys(gameVersions).map((game) => (
-          <Grid2 key={game}>
+          <Grid key={game}>
             <Typography variant="h6" gutterBottom>
               {game.charAt(0).toUpperCase() + game.slice(1)}
             </Typography>
             <GameVersionSelector game={game} />
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
     </Fragment>
   );
 }
