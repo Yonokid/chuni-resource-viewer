@@ -16,23 +16,24 @@ import {
   ViewCarousel as ViewCarouselIcon,
   LocalActivity as LocalActivityIcon,
   EmojiEvents as EmojiEventsIcon,
+  SportsEsports as SportsEsportsIcon,
 } from "@mui/icons-material";
+import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
-import { getVersion } from "@/app/utils/global";
+import { getBaseUrl } from "@/app/utils/global";
 import theme from "../theme";
 import Image from "next/image";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { SERVER_URL } from "@/app/utils/global";
 
-interface NavigationItem {
-  kind?: "page";
-  segment?: string;
-  title: string;
-  icon?: JSX.Element;
-}
+const GLOBAL_SEGMENTS = ["about", "settings", ""];
+
+const GAMES: { [key: string]: { title: string; icon: JSX.Element } } = {
+  chuni: { title: "Chunithm", icon: <SportsEsportsIcon /> },
+  maimai: { title: "maimai DX", icon: <SportsEsportsIcon /> },
+};
 
 const getIconComponent = (iconName: string): JSX.Element | undefined => {
   const iconMap: { [key: string]: JSX.Element } = {
@@ -54,39 +55,45 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
   return iconMap[iconName];
 };
 
-async function loadNavigation() {
+async function loadGameNavigation(game: string) {
   try {
-    const version = getVersion();
-
-    const response = await fetch(`${SERVER_URL}/${version}/navigation.json`);
-
+    const response = await fetch(getBaseUrl(game, "navigation.json"));
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const navigationData = await response.json();
-
-    // Map the data to the NAVIGATION constant
-    const NAVIGATION = navigationData.map((item: any) => ({
-      ...item,
-      icon: item.icon ? getIconComponent(item.icon) : undefined,
-    }));
-
-    return NAVIGATION;
+    return navigationData
+      .filter((item: any) => !GLOBAL_SEGMENTS.includes(item.segment ?? ""))
+      .map((item: any) => ({
+        ...item,
+        icon: item.icon ? getIconComponent(item.icon) : undefined,
+      }));
   } catch (error) {
-    console.error("Failed to load navigation data:", error);
+    console.error(`Failed to load navigation for ${game}:`, error);
     return [];
   }
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
-  const [navigation, setNavigation] = useState<NavigationItem[] | null>(null);
+  const [navigation, setNavigation] = useState<Navigation | null>(null);
 
   useEffect(() => {
-    // Load the navigation data asynchronously
-    loadNavigation()
-      .then((data) => {
-        setNavigation(data);
+    const games = Object.entries(GAMES);
+    Promise.all(games.map(([game]) => loadGameNavigation(game)))
+      .then((gameNavs) => {
+        const nav: Navigation = [
+          { segment: "", title: "Home", icon: <HomeIcon /> },
+          ...games.map(([game, { title, icon }], i) => ({
+            segment: game,
+            title,
+            icon,
+            children: gameNavs[i],
+          })),
+          { kind: "divider" as const },
+          { segment: "about", title: "About", icon: <InfoIcon /> },
+          { segment: "settings", title: "Settings", icon: <SettingsIcon /> },
+        ];
+        setNavigation(nav);
       })
       .catch((error) => {
         console.error("Failed to load navigation data:", error);
