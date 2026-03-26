@@ -2,7 +2,7 @@
 import { Title } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import { getBaseUrl } from "@/app/utils/global";
-import AnimatedTitle from "../../../../Components/AnimatedTitle";
+import MaimaiTitle from "../../../../Components/MaimaiTitle";
 import { Table, TableBody, TableRow, TableCell, Box } from "@mui/material";
 
 const getUnlockTypeLabel = (unlockType: string, param: number): string => {
@@ -55,7 +55,7 @@ const TitlePage = () => {
       render={(title: Title) => (
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <AnimatedTitle key={title.id} item={title} />
+            <MaimaiTitle key={title.id} item={title} />
           </div>
           <div
             style={{ display: "flex", justifyContent: "center", padding: 10 }}

@@ -2,7 +2,7 @@
 import { Trophy } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import { getBaseUrl } from "@/app/utils/global";
-import AnimatedTitle from "../../../Components/AnimatedTitle";
+import AnimatedTitle from "../../../../Components/AnimatedTitle";
 import { Table, TableBody, TableRow, TableCell, Box } from "@mui/material";
 
 const TrophyPage = () => {

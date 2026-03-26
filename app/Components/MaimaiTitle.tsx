@@ -2,12 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import "../index.css";
-import { Trophy } from "../(dashboard)/chuni/trophy/page";
+import { Title } from "../(dashboard)/maimai/title/page";
 
 type GetAnimationStyle = (name: string) => React.CSSProperties;
 
-interface AnimatedTitleProps {
-  item: Trophy;
+interface maimaiTitleProps {
+  item: Title;
 }
 
 const getAnimationStyle = (text: string): React.CSSProperties => {
@@ -18,7 +18,7 @@ const getAnimationStyle = (text: string): React.CSSProperties => {
   }
 };
 
-const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
+const MaimaiTitle: React.FC<maimaiTitleProps> = ({ item }) => {
   return (
     <div
       style={{
@@ -59,4 +59,4 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
   );
 };
 
-export default AnimatedTitle;
+export default MaimaiTitle;

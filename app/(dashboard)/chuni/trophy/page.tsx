@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getBaseUrl } from "@/app/utils/global";
-import AnimatedTitle from "../../Components/AnimatedTitle";
+import AnimatedTitle from "../../../Components/AnimatedTitle";
 
 export interface Trophy extends BaseData {
   explainText: string;

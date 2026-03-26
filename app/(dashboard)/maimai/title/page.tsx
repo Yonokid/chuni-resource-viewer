@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getBaseUrl } from "@/app/utils/global";
-import AnimatedTitle from "../../../Components/AnimatedTitle";
+import MaimaiTitle from "../../../Components/MaimaiTitle";
 
 export interface Title extends BaseData {
   normText: string;
@@ -23,7 +23,7 @@ const Trophies = () => {
             <Fragment key={index}>
               <ListItemButton component="a" href={`title/${item.id}`}>
                 <ListItemText>
-                  <AnimatedTitle key={item.id} item={item} />
+                  <MaimaiTitle key={item.id} item={item} />
                 </ListItemText>
                 <ListItemText
                   sx={{ textAlign: "right", flex: "0 0 45%" }}
