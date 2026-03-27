@@ -47,6 +47,20 @@ const getUnlockTypeLabel = (
       return `Get ${param} consecutive Otomodachi wins`;
     case "MAP_COMPLETE":
       return `Complete the ${reference_id} chiho`;
+    case "TRACK_SKIP":
+      return `Track skip the song ${reference_id}`;
+    case "PARTNER":
+      return `Equip ${reference_id} as a partner`;
+    case "TOTAL_CHARA_KAKUSEI":
+      return `Get all tour members to level ${param}`;
+    case "MUSIC_GENRE_SELECTED":
+      return `Select this song in the ${reference_id} genre`; //bad
+    case "TITLESET_DP":
+      return `Have both players equip these titles`; //bad
+    case "MATCHING_FOR_TITLESETPLAYER":
+      return `Equip these two titles in matching`; //bad
+    case "FULLCOMBO_COUNT":
+      return `Get ${param} Full Combos`;
     default:
       return `Transferred from maimai FiNALE or below`;
   }

@@ -22,6 +22,7 @@ export const gameVersions: { [game: string]: { [key: string]: string } } = {
   },
   maimai: {
     "10000": "maimai DX",
+    "16000": "maimai DX CiRCLE",
   },
 };
 export function getBaseUrl(game: string, path: string = ""): string {
