@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 
 export interface BaseData {
-  id: string;
+  id: number;
   name: string;
-  version: string;
+  version: number;
 }
 
 interface Endpoint<T> {

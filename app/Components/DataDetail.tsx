@@ -19,7 +19,8 @@ const DataDetail = <T extends BaseData>({
       endpoint={endpoint}
       render={(data) => {
         const parsedId = parseInt(id, 10);
-        const object = data.find((item) => parseInt(item.id, 10) === parsedId);
+        const object = data.find((item) => item.id === parsedId);
+        console.log("matched object:", JSON.stringify(object));
 
         if (!object) {
           return <div>Item not found.</div>;

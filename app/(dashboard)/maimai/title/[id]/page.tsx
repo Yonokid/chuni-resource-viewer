@@ -5,22 +5,26 @@ import { getBaseUrl } from "@/app/utils/global";
 import MaimaiTitle from "../../../../Components/MaimaiTitle";
 import { Table, TableBody, TableRow, TableCell, Box } from "@mui/material";
 
-const getUnlockTypeLabel = (unlockType: string, param: number): string => {
+const getUnlockTypeLabel = (
+  unlockType: string,
+  param: number,
+  reference_id: number,
+): string => {
   switch (unlockType) {
     case "RATING":
       return `Get a rating of ${param}`;
     case "CHARA_KAKUSEI":
-      return `Get character to rank ${param}`;
+      return `Get character ${reference_id} to rank ${param}`;
     case "MUSIC":
-      return "Play this song"; //bad
+      return `Play ${reference_id} with these requirements`; //bad
     case "MAP_KYORI":
       return `Travel a distance of ${param}m`;
     case "DANNI":
-      return "Clear this dan"; //bad
+      return `Clear ${reference_id}`;
     case "MAP_CHARA_KAKUSEI":
       return `Get characters from chiho to level ${param}`;
     case "TODOHUKEN":
-      return `Play in prefecture ${param}`; //bad
+      return `Play in the above prefecture`;
     case "LOGIN_RUIKEI":
       return `Login for ${param} days total`;
     case "LOGIN_RENZOKU":
@@ -28,7 +32,7 @@ const getUnlockTypeLabel = (unlockType: string, param: number): string => {
     case "MUSIC_GROUP":
       return `Play these songs in a single credit`; //bad
     case "CHARA_KAISU":
-      return `Awaken this character ${param} times`; //bad
+      return `Awaken ${reference_id} ${param} times`;
     case "NPC_OTOMODACHI_N_REN_WIN":
       return `Get ${param} consecutive Otomodachi wins`;
     case "MAI2DX_N_PLAY":
@@ -42,7 +46,7 @@ const getUnlockTypeLabel = (unlockType: string, param: number): string => {
     case "ZENKOKU_OTOMODACHI_N_REN_WIN":
       return `Get ${param} consecutive Otomodachi wins`;
     case "MAP_COMPLETE":
-      return `Complete this chiho`; //bad
+      return `Complete the ${reference_id} chiho`;
     default:
       return `Transferred from maimai FiNALE or below`;
   }
@@ -79,7 +83,11 @@ const TitlePage = () => {
                     Unlock Method
                   </TableCell>
                   <TableCell align="right">
-                    {getUnlockTypeLabel(title.unlock_type, title.param)}
+                    {getUnlockTypeLabel(
+                      title.unlock_type,
+                      title.param,
+                      title.reference_id,
+                    )}
                   </TableCell>
                 </TableRow>
               </TableBody>

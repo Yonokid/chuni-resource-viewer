@@ -28,7 +28,7 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
       }}
     >
       <Image
-        src={`/title_${item.rareType}.webp`}
+        src={`/chuni/title_${item.rareType}.webp`}
         alt=""
         width={583}
         height={52}

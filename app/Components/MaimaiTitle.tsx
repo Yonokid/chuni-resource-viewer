@@ -28,10 +28,10 @@ const MaimaiTitle: React.FC<maimaiTitleProps> = ({ item }) => {
       }}
     >
       <Image
-        src={`/title_${item.rareType}.webp`}
+        src={`/maimai/title_${item.rareType}.webp`}
         alt=""
-        width={583}
-        height={52}
+        width={268}
+        height={25}
         style={{ display: "block" }}
       />
       <div
@@ -40,15 +40,18 @@ const MaimaiTitle: React.FC<maimaiTitleProps> = ({ item }) => {
           top: "50%",
           left: "10px",
           transform: "translateY(-50%)",
-          width: "565px",
+          width: "248px",
           overflow: "hidden",
         }}
       >
         <Typography
-          fontFamily={"SEGA_KakuGothic-DB"}
+          fontFamily={"sans-serif"}
           sx={{
             whiteSpace: "nowrap",
-            color: "black",
+            color: "white",
+            fontSize: "15px",
+            WebkitTextStroke: "2px black",
+            paintOrder: "stroke fill",
             ...getAnimationStyle(item.name),
           }}
         >
