@@ -45,10 +45,13 @@ const SongPage = () => {
     setAudioType(event.target.value as "normal" | "pre");
   };
 
-  const getAudioSrc = (id: string) => {
+  const getAudioSrc = (id: number) => {
     return audioType === "normal"
-      ? getBaseUrl("chuni", `music/music${id.padStart(4, "0")}.mp3`)
-      : getBaseUrl("chuni", `music/music${id.padStart(4, "0")}_pre.mp3`);
+      ? getBaseUrl("chuni", `music/music${id.toString().padStart(4, "0")}.mp3`)
+      : getBaseUrl(
+          "chuni",
+          `music/music${id.toString().padStart(4, "0")}_pre.mp3`,
+        );
   };
 
   return (
@@ -71,7 +74,7 @@ const SongPage = () => {
             <Image
               src={getBaseUrl(
                 "chuni",
-                `music/CHU_UI_Jacket_${song.id.padStart(4, "0")}.webp`,
+                `music/CHU_UI_Jacket_${song.id.toString().padStart(4, "0")}.webp`,
               )}
               alt="Jacket"
               width="400"

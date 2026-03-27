@@ -29,7 +29,7 @@ const CharaPage = () => {
       render={(chara: Chara) => (
         <>
           <Image
-            src={`${SERVER_URL}/chara/CHU_UI_Character_${(parseInt(chara.id, 10) / 10).toString().padStart(4, "0")}_00_00.webp`}
+            src={`${SERVER_URL}/chara/CHU_UI_Character_${(chara.id / 10).toString().padStart(4, "0")}_00_00.webp`}
             alt="Jacket"
             width="1080"
             height="1080"

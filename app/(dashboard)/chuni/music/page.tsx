@@ -58,7 +58,7 @@ const SongCards = (props: MediaProps) => {
             data.map((item: Song, index: number) => (
               <Grid key={index}>
                 <Link
-                  href={`music/${item.id.padStart(4, "0")}`}
+                  href={`music/${item.id.toString().padStart(4, "0")}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card sx={{ width: 300 }}>
@@ -76,7 +76,7 @@ const SongCards = (props: MediaProps) => {
                               sx={{ maxHeight: 175 }}
                               image={getBaseUrl(
                                 "chuni",
-                                `music/CHU_UI_Jacket_${item.id.padStart(4, "0")}.webp`,
+                                `music/CHU_UI_Jacket_${item.id.toString().padStart(4, "0")}.webp`,
                               )}
                               alt={item.name}
                             />

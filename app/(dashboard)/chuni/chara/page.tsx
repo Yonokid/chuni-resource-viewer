@@ -50,7 +50,7 @@ const CharaCards = () => {
             data.map((item: Chara, index: number) => (
               <Grid key={index}>
                 <Link
-                  href={`chara/${item.id.padStart(4, "0")}`}
+                  href={`chara/${item.id.toString().padStart(4, "0")}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card sx={{ width: 256 }}>
@@ -59,7 +59,7 @@ const CharaCards = () => {
                         <CardMedia
                           component="img"
                           sx={{ maxHeight: 175 }}
-                          image={`${SERVER_URL}/chara/CHU_UI_Character_${(parseInt(item.id, 10) / 10).toString().padStart(4, "0")}_00_02.webp`}
+                          image={`${SERVER_URL}/chara/CHU_UI_Character_${(item.id / 10).toString().padStart(4, "0")}_00_02.webp`}
                           alt={item.name}
                         />
                         <Box sx={{ margin: 2 }}>
