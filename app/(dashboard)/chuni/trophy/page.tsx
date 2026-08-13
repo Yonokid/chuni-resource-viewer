@@ -7,7 +7,7 @@ import AnimatedTitle from "../../../Components/AnimatedTitle";
 
 export interface Trophy extends BaseData {
   explainText: string;
-  rareType: string;
+  rareType: number;
 }
 
 const Trophies = () => {

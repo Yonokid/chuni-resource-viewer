@@ -21,8 +21,19 @@ export const gameVersions: { [game: string]: { [key: string]: string } } = {
     "22500": "LUMINOUS PLUS",
   },
   maimai: {
-    "10000": "maimai DX",
-    "16000": "maimai DX CiRCLE",
+    "10000": "DX",
+    "11000": "DX PLUS",
+    "11400": "SPLASH",
+    "11700": "SPLASH PLUS",
+    "12000": "UNiVERSE",
+    "12500": "UNiVERSE PLUS",
+    "13000": "FESTiVAL",
+    "13500": "FESTiVAL PLUS",
+    "14000": "BUDDiES",
+    "14500": "BUDDiES PLUS",
+    "15000": "PRiSM",
+    "15500": "PRiSM PLUS",
+    "16000": "CiRCLE",
   },
 };
 export function getBaseUrl(game: string, path: string = ""): string {

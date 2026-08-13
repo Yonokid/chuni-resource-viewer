@@ -58,7 +58,7 @@ const SongCards = (props: MediaProps) => {
             data.map((item: Song, index: number) => (
               <Grid key={index}>
                 <Link
-                  href={`music/${item.id.toString().padStart(4, "0")}`}
+                  href={`music/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card sx={{ width: 300 }}>

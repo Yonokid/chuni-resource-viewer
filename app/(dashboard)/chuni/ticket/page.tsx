@@ -16,7 +16,7 @@ const Tickets = () => {
         <List>
           {data.map((item: Ticket, index: number) => (
             <Fragment key={index}>
-              <ListItemButton component="a" href={`/ticket/${item.id}`}>
+              <ListItemButton component="a" href={`/chuni/ticket/${item.id}`}>
                 <ListItemText primary={item.name} />
               </ListItemButton>
               <Divider />

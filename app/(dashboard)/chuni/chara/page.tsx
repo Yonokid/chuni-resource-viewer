@@ -50,7 +50,7 @@ const CharaCards = () => {
             data.map((item: Chara, index: number) => (
               <Grid key={index}>
                 <Link
-                  href={`chara/${item.id.toString().padStart(4, "0")}`}
+                  href={`chara/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card sx={{ width: 256 }}>
