@@ -19,6 +19,8 @@ interface Chart {
   file?: string;
   notesDesigner?: string;
   defaultBpm?: number;
+  stars?: number; // WORLD'S END only, instead of a level
+  worldsEndTag?: string;
 }
 export interface Song extends BaseData {
   sortName: string;

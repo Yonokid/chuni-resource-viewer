@@ -191,7 +191,10 @@ const SongPage = () => {
                   {song.charts.map((elem, idx) => (
                     <Tab
                       key={`diffi-info-tab-${idx}`}
-                      label={elem.difficultyName ?? difficulties[elem.difficulty]}
+                      label={
+                        (elem.difficultyName ?? difficulties[elem.difficulty]) +
+                        (elem.worldsEndTag ? ` (${elem.worldsEndTag})` : "")
+                      }
                       value={String(idx)}
                     />
                   ))}
@@ -202,7 +205,9 @@ const SongPage = () => {
                   <Box sx={{ minWidth: 800 }}>
                     <InfoTable
                       rows={[
-                        ["Level", elem.level],
+                        elem.stars
+                          ? ["Difficulty", "☆".repeat(elem.stars)]
+                          : ["Level", elem.level],
                         ["Chart Designer", elem.notesDesigner],
                         ["Default BPM", elem.defaultBpm || null],
                         ["Chart File", elem.file],
