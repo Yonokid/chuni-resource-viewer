@@ -1,9 +1,10 @@
 "use client";
-import { GaugeRef, Map, MapAreaInfo, MapBonusSubstance } from "../page";
+import { GaugeRef, Map, MapAreaInfo } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import AssetLink from "@/app/Components/AssetLink";
 import InfoTable from "@/app/Components/InfoTable";
 import MapBoard from "@/app/Components/MapBoard";
+import MapBonusList from "@/app/Components/MapBonusList";
 import { getBaseUrl } from "@/app/utils/global";
 import { intLabel, useEnums } from "@/app/utils/enums";
 import { useState } from "react";
@@ -18,38 +19,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-
-// bonus kind -> [label, page to link the target to (none for series/genre/level filters)]
-const BONUS_KINDS: { [kind: string]: [string, string | null] } = {
-  chara: ["Character", "chara"],
-  charaWorks: ["Character series", null],
-  skill: ["Skill", "skill"],
-  skillCategory: ["Skill category", null],
-  music: ["Song", "music"],
-  musicGenre: ["Genre", null],
-  musicWorks: ["Song series", null],
-  musicDif: ["Difficulty", null],
-  musicLv: ["Level", null],
-};
-
-const BonusList = ({ substances }: { substances: MapBonusSubstance[] }) => (
-  <Stack spacing={0.5}>
-    {substances.map((sub, index) => {
-      const [label, page] = BONUS_KINDS[sub.kind] ?? [sub.kind, null];
-      return (
-        <div key={index}>
-          {label}:{" "}
-          {page ? (
-            <AssetLink type={page} asset={sub.target} />
-          ) : (
-            (sub.target?.name ?? "—")
-          )}{" "}
-          (+{sub.point})
-        </div>
-      );
-    })}
-  </Stack>
-);
 
 // Gauge values per BASIC..MASTER; 100 gauge is assumed to be one tile (unconfirmed)
 const gaugeTiles = (
@@ -97,7 +66,7 @@ const AreaRow = ({ area, index }: { area: MapAreaInfo; index: number }) => {
       </TableCell>
       <TableCell>
         {area.bonus?.substances.length ? (
-          <BonusList substances={area.bonus.substances} />
+          <MapBonusList substances={area.bonus.substances} />
         ) : (
           "—"
         )}
@@ -136,6 +105,8 @@ const MapViewer = ({ map }: { map: Map }) => {
           (areas[areaIndex]?.grids ?? []).filter((grid) => grid.reward).map((grid) => [grid.index, grid.reward]),
         )}
         goalReward={areas[areaIndex]?.reward}
+        challengeSong={areas[areaIndex]?.music}
+        bonus={areas[areaIndex]?.bonus}
       />
     </div>
   );

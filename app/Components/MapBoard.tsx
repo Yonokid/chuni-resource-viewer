@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import type { MapReward } from "@/app/(dashboard)/chuni/map/page";
+import Link from "next/link";
+import MapBonusList from "@/app/Components/MapBonusList";
+import type { AssetRef } from "@/app/Components/AssetLink";
+import type { MapBonus, MapReward } from "@/app/(dashboard)/chuni/map/page";
 import { getBaseUrl } from "@/app/utils/global";
 
 // Placement measured off the in-game result screen (fractions of the background): one row of equally spaced tiles near the bottom.
@@ -80,6 +83,8 @@ const MapBoard = ({
   total,
   tileRewards = {},
   goalReward,
+  challengeSong,
+  bonus,
   width = 1220,
   height = 680,
 }: {
@@ -87,6 +92,8 @@ const MapBoard = ({
   total: number;
   tileRewards?: { [index: string]: MapReward | null | undefined };
   goalReward?: MapReward | null;
+  challengeSong?: AssetRef | null;
+  bonus?: MapBonus | null;
   width?: number;
   height?: number;
 }) => {
@@ -205,6 +212,49 @@ const MapBoard = ({
               </div>
             );
           },
+        )}
+        {challengeSong && (
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              padding: "0.6% 2%",
+              background:
+                "linear-gradient(90deg, rgba(0,0,0,0.85), rgba(0,0,0,0.5))",
+              color: "#fff",
+              fontSize: "clamp(10px, 1.5vw, 18px)",
+            }}
+          >
+            課題曲：
+            <Link
+              href={`/chuni/music/${challengeSong.id}`}
+              style={{ color: "#fff" }}
+            >
+              {challengeSong.name}
+            </Link>
+          </div>
+        )}
+        {bonus && bonus.substances.length > 0 && (
+          <Tooltip
+            title={<MapBonusList substances={bonus.substances} />}
+            placement="bottom-end"
+            arrow
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={getBaseUrl("chuni", "sprites/mapBonus.webp")}
+              alt="Map bonus"
+              style={{
+                position: "absolute",
+                top: "3%",
+                right: "2%",
+                width: "8%",
+                cursor: "help",
+              }}
+            />
+          </Tooltip>
         )}
       </div>
       {arrow("right")}
