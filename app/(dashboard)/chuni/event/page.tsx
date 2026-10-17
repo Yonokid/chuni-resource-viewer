@@ -2,13 +2,34 @@
 import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
+import { AssetRef } from "@/app/Components/AssetLink";
 import Image from "next/image";
 import { getBaseUrl } from "@/app/utils/global";
+
+/** What the event does; `kind` names the active block (docs/xml/event.md). */
+export interface EventSubstance {
+  type: number;
+  kind: string;
+  value?: number;
+  informationType?: number;
+  text?: string;
+  image?: string;
+  movie?: AssetRef | null;
+  tagText?: string;
+  map?: AssetRef | null;
+  musics?: AssetRef[];
+  firstMovie?: AssetRef | null;
+  secondMovie?: AssetRef | null;
+}
 
 export interface Event extends BaseData {
   ddsBannerId: string;
   eventBannerName: string;
   ddsBannerName: string;
+  text?: string;
+  periodDispType?: number;
+  alwaysOpen?: boolean;
+  substance?: EventSubstance;
 }
 
 const Events = () => {

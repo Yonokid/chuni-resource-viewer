@@ -1,5 +1,6 @@
 "use client";
 import DataList, { BaseData } from "@/app/Components/Data";
+import { AssetRef } from "@/app/Components/AssetLink";
 import FitText from "@/app/Components/FitText";
 import { getBaseUrl } from "@/app/utils/global";
 import { Box, Grid, Skeleton } from "@mui/material";
@@ -14,12 +15,26 @@ import { Fragment, useState } from "react";
 interface Chart {
   difficulty: number;
   level: number;
+  difficultyName?: string;
+  file?: string;
+  notesDesigner?: string;
+  defaultBpm?: number;
 }
 export interface Song extends BaseData {
   sortName: string;
   artistName: string;
   genreName: string;
   charts: Chart[];
+  firstLock: boolean;
+  genres?: AssetRef[];
+  releaseTagName?: string;
+  exType?: number;
+  rightsInfo?: AssetRef | null;
+  musicLabel?: string | null;
+  cueFile?: AssetRef | null;
+  stage?: AssetRef | null;
+  previewStartTime?: number;
+  previewEndTime?: number;
 }
 
 const SkeletonGrid = (count: number) => {

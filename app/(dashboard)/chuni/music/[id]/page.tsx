@@ -19,10 +19,14 @@ import {
   Box,
   Tab,
   Tabs,
+  Chip,
 } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 import { getBaseUrl } from "@/app/utils/global";
 import AudioPlayer from "./AudioPlayer";
+import AssetLink from "@/app/Components/AssetLink";
+import InfoTable from "@/app/Components/InfoTable";
+import { tableName, useEnums } from "@/app/utils/enums";
 
 const difficulties: string[] = [
   "BASIC",
@@ -36,6 +40,7 @@ const difficulties: string[] = [
 const SongPage = () => {
   const [audioType, setAudioType] = useState("pre");
   const [value, setValue] = useState("3");
+  const enums = useEnums();
 
   const handleChange = (event: SyntheticEvent, difficulty: string) => {
     setValue(difficulty);
@@ -61,6 +66,7 @@ const SongPage = () => {
         <Fragment>
           <Typography variant="h4">{song.name}</Typography>
           <Typography variant="subtitle1">{song.artistName}</Typography>
+          {song.firstLock && <Chip size="small" label="Locked until first play" />}
           <Grid
             container
             direction="column"
@@ -147,10 +153,21 @@ const SongPage = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell style={{ fontWeight: 600 }}>Genre</TableCell>
-                    <TableCell align="right">{song.genreName}</TableCell>
+                    <TableCell align="right">
+                      {song.genres?.map((g) => g.name).join(", ") ?? song.genreName}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
+              <InfoTable
+                rows={[
+                  ["Label", song.musicLabel && tableName(enums, "musicLabel", song.musicLabel)],
+                  ["Stage", song.stage && <AssetLink type="stage" asset={song.stage} />],
+                  ["Copyright", song.rightsInfo && song.rightsInfo.id > 0 && song.rightsInfo.name],
+                  ["Release", song.releaseTagName],
+                  ["Special Song", song.exType ? `Yes (exType ${song.exType})` : null],
+                ]}
+              />
             </Grid>
           </Grid>
           <Typography variant="h5">Difficulties</Typography>
@@ -174,7 +191,7 @@ const SongPage = () => {
                   {song.charts.map((elem, idx) => (
                     <Tab
                       key={`diffi-info-tab-${idx}`}
-                      label={difficulties[elem.difficulty]}
+                      label={elem.difficultyName ?? difficulties[elem.difficulty]}
                       value={String(idx)}
                     />
                   ))}
@@ -182,14 +199,16 @@ const SongPage = () => {
               </Paper>
               {song.charts.map((elem, idx) => (
                 <TabPanel key={`diffi-panel-${idx}`} value={String(idx)}>
-                  <Table sx={{ minWidth: 800 }}>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell style={{ fontWeight: 600 }}>Level</TableCell>
-                        <TableCell align="right">{elem.level}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  <Box sx={{ minWidth: 800 }}>
+                    <InfoTable
+                      rows={[
+                        ["Level", elem.level],
+                        ["Chart Designer", elem.notesDesigner],
+                        ["Default BPM", elem.defaultBpm || null],
+                        ["Chart File", elem.file],
+                      ]}
+                    />
+                  </Box>
                 </TabPanel>
               ))}
             </TabContext>

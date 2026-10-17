@@ -1,4 +1,6 @@
-export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+// NEXT_PUBLIC_USE_LOCAL_DATA=true (npm run dev:local) reads data from public/ instead of the file server.
+export const SERVER_URL =
+  process.env.NEXT_PUBLIC_USE_LOCAL_DATA === "true" ? "" : process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const gameVersions: { [game: string]: { [key: string]: string } } = {
   chuni: {

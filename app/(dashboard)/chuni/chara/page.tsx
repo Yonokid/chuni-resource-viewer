@@ -4,12 +4,20 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-import { Grid, Box, Skeleton } from "@mui/material";
+import { Grid, Box, Skeleton, Chip } from "@mui/material";
 import React, { Fragment } from "react";
 import DataList, { BaseData } from "@/app/Components/Data";
 import FitText from "@/app/Components/FitText";
-import { getBaseUrl, SERVER_URL } from "@/app/utils/global";
+import { AssetRef } from "@/app/Components/AssetLink";
+import { getBaseUrl } from "@/app/utils/global";
 import Link from "next/link";
+
+export interface CharaRank {
+  index: number;
+  type?: number;
+  skill?: AssetRef;
+  flavorText?: string;
+}
 
 export interface Chara extends BaseData {
   illustratorName: string;
@@ -17,6 +25,12 @@ export interface Chara extends BaseData {
   flavorText: string[];
   firstSkill: string;
   skillId: string;
+  rareType: number;
+  addImages: AssetRef[];
+  ranks: CharaRank[];
+  releaseTagName?: string;
+  explainText?: string;
+  defaultHave?: boolean;
 }
 
 const SkeletonGrid = (count: number) => {
@@ -56,12 +70,25 @@ const CharaCards = () => {
                   <Card sx={{ width: 256 }}>
                     <CardActionArea>
                       <CardContent sx={{ padding: 0 }}>
-                        <CardMedia
-                          component="img"
-                          sx={{ maxHeight: 175 }}
-                          image={`${SERVER_URL}/chara/CHU_UI_Character_${(item.id / 10).toString().padStart(4, "0")}_00_02.webp`}
-                          alt={item.name}
-                        />
+                        <Box sx={{ position: "relative" }}>
+                          <CardMedia
+                            component="img"
+                            sx={{ maxHeight: 175 }}
+                            image={getBaseUrl(
+                              "chuni",
+                              `chara/CHU_UI_Character_${(item.id / 10).toString().padStart(4, "0")}_00_02.webp`,
+                            )}
+                            alt={item.name}
+                          />
+                          {item.rareType === 1 && (
+                            <Chip
+                              size="small"
+                              color="warning"
+                              label="Rare"
+                              sx={{ position: "absolute", top: 8, right: 8 }}
+                            />
+                          )}
+                        </Box>
                         <Box sx={{ margin: 2 }}>
                           <FitText text={item.name} maxFontSize="1.5rem" />
                           <FitText

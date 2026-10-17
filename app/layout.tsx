@@ -17,6 +17,8 @@ import {
   LocalActivity as LocalActivityIcon,
   EmojiEvents as EmojiEventsIcon,
   SportsEsports as SportsEsportsIcon,
+  ShoppingCart as ShoppingCartIcon,
+  GridView as GridViewIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -50,6 +52,8 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     ViewCarouselIcon: <ViewCarouselIcon />,
     LocalActivityIcon: <LocalActivityIcon />,
     EmojiEventsIcon: <EmojiEventsIcon />,
+    ShoppingCartIcon: <ShoppingCartIcon />,
+    GridViewIcon: <GridViewIcon />,
   };
 
   return iconMap[iconName];

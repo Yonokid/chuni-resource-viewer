@@ -100,6 +100,10 @@ dist-ssr
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
+# Locally-parsed game data (large, copyrighted, per-machine)
+public/chuni/[0-9]*/
+public/maimai/[0-9]*/
+
 # vuepress build output
 .vuepress/dist
 

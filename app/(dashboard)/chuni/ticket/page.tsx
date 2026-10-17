@@ -5,7 +5,16 @@ import DataList, { BaseData } from "@/app/Components/Data";
 import { getBaseUrl } from "@/app/utils/global";
 
 export interface Ticket extends BaseData {
+  type: number;
+  stockMaxNum: number;
   explainText: string;
+  valueDay: number;
+  valueDayRaw: number;
+  valueUse: number;
+  valueUseRaw: number;
+  valueBoost: number;
+  valueBoostRaw: number;
+  priority: number;
 }
 
 const Tickets = () => {
@@ -17,7 +26,7 @@ const Tickets = () => {
           {data.map((item: Ticket, index: number) => (
             <Fragment key={index}>
               <ListItemButton component="a" href={`/chuni/ticket/${item.id}`}>
-                <ListItemText primary={item.name} />
+                <ListItemText primary={item.name} secondary={item.explainText} />
               </ListItemButton>
               <Divider />
             </Fragment>
