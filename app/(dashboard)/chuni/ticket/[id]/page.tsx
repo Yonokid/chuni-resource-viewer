@@ -1,5 +1,6 @@
 "use client";
-import { Ticket, TicketBanner } from "../page";
+import { Ticket } from "../page";
+import TicketBanner from "@/app/Components/TicketBanner";
 import DataDetail from "@/app/Components/DataDetail";
 import { getBaseUrl } from "@/app/utils/global";
 import { intLabel, useEnums } from "@/app/utils/enums";

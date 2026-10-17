@@ -1,9 +1,9 @@
 "use client";
 import React, { Fragment } from "react";
-import { Box, Divider, List, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
+import { Divider, List, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { getBaseUrl } from "@/app/utils/global";
-import { spriteUrl } from "@/app/utils/enums";
+import TicketBanner from "@/app/Components/TicketBanner";
 
 export interface Ticket extends BaseData {
   type: number;
@@ -17,15 +17,6 @@ export interface Ticket extends BaseData {
   valueBoostRaw: number;
   priority: number;
 }
-
-export const TicketBanner = ({ ticket, width }: { ticket: Ticket; width: number }) => (
-  <Box sx={{ position: "relative", width, flexShrink: 0, lineHeight: 0, "&:has(img[hidden])": { display: "none" } }}>
-    <img src={spriteUrl("ticketType", ticket.type)} alt="" style={{ width: "100%" }} onError={(e) => (e.currentTarget.hidden = true)} />
-    {ticket.name.includes("プレゼント") && (
-      <img src={spriteUrl("ticketPresent", 0)} alt="Present" style={{ position: "absolute", top: 0, right: 0, width: "23%" }} />
-    )}
-  </Box>
-);
 
 const Tickets = () => {
   return (
