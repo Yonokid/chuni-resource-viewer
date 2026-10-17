@@ -62,7 +62,12 @@ const RewardBadge = ({
           `chara/CHU_UI_Character_${(reward.chara.id / 10).toString().padStart(4, "0")}_00_02.webp`,
         )}
         alt={reward.name}
-        style={{ width: "100%", border: "2px solid #ffd800", borderRadius: 4 }}
+        style={{
+          width: "100%",
+          border: "2px solid #ffd800",
+          background: "linear-gradient(#2b3a67, #121a33)",
+          borderRadius: 4,
+        }}
       />
     )}
     <span

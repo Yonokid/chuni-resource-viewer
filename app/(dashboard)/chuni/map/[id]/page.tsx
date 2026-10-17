@@ -66,7 +66,11 @@ const AreaRow = ({ area, index }: { area: MapAreaInfo; index: number }) => {
                     `chara/CHU_UI_Character_${(area.reward.chara.id / 10).toString().padStart(4, "0")}_00_02.webp`,
                   )}
                   alt={area.reward.name}
-                  style={{ height: 56 }}
+                  style={{
+                    height: 56,
+                    background: "linear-gradient(#2b3a67, #121a33)",
+                    borderRadius: 4,
+                  }}
                 />
               ) : (
                 area.reward.icon && (
