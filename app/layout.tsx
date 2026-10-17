@@ -21,6 +21,8 @@ import {
   GridView as GridViewIcon,
   Payments as PaymentsIcon,
   Redeem as RedeemIcon,
+  Flag as FlagIcon,
+  Badge as BadgeIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -58,6 +60,8 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     GridViewIcon: <GridViewIcon />,
     PaymentsIcon: <PaymentsIcon />,
     RedeemIcon: <RedeemIcon />,
+    FlagIcon: <FlagIcon />,
+    BadgeIcon: <BadgeIcon />,
   };
 
   return iconMap[iconName];

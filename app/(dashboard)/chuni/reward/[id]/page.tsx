@@ -37,7 +37,7 @@ const RewardPage = () => {
                     <TableRow key={key}>
                       <TableCell style={{ fontWeight: 600 }}>{key}</TableCell>
                       <TableCell align="right">
-                        {key === "namePlate" ? reward[key]?.name : <AssetLink type={key} asset={reward[key]} />}
+                        <AssetLink type={key} asset={reward[key]} />
                       </TableCell>
                     </TableRow>
                   )
