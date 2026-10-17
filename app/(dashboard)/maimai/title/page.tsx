@@ -11,7 +11,6 @@ import {
   ListItemText,
   MenuItem,
   Select,
-  TextField,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
@@ -42,7 +41,6 @@ interface TitleListProps {
 }
 
 const TitleList: React.FC<TitleListProps> = ({ data }) => {
-  const [search, setSearch] = useState("");
   const [selectedRareTypes, setSelectedRareTypes] = useState<number[]>([]);
   const [selectedUnlockType, setSelectedUnlockType] = useState<string>("all");
   const [selectedVersion, setSelectedVersion] = useState<string>("all");
@@ -62,9 +60,6 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
   const filtered = useMemo(() => {
     return data
       .filter((item) => {
-        if (search && !item.name.toLowerCase().includes(search.toLowerCase())) {
-          return false;
-        }
         if (selectedRareTypes.length > 0 && !selectedRareTypes.includes(item.rareType)) {
           return false;
         }
@@ -76,7 +71,7 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
         }
         return true;
       });
-  }, [data, search, selectedRareTypes, selectedUnlockType, selectedVersion]);
+  }, [data, selectedRareTypes, selectedUnlockType, selectedVersion]);
 
   const handleRareTypeToggle = (
     _event: React.MouseEvent<HTMLElement>,
@@ -88,13 +83,6 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
   return (
     <>
       <Box sx={{ p: 2, display: "flex", flexWrap: "wrap", gap: 2, alignItems: "center" }}>
-        <TextField
-          label="Search"
-          size="small"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ minWidth: 200 }}
-        />
         <ToggleButtonGroup
           value={selectedRareTypes}
           onChange={handleRareTypeToggle}

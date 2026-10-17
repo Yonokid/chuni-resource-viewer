@@ -16,6 +16,7 @@ const DataDetail = <T extends BaseData>({
 
   return (
     <DataList<T>
+      sortable={false}
       endpoint={endpoint}
       render={(data) => {
         const parsedId = parseInt(id, 10);

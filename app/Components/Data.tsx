@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 export interface BaseData {
   id: number;
@@ -13,6 +13,8 @@ interface Endpoint<T> {
   render: (data: T[]) => React.ReactNode;
   skeleton?: (count: number) => React.ReactNode;
   /** Extra sort options on top of the built-in Version, ID and Name. */
+  /** Set false for detail views to hide the sort controls. */
+  sortable?: boolean;
   sorts?: Record<string, (a: T, b: T) => number>;
 }
 
@@ -21,11 +23,13 @@ const DataList = <T extends BaseData>({
   render,
   skeleton,
   sorts,
+  sortable = true,
 }: Endpoint<T>) => {
   const [data, setData] = useState<T[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [sortKey, setSortKey] = useState("Version");
+  const [sortKey, setSortKey] = useState("ID");
   const [desc, setDesc] = useState(false);
+  const [search, setSearch] = useState("");
 
   const options = useMemo<Record<string, (a: T, b: T) => number>>(
     () => ({
@@ -39,9 +43,12 @@ const DataList = <T extends BaseData>({
 
   const sorted = useMemo(() => {
     if (!data) return data;
-    const cmp = options[sortKey] ?? options.Version;
-    return [...data].sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
-  }, [data, options, sortKey, desc]);
+    const cmp = options[sortKey] ?? options.ID;
+    const q = search.toLowerCase();
+    return data
+      .filter((d) => d.name.toLowerCase().includes(q))
+      .sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
+  }, [data, options, sortKey, desc, search]);
 
   useEffect(() => {
     fetch(endpoint)
@@ -68,31 +75,40 @@ const DataList = <T extends BaseData>({
   }
   return (
     <>
-      <Box sx={{ display: "flex", gap: 1, p: 1, width: "100%" }}>
-        <FormControl size="small" sx={{ minWidth: 160 }}>
-          <InputLabel>Sort by</InputLabel>
-          <Select
-            value={sortKey}
-            label="Sort by"
-            onChange={(e) => setSortKey(e.target.value)}
-          >
-            {Object.keys(options).map((k) => (
-              <MenuItem key={k} value={k}>
-                {k}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl size="small" sx={{ minWidth: 130 }}>
-          <Select
-            value={desc ? "desc" : "asc"}
-            onChange={(e) => setDesc(e.target.value === "desc")}
-          >
-            <MenuItem value="asc">Ascending</MenuItem>
-            <MenuItem value="desc">Descending</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      {sortable && (
+        <Box sx={{ display: "flex", gap: 1, p: 1, width: "100%" }}>
+        <TextField
+          label="Search"
+          size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ minWidth: 200 }}
+        />
+          <FormControl size="small" sx={{ minWidth: 160 }}>
+            <InputLabel>Sort by</InputLabel>
+            <Select
+              value={sortKey}
+              label="Sort by"
+              onChange={(e) => setSortKey(e.target.value)}
+            >
+              {Object.keys(options).map((k) => (
+                <MenuItem key={k} value={k}>
+                  {k}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl size="small" sx={{ minWidth: 130 }}>
+            <Select
+              value={desc ? "desc" : "asc"}
+              onChange={(e) => setDesc(e.target.value === "desc")}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      )}
       {render(sorted!)}
     </>
   );
