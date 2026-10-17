@@ -300,8 +300,9 @@ const MapBoard = ({
               position: "absolute",
               top: 0,
               bottom: 0,
-              left: at(page * TILES),
-              width: `max(${at(TILES)}, 6px)`,
+              // clamp to the bar: the last page can hold fewer than TILES tiles, and a tiny window keeps a 6px minimum
+              left: `min(${at(page * TILES)}, calc(100% - 6px))`,
+              width: `max(${at(Math.min(TILES, total - page * TILES))}, 6px)`,
               borderRadius: 7,
               background: "rgba(255,216,0,0.55)",
               border: "1px solid #ffd800",
