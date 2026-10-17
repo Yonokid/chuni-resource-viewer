@@ -56,8 +56,32 @@ const AreaRow = ({ area, index }: { area: MapAreaInfo; index: number }) => {
               <AssetLink type="ticket" asset={grid.ticket} />
             </div>
           ))}
+          {area.reward && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              {area.reward.chara ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={getBaseUrl(
+                    "chuni",
+                    `chara/CHU_UI_Character_${(area.reward.chara.id / 10).toString().padStart(4, "0")}_00_02.webp`,
+                  )}
+                  alt={area.reward.name}
+                  style={{ height: 56 }}
+                />
+              ) : (
+                area.reward.icon && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={getBaseUrl("chuni", area.reward.icon)}
+                    alt={area.reward.name}
+                    style={{ height: 40 }}
+                  />
+                )
+              )}
+              <AssetLink type="reward" asset={area.reward} />
+            </Stack>
+          )}
           <Stack direction="row" spacing={1}>
-            <AssetLink type="reward" asset={area.reward} />
             <AssetLink type="chara" asset={area.chara} />
             <AssetLink type="skill" asset={area.skill} />
             <AssetLink type="trophy" asset={area.trophy} />
@@ -102,7 +126,9 @@ const MapViewer = ({ map }: { map: Map }) => {
         background={getBaseUrl("chuni", `map/${map.ddsMapName}`)}
         total={tileCount(areas[areaIndex]) || 9}
         tileRewards={Object.fromEntries(
-          (areas[areaIndex]?.grids ?? []).filter((grid) => grid.reward).map((grid) => [grid.index, grid.reward]),
+          (areas[areaIndex]?.grids ?? [])
+            .filter((grid) => grid.reward)
+            .map((grid) => [grid.index, grid.reward]),
         )}
         goalReward={areas[areaIndex]?.reward}
         challengeSong={areas[areaIndex]?.music}
