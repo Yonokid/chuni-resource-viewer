@@ -1,10 +1,10 @@
 "use client";
-import { Ticket } from "../page";
+import { Ticket, TicketBanner } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import { getBaseUrl } from "@/app/utils/global";
 import { intLabel, useEnums } from "@/app/utils/enums";
 import { Fragment } from "react";
-import { Typography, Table, TableBody, TableRow, TableCell } from "@mui/material";
+import { Box, Typography, Table, TableBody, TableRow, TableCell } from "@mui/material";
 
 const TicketPage = () => {
   const enums = useEnums();
@@ -13,6 +13,9 @@ const TicketPage = () => {
       endpoint={`${getBaseUrl("chuni", "ticket/ticket.json")}`}
       render={(ticket: Ticket) => (
         <Fragment>
+          <Box sx={{ mb: 2 }}>
+            <TicketBanner ticket={ticket} width={288} />
+          </Box>
           <Typography variant="h4">{ticket.name}</Typography>
           <Typography variant="subtitle1" sx={{ marginBottom: 2, whiteSpace: "pre-line" }}>
             {ticket.explainText}
