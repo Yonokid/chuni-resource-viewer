@@ -36,8 +36,10 @@ const RewardBadge = ({
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      // percentage-width images collapse to 0 in a shrink-to-fit box, so image badges get a fixed width
-      ...(reward.icon || reward.chara ? { width: "9%" } : { maxWidth: "9%" }),
+      // percentage-width images collapse to 0 in a shrink-to-fit box, so image badges get a fixed width; text badges size to content (tiles right of the board would otherwise wrap one letter per line)
+      ...(reward.icon || reward.chara
+        ? { width: "9%" }
+        : { width: "max-content", maxWidth: "9%" }),
       fontSize: "clamp(8px, 1.1vw, 14px)",
       color: "#fff",
       textAlign: "center",
