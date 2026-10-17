@@ -32,6 +32,14 @@ const CoursePage = () => {
                   <AssetLink type="reward" asset={course.reward} />
                 </TableCell>
               </TableRow>
+              {course.reward2nd && (
+                <TableRow>
+                  <TableCell style={{ fontWeight: 600 }}>Second Reward</TableCell>
+                  <TableCell align="right">
+                    <AssetLink type="reward" asset={course.reward2nd} />
+                  </TableCell>
+                </TableRow>
+              )}
               {course.infos.map((info, i) => (
                 <TableRow key={i}>
                   <TableCell style={{ fontWeight: 600 }}>Song {i + 1}</TableCell>

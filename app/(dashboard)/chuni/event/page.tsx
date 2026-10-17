@@ -20,6 +20,8 @@ export interface EventSubstance {
   musics?: AssetRef[];
   firstMovie?: AssetRef | null;
   secondMovie?: AssetRef | null;
+  quests?: AssetRef[];
+  mapFilter?: AssetRef | null;
 }
 
 export interface Event extends BaseData {

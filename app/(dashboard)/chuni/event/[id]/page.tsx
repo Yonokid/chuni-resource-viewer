@@ -15,6 +15,9 @@ const KIND_LABELS: Record<string, string> = {
   music: "Song unlock",
   advertiseMovie: "Attract movie",
   recommendMusic: "Recommended songs",
+  release: "Release",
+  course: "Courses",
+  quest: "Quests",
 };
 
 const EventPage = () => {
@@ -49,6 +52,17 @@ const EventPage = () => {
                     <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, justifyContent: "flex-end" }}>
                       {sub.musics.map((m) => (
                         <AssetLink key={m.id} type="music" asset={m} />
+                      ))}
+                    </Stack>
+                  ),
+                ],
+                ["Map Filter", sub?.mapFilter?.name],
+                [
+                  "Quests",
+                  sub?.quests && sub.quests.length > 0 && (
+                    <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, justifyContent: "flex-end" }}>
+                      {sub.quests.map((q) => (
+                        <AssetLink key={q.id} type="quest" asset={q} />
                       ))}
                     </Stack>
                   ),

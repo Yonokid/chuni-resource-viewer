@@ -16,9 +16,10 @@ export interface CourseInfo {
 export interface Course extends BaseData {
   disableFlag: boolean;
   difficulty: AssetRef;
-  category: number;
+  category?: number;
   rule: AssetRef | null;
   reward: AssetRef | null;
+  reward2nd?: AssetRef | null;
   priority: number;
   infos: CourseInfo[];
 }

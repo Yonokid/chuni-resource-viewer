@@ -23,6 +23,7 @@ import {
   Redeem as RedeemIcon,
   Flag as FlagIcon,
   Badge as BadgeIcon,
+  Explore as ExploreIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -62,6 +63,7 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     RedeemIcon: <RedeemIcon />,
     FlagIcon: <FlagIcon />,
     BadgeIcon: <BadgeIcon />,
+    ExploreIcon: <ExploreIcon />,
   };
 
   return iconMap[iconName];
