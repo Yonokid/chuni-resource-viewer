@@ -53,6 +53,18 @@ const TicketPage = () => {
                   <TableCell align="right">{ticket.valueBoostRaw}</TableCell>
                 </TableRow>
               )}
+              {!!ticket.valueMultipleRaw && (
+                <TableRow>
+                  <TableCell style={{ fontWeight: 600 }}>Progress multiplier</TableCell>
+                  <TableCell align="right">{ticket.valueMultipleRaw}</TableCell>
+                </TableRow>
+              )}
+              {!!ticket.addRankLimit && (
+                <TableRow>
+                  <TableCell style={{ fontWeight: 600 }}>Rank limit added</TableCell>
+                  <TableCell align="right">{ticket.addRankLimit}</TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </Fragment>

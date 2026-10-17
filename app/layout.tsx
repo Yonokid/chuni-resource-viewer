@@ -20,6 +20,7 @@ import {
   ShoppingCart as ShoppingCartIcon,
   GridView as GridViewIcon,
   Payments as PaymentsIcon,
+  Redeem as RedeemIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -56,6 +57,7 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     ShoppingCartIcon: <ShoppingCartIcon />,
     GridViewIcon: <GridViewIcon />,
     PaymentsIcon: <PaymentsIcon />,
+    RedeemIcon: <RedeemIcon />,
   };
 
   return iconMap[iconName];

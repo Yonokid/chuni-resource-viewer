@@ -38,6 +38,9 @@ const MapAreaPage = () => {
                   <TableCell align="right" style={{ fontWeight: 600 }}>
                     Ticket
                   </TableCell>
+                  <TableCell align="right" style={{ fontWeight: 600 }}>
+                    Reward
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -48,6 +51,9 @@ const MapAreaPage = () => {
                     <TableCell align="right">{grid.gamePoint || "—"}</TableCell>
                     <TableCell align="right">
                       {grid.ticket ? <AssetLink type="ticket" asset={grid.ticket} /> : "—"}
+                    </TableCell>
+                    <TableCell align="right">
+                      {grid.reward ? <AssetLink type="reward" asset={grid.reward} /> : "—"}
                     </TableCell>
                   </TableRow>
                 ))}

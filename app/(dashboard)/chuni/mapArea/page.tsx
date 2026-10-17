@@ -9,8 +9,9 @@ interface Grid {
   index: number;
   displayType: number;
   type: number;
-  gamePoint: number;
-  ticket: AssetRef | null;
+  gamePoint?: number;
+  ticket?: AssetRef | null;
+  reward?: AssetRef | null;
 }
 
 export interface MapArea extends BaseData {

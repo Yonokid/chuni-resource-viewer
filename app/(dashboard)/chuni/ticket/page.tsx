@@ -15,6 +15,9 @@ export interface Ticket extends BaseData {
   valueUseRaw: number;
   valueBoost: number;
   valueBoostRaw: number;
+  valueMultipleRaw?: number;
+  valuePlusRaw?: number;
+  addRankLimit?: number;
   priority: number;
 }
 

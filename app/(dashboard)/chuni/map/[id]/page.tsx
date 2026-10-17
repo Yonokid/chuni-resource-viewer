@@ -62,6 +62,7 @@ const MapPage = () => {
                       <TableCell>
                         <Stack direction="row" spacing={1}>
                           <AssetLink type="music" asset={area.music} />
+                          <AssetLink type="reward" asset={area.reward} />
                           <AssetLink type="chara" asset={area.chara} />
                           <AssetLink type="skill" asset={area.skill} />
                           <AssetLink type="trophy" asset={area.trophy} />

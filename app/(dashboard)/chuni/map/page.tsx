@@ -9,6 +9,7 @@ export interface MapAreaInfo {
   mapArea: AssetRef | null;
   ddsMap: AssetRef | null;
   music: AssetRef | null;
+  reward?: AssetRef | null;
   chara: AssetRef | null;
   skill: AssetRef | null;
   trophy: AssetRef | null;
