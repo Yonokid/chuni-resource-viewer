@@ -9,13 +9,25 @@ export interface GaugeRef extends AssetRef {
   fumens?: { difficulty: number; normGauge: number; maxGauge: number }[];
 }
 
+// a Reward.xml record merged into the reference
+export interface MapReward extends AssetRef {
+  type?: number;
+  gamePoint?: number;
+  ticket?: AssetRef | null;
+  trophy?: AssetRef | null;
+  chara?: AssetRef | null;
+  skill?: AssetRef | null;
+  namePlate?: AssetRef | null;
+  music?: AssetRef | null;
+}
+
 export interface MapGrid {
   index: number;
   displayType: number;
   type: number;
   gamePoint?: number;
   ticket?: AssetRef | null;
-  reward?: AssetRef | null;
+  reward?: MapReward | null;
 }
 
 export interface MapBonusSubstance {
@@ -35,7 +47,7 @@ export interface MapAreaInfo {
   mapArea: AssetRef | null;
   ddsMap: AssetRef | null;
   music: AssetRef | null;
-  reward?: AssetRef | null;
+  reward?: MapReward | null;
   chara: AssetRef | null;
   skill: AssetRef | null;
   trophy: AssetRef | null;

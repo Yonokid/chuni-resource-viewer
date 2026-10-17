@@ -132,6 +132,10 @@ const MapViewer = ({ map }: { map: Map }) => {
         key={areaIndex}
         background={getBaseUrl("chuni", `map/${map.ddsMapName}`)}
         total={tileCount(areas[areaIndex]) || 9}
+        tileRewards={Object.fromEntries(
+          (areas[areaIndex]?.grids ?? []).filter((grid) => grid.reward).map((grid) => [grid.index, grid.reward]),
+        )}
+        goalReward={areas[areaIndex]?.reward}
       />
     </div>
   );
