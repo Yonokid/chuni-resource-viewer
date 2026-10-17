@@ -34,7 +34,7 @@ import "@fontsource/roboto/700.css";
 const GLOBAL_SEGMENTS = ["about", "settings", ""];
 
 const GAMES: { [key: string]: { title: string; icon: JSX.Element } } = {
-  chuni: { title: "Chunithm", icon: <SportsEsportsIcon /> },
+  chuni: { title: "CHUNITHM", icon: <SportsEsportsIcon /> },
   maimai: { title: "maimai DX", icon: <SportsEsportsIcon /> },
 };
 
