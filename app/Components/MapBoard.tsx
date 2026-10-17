@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -113,152 +113,251 @@ const MapBoard = ({
     );
   };
   const sprite = (name: string) => getBaseUrl("chuni", `sprites/${name}.webp`);
+  const jump = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const index = Math.round(((e.clientX - rect.left) / rect.width) * total);
+    setPage(Math.min(Math.max(Math.floor(index / TILES), 0), pages - 1));
+  };
+  const at = (index: number) => `${(index / Math.max(total, 1)) * 100}%`;
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        maxWidth: width + 96,
-      }}
-    >
-      {arrow("left")}
-      <div
-        style={{
-          position: "relative",
-          flex: 1,
-          aspectRatio: `${width} / ${height}`,
-        }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={background}
-          alt=" "
-          style={{ width: "100%", height: "100%" }}
-        />
-        {Array.from(
-          { length: Math.min(TILES, total + 1 - page * TILES) },
-          (_, slot) => {
-            const i = page * TILES + slot;
-            const big = i % 5 === 0;
-            const w = big ? BIG_WIDTH : TILE_WIDTH;
-            const center = FIRST_CENTER + slot * PITCH;
-            return (
-              <div key={i}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={sprite("mapTile")}
-                  alt=" "
-                  style={{
-                    position: "absolute",
-                    left: `${(center - w / 2) * 100}%`,
-                    top: `${ROW_Y * 100}%`,
-                    width: `${w * 100}%`,
-                    transform: "translateY(-50%)",
-                  }}
-                />
-                {(i === total ? goalReward : tileRewards[i]) && (
-                  <RewardBadge
-                    reward={
-                      (i === total ? goalReward : tileRewards[i]) as MapReward
-                    }
-                    left={center * 100}
-                    top={(ROW_Y - 0.07) * 100}
-                  />
-                )}
-                {big && i === 0 && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={sprite("mapStart")}
-                    alt="START"
-                    style={{
-                      position: "absolute",
-                      left: `${center * 100}%`,
-                      top: `${(ROW_Y + 0.05) * 100}%`,
-                      width: "6%",
-                      transform: "translateX(-50%)",
-                    }}
-                  />
-                )}
-                {i === total && i % 5 !== 0 && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={sprite("mapGoal")}
-                    alt="GOAL"
-                    style={{
-                      position: "absolute",
-                      left: `${center * 100}%`,
-                      top: `${(ROW_Y + 0.05) * 100}%`,
-                      width: "9%",
-                      transform: "translateX(-50%)",
-                    }}
-                  />
-                )}
-                {big && i > 0 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: `${center * 100}%`,
-                      top: `${(ROW_Y + 0.05) * 100}%`,
-                      transform: "translateX(-50%)",
-                      color: "#ffd800",
-                      fontWeight: 700,
-                      fontSize: "clamp(10px, 1.9vw, 24px)",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {i}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        )}
-        {challengeSong && (
+    <div style={{ maxWidth: width + 96 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        {arrow("left")}
+        <div
+          style={{
+            position: "relative",
+            flex: 1,
+            aspectRatio: `${width} / ${height}`,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={background}
+            alt=" "
+            style={{ width: "100%", height: "100%" }}
+          />
+          {/* the track slides by one page per step; only pages around the current one are rendered */}
+          <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                transform: `translateX(${-page * TILES * PITCH * 100}%)`,
+                transition: "transform 0.5s ease",
+              }}
+            >
+              {Array.from(
+                {
+                  length:
+                    Math.min(total, (page + 2) * TILES - 1) -
+                    Math.max(0, (page - 1) * TILES) +
+                    1,
+                },
+                (_, slot) => {
+                  const i = Math.max(0, (page - 1) * TILES) + slot;
+                  const big = i % 5 === 0;
+                  const w = big ? BIG_WIDTH : TILE_WIDTH;
+                  const center = FIRST_CENTER + i * PITCH;
+                  return (
+                    <div key={i}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={sprite("mapTile")}
+                        alt=" "
+                        style={{
+                          position: "absolute",
+                          left: `${(center - w / 2) * 100}%`,
+                          top: `${ROW_Y * 100}%`,
+                          width: `${w * 100}%`,
+                          transform: "translateY(-50%)",
+                        }}
+                      />
+                      {(i === total ? goalReward : tileRewards[i]) && (
+                        <RewardBadge
+                          reward={
+                            (i === total
+                              ? goalReward
+                              : tileRewards[i]) as MapReward
+                          }
+                          left={center * 100}
+                          top={(ROW_Y - 0.07) * 100}
+                        />
+                      )}
+                      {big && i === 0 && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={sprite("mapStart")}
+                          alt="START"
+                          style={{
+                            position: "absolute",
+                            left: `${center * 100}%`,
+                            top: `${(ROW_Y + 0.05) * 100}%`,
+                            width: "6%",
+                            transform: "translateX(-50%)",
+                          }}
+                        />
+                      )}
+                      {i === total && i % 5 !== 0 && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={sprite("mapGoal")}
+                          alt="GOAL"
+                          style={{
+                            position: "absolute",
+                            left: `${center * 100}%`,
+                            top: `${(ROW_Y + 0.05) * 100}%`,
+                            width: "9%",
+                            transform: "translateX(-50%)",
+                          }}
+                        />
+                      )}
+                      {big && i > 0 && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: `${center * 100}%`,
+                            top: `${(ROW_Y + 0.05) * 100}%`,
+                            transform: "translateX(-50%)",
+                            color: "#ffd800",
+                            fontWeight: 700,
+                            fontSize: "clamp(10px, 1.9vw, 24px)",
+                            lineHeight: 1,
+                          }}
+                        >
+                          {i}
+                        </div>
+                      )}
+                    </div>
+                  );
+                },
+              )}
+            </div>
+          </div>
+          {challengeSong && (
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: 0,
+                padding: "0.6% 2%",
+                background:
+                  "linear-gradient(90deg, rgba(0,0,0,0.85), rgba(0,0,0,0.5))",
+                color: "#fff",
+                fontSize: "clamp(10px, 1.5vw, 18px)",
+              }}
+            >
+              課題曲：
+              <Link
+                href={`/chuni/music/${challengeSong.id}`}
+                style={{ color: "#fff" }}
+              >
+                {challengeSong.name}
+              </Link>
+            </div>
+          )}
+          {bonus && bonus.substances.length > 0 && (
+            <Tooltip
+              title={<MapBonusList substances={bonus.substances} />}
+              placement="bottom-end"
+              arrow
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={getBaseUrl("chuni", "sprites/mapBonus.webp")}
+                alt="Map bonus"
+                style={{
+                  position: "absolute",
+                  top: "3%",
+                  right: "2%",
+                  width: "8%",
+                  cursor: "help",
+                }}
+              />
+            </Tooltip>
+          )}
+        </div>
+        {arrow("right")}
+      </div>
+      {/* timeline of the whole area: reward tiles, the goal and the visible page; click to jump */}
+      <div style={{ margin: "12px 48px 0" }}>
+        <div
+          onClick={jump}
+          role="button"
+          aria-label="Jump to tiles"
+          style={{
+            position: "relative",
+            height: 14,
+            borderRadius: 7,
+            background: "rgba(128,128,128,0.35)",
+            cursor: "pointer",
+          }}
+        >
           <div
             style={{
               position: "absolute",
-              left: 0,
-              right: 0,
+              top: 0,
               bottom: 0,
-              padding: "0.6% 2%",
-              background:
-                "linear-gradient(90deg, rgba(0,0,0,0.85), rgba(0,0,0,0.5))",
-              color: "#fff",
-              fontSize: "clamp(10px, 1.5vw, 18px)",
+              left: at(page * TILES),
+              width: `max(${at(TILES)}, 6px)`,
+              borderRadius: 7,
+              background: "rgba(255,216,0,0.55)",
+              border: "1px solid #ffd800",
+              boxSizing: "border-box",
+              transition: "left 0.5s ease",
             }}
-          >
-            課題曲：
-            <Link
-              href={`/chuni/music/${challengeSong.id}`}
-              style={{ color: "#fff" }}
-            >
-              {challengeSong.name}
-            </Link>
-          </div>
-        )}
-        {bonus && bonus.substances.length > 0 && (
-          <Tooltip
-            title={<MapBonusList substances={bonus.substances} />}
-            placement="bottom-end"
-            arrow
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={getBaseUrl("chuni", "sprites/mapBonus.webp")}
-              alt="Map bonus"
+          />
+          {Object.entries(tileRewards).map(
+            ([index, reward]) =>
+              reward && (
+                <div
+                  key={index}
+                  title={`${index}: ${reward.name}`}
+                  style={{
+                    position: "absolute",
+                    top: reward.gamePoint ? 5 : 2,
+                    left: at(Number(index)),
+                    width: reward.gamePoint ? 4 : 8,
+                    height: reward.gamePoint ? 4 : 10,
+                    borderRadius: "50%",
+                    background: reward.gamePoint ? "#ffd800" : "#ff4fa0",
+                    transform: "translateX(-50%)",
+                    pointerEvents: "none",
+                  }}
+                />
+              ),
+          )}
+          {goalReward && (
+            <div
+              title={`${total}: ${goalReward.name}`}
               style={{
                 position: "absolute",
-                top: "3%",
-                right: "2%",
-                width: "8%",
-                cursor: "help",
+                top: -2,
+                left: "100%",
+                width: 4,
+                height: 18,
+                background: "#e53935",
+                transform: "translateX(-50%)",
+                pointerEvents: "none",
               }}
             />
-          </Tooltip>
-        )}
+          )}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: 12,
+            opacity: 0.7,
+          }}
+        >
+          <span>0</span>
+          <span>
+            Tiles {page * TILES}–{Math.min(page * TILES + TILES - 1, total)}
+          </span>
+          <span>{total}</span>
+        </div>
       </div>
-      {arrow("right")}
     </div>
   );
 };
