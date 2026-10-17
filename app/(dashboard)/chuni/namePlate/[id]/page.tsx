@@ -1,5 +1,6 @@
 "use client";
-import { NamePlate, namePlateImage } from "../page";
+import { NamePlate } from "../page";
+import NamePlateImage from "@/app/Components/NamePlateImage";
 import DataDetail from "@/app/Components/DataDetail";
 import { getBaseUrl } from "@/app/utils/global";
 import { Fragment } from "react";
@@ -12,7 +13,7 @@ const NamePlatePage = () => {
       render={(plate: NamePlate) => (
         <Fragment>
           <Box sx={{ mb: 2 }}>
-            <img src={namePlateImage(plate)} alt="" width={320} />
+            <NamePlateImage plate={plate} width={320} />
           </Box>
           <Typography variant="h4">{plate.name}</Typography>
           <Typography variant="subtitle1" sx={{ marginBottom: 2, whiteSpace: "pre-line" }}>
