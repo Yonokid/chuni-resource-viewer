@@ -54,9 +54,6 @@ const StagePage = () => {
               <Typography variant="h5" sx={{ marginTop: 3 }}>
                 3D Preview
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
-                Start-of-song layout; animation isn&apos;t decoded yet.
-              </Typography>
               <StageViewer
                 background={stageModel(stage.models, "st_")}
                 lane={stageModel(stage.models, "nf_")}
