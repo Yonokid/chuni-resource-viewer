@@ -143,12 +143,6 @@ const MapPage = () => {
               <Typography variant="h5" sx={{ marginTop: 3 }}>
                 Areas
               </Typography>
-              <Typography variant="body2" sx={{ marginBottom: 1 }}>
-                Songs earn tiles up to a per-song maximum (derived from the
-                gauge, 100 per tile, unconfirmed). A challenge song must be
-                played to advance past its area. Bonus characters, skills and
-                songs add tiles per song when they are used.
-              </Typography>
               <Table>
                 <TableHead>
                   <TableRow>
