@@ -18,6 +18,7 @@ const Stages = () => {
   return (
     <DataList<Stage>
       endpoint={`${getBaseUrl("chuni", "stage/stage.json")}`}
+      sorts={{ Release: (a, b) => a.releaseTagName.localeCompare(b.releaseTagName) }}
       render={(data) => (
         <List>
           {data.map((item: Stage, index: number) => (

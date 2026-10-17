@@ -21,6 +21,7 @@ const MapAreas = () => {
   return (
     <DataList<MapArea>
       endpoint={`${getBaseUrl("chuni", "mapArea/mapArea.json")}`}
+      sorts={{ Tiles: (a, b) => a.grids.length - b.grids.length }}
       render={(data) => (
         <List>
           {data.map((item: MapArea, index: number) => (

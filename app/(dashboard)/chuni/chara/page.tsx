@@ -58,6 +58,7 @@ const CharaCards = () => {
     <DataList<Chara>
       endpoint={getBaseUrl("chuni", "chara/chara.json")}
       skeleton={SkeletonGrid}
+      sorts={{ Illustrator: (a, b) => a.illustratorName.localeCompare(b.illustratorName), Rarity: (a, b) => a.rareType - b.rareType }}
       render={(data) => (
         <Fragment>
           {data &&

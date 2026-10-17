@@ -30,6 +30,7 @@ const Presents = () => {
   return (
     <DataList<Present>
       endpoint={`${getBaseUrl("chuni", "present/present.json")}`}
+      sorts={{ "Game points": (a, b) => a.gamePoint - b.gamePoint }}
       render={(data) => (
         <List>
           {data.map((item: Present, index: number) => {

@@ -60,8 +60,7 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
   }, [data]);
 
   const filtered = useMemo(() => {
-    return [...data]
-      .sort((a, b) => a.id - b.id)
+    return data
       .filter((item) => {
         if (search && !item.name.toLowerCase().includes(search.toLowerCase())) {
           return false;

@@ -53,6 +53,7 @@ const Trophies = () => {
   return (
     <DataList<Trophy>
       endpoint={`${getBaseUrl("chuni", "trophy/trophy.json")}`}
+      sorts={{ Rarity: (a, b) => a.rareType - b.rareType }}
       render={(data) => (
         <List>
           {data.map((item: Trophy, index: number) => (

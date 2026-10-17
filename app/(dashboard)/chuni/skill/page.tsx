@@ -44,6 +44,7 @@ const Skills = () => {
   return (
     <DataList<Skill>
       endpoint={`${getBaseUrl("chuni", "skill/skill.json")}`}
+      sorts={{ "Max level": (a, b) => a.maxLv - b.maxLv, Rarity: (a, b) => a.rareType - b.rareType, Category: (a, b) => a.category - b.category }}
       render={(data) => (
         <List>
           {data.map((item: Skill, index: number) => (

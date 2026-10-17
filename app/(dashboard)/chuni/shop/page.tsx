@@ -33,6 +33,7 @@ const Shops = () => {
   return (
     <DataList<Shop>
       endpoint={`${getBaseUrl("chuni", "shop/shop.json")}`}
+      sorts={{ Price: (a, b) => a.price - b.price, Category: (a, b) => a.saleCategoryName.localeCompare(b.saleCategoryName), Priority: (a, b) => a.priority - b.priority }}
       render={(data) => (
         <List>
           {data.map((item: Shop, index: number) => {

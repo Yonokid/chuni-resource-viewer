@@ -69,6 +69,7 @@ const SongCards = (props: MediaProps) => {
     <DataList<Song>
       endpoint={getBaseUrl("chuni", "music/music.json")}
       skeleton={SkeletonGrid}
+      sorts={{ Artist: (a, b) => a.artistName.localeCompare(b.artistName), Genre: (a, b) => a.genreName.localeCompare(b.genreName), "Sort name": (a, b) => a.sortName.localeCompare(b.sortName) }}
       render={(data) => (
         <Fragment>
           {data &&
