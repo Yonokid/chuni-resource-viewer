@@ -11,6 +11,7 @@ export interface GaugeRef extends AssetRef {
 
 // a Reward.xml record merged into the reference
 export interface MapReward extends AssetRef {
+  icon?: string | null; // skill category, name plate or ticket image, relative to the version folder
   type?: number;
   gamePoint?: number;
   ticket?: AssetRef | null;

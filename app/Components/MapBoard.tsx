@@ -40,6 +40,14 @@ const RewardBadge = ({
       lineHeight: 1.1,
     }}
   >
+    {reward.icon && (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={getBaseUrl("chuni", reward.icon)}
+        alt={reward.name}
+        style={{ width: "100%" }}
+      />
+    )}
     {reward.chara && (
       // eslint-disable-next-line @next/next/no-img-element
       <img
