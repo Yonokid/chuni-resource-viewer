@@ -5,6 +5,32 @@ import DataList, { BaseData } from "@/app/Components/Data";
 import { AssetRef } from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
 
+export interface GaugeRef extends AssetRef {
+  fumens?: { difficulty: number; normGauge: number; maxGauge: number }[];
+}
+
+export interface MapGrid {
+  index: number;
+  displayType: number;
+  type: number;
+  gamePoint?: number;
+  ticket?: AssetRef | null;
+  reward?: AssetRef | null;
+}
+
+export interface MapBonusSubstance {
+  type: number;
+  kind: string;
+  point: number;
+  target: AssetRef | null;
+}
+
+export interface MapBonus {
+  id: number;
+  name: string;
+  substances: MapBonusSubstance[];
+}
+
 export interface MapAreaInfo {
   mapArea: AssetRef | null;
   ddsMap: AssetRef | null;
@@ -13,9 +39,11 @@ export interface MapAreaInfo {
   chara: AssetRef | null;
   skill: AssetRef | null;
   trophy: AssetRef | null;
-  normalGauge: AssetRef | null;
-  challengeGauge: AssetRef | null;
+  normalGauge: GaugeRef | null;
+  challengeGauge: GaugeRef | null;
   challengeRating: { advanced: number; expert: number; master: number };
+  grids?: MapGrid[];
+  bonus?: MapBonus | null;
 }
 
 export interface Map extends BaseData {
