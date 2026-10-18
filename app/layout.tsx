@@ -38,6 +38,7 @@ import {
   Style as StyleIcon,
   Groups as GroupsIcon,
   PlaylistAddCheck as PlaylistAddCheckIcon,
+  Assignment as AssignmentIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -92,6 +93,7 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     StyleIcon: <StyleIcon />,
     GroupsIcon: <GroupsIcon />,
     PlaylistAddCheckIcon: <PlaylistAddCheckIcon />,
+    AssignmentIcon: <AssignmentIcon />,
   };
 
   return iconMap[iconName];
