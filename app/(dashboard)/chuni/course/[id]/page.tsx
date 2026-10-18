@@ -65,6 +65,15 @@ const CoursePage = () => {
                   </TableCell>
                 </TableRow>
               )}
+              {course.conditionsCourse && (
+                <TableRow>
+                  <TableCell style={{ fontWeight: 600 }}>Unlock</TableCell>
+                  <TableCell align="right">
+                    <AssetLink type="course" asset={course.conditionsCourse} />
+                    {course.conditionsText && ` - ${course.conditionsText}`}
+                  </TableCell>
+                </TableRow>
+              )}
               {course.infos.map((info, i) => (
                 <TableRow key={i}>
                   <TableCell style={{ fontWeight: 600 }}>Song {i + 1}</TableCell>

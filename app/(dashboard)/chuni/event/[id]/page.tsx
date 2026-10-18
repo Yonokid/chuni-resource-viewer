@@ -21,6 +21,8 @@ const KIND_LABELS: Record<string, string> = {
   duel: "Duel",
   rightsInfo: "Copyright notices",
   battleReward: "Net battle reward",
+  dailyBonusPreset: "Daily bonuses",
+  avatarAccessoryGacha: "Avatar gacha",
 };
 
 const EventPage = () => {
@@ -71,6 +73,8 @@ const EventPage = () => {
                   ),
                 ],
                 ["Battle Reward", sub?.battleReward?.name],
+                ["Daily Bonuses", sub?.dailyBonusPreset && <AssetLink type="dailyBonusPreset" asset={sub.dailyBonusPreset} />],
+                ["Avatar Gacha", sub?.gacha && <AssetLink type="avatarAccessoryGacha" asset={sub.gacha} />],
                 [
                   "Copyright Notices",
                   sub?.rights && sub.rights.length > 0 && sub.rights.map((r) => r.name).join(", "),

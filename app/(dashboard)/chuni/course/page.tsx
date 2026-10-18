@@ -33,6 +33,8 @@ export interface Course extends BaseData {
   reward: AssetRef | null;
   reward2nd?: AssetRef | null;
   priority: number;
+  conditionsCourse?: AssetRef | null; // 2.05 unlock: clear this course
+  conditionsText?: string;
   infos: CourseInfo[];
 }
 

@@ -25,6 +25,8 @@ export interface EventSubstance {
   mapFilter?: AssetRef | null;
   rights?: AssetRef[]; // kind rightsInfo (2.00+)
   battleReward?: AssetRef | null; // kind battleReward (2.00+)
+  dailyBonusPreset?: AssetRef | null; // kind dailyBonusPreset (2.05)
+  gacha?: AssetRef | null; // kind avatarAccessoryGacha (2.05)
 }
 
 export interface Event extends BaseData {
