@@ -2,7 +2,7 @@
   font-family: "SEGA_KakuGothic-DB";
   src:
     local("SEGA_KakuGothic-DB"),
-    url(fonts/SEGA_KakuGothicDB.TTF) format("truetype");
+    url(fonts/SEGA_KakuGothicDB.woff2) format("woff2");
 }
 @keyframes marquee {
   0% {
