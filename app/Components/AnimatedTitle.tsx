@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "next/image";
 import Typography from "@mui/material/Typography";
+import { spriteUrl } from "@/app/utils/enums";
 import "../index.css";
 import { Trophy } from "../(dashboard)/chuni/trophy/page";
 
@@ -27,12 +27,11 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
         overflow: "hidden",
       }}
     >
-      <Image
-        src={`/chuni/title_${item.rareType}.webp`}
+      <img
+        src={spriteUrl("trophyRank", item.rareType)}
         alt=""
         width={583}
-        height={52}
-        style={{ display: "block" }}
+        style={{ display: "block", height: "auto" }}
       />
       <div
         style={{
