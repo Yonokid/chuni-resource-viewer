@@ -24,6 +24,9 @@ import {
   Flag as FlagIcon,
   Badge as BadgeIcon,
   Explore as ExploreIcon,
+  SportsMma as SportsMmaIcon,
+  RecordVoiceOver as RecordVoiceOverIcon,
+  PinDrop as PinDropIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -64,6 +67,9 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     FlagIcon: <FlagIcon />,
     BadgeIcon: <BadgeIcon />,
     ExploreIcon: <ExploreIcon />,
+    SportsMmaIcon: <SportsMmaIcon />,
+    RecordVoiceOverIcon: <RecordVoiceOverIcon />,
+    PinDropIcon: <PinDropIcon />,
   };
 
   return iconMap[iconName];

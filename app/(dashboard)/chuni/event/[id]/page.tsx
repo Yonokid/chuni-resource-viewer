@@ -18,6 +18,7 @@ const KIND_LABELS: Record<string, string> = {
   release: "Release",
   course: "Courses",
   quest: "Quests",
+  duel: "Duel",
 };
 
 const EventPage = () => {
@@ -67,6 +68,7 @@ const EventPage = () => {
                     </Stack>
                   ),
                 ],
+                ["Duel", sub?.duel && <AssetLink type="duel" asset={sub.duel} />],
                 ["Movie", sub?.movie && <AssetLink type="movie" asset={sub.movie} />],
                 ["First Movie", sub?.firstMovie && <AssetLink type="movie" asset={sub.firstMovie} />],
                 ["Second Movie", sub?.secondMovie && <AssetLink type="movie" asset={sub.secondMovie} />],

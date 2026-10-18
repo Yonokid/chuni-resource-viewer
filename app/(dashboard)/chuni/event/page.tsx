@@ -21,6 +21,7 @@ export interface EventSubstance {
   firstMovie?: AssetRef | null;
   secondMovie?: AssetRef | null;
   quests?: AssetRef[];
+  duel?: AssetRef | null;
   mapFilter?: AssetRef | null;
 }
 

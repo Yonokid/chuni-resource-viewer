@@ -26,6 +26,31 @@ const CoursePage = () => {
                 <TableCell style={{ fontWeight: 600 }}>Rule</TableCell>
                 <TableCell align="right">{course.rule?.name}</TableCell>
               </TableRow>
+              {course.rule?.life !== undefined && (
+                <Fragment>
+                  <TableRow>
+                    <TableCell style={{ fontWeight: 600 }}>Description</TableCell>
+                    <TableCell align="right" sx={{ whiteSpace: "pre-line" }}>
+                      {/* $n = line break, $c[RRGGBBAA]/$c = colour markers */}
+                      {course.rule.explain?.replace(/\$n/g, "\n").replace(/\$c(\[[0-9A-Fa-f]{8}\])?/g, "").trim()}
+                    </TableCell>
+                  </TableRow>
+                  {([
+                    ["Life", course.rule.life],
+                    ["Life recovered per song", course.rule.recoveryLife],
+                    ["Life needed to clear", course.rule.clearLife],
+                    ["Damage per MISS", course.rule.damageMiss],
+                    ["Damage per ATTACK", course.rule.damageAttack],
+                    ["Damage per JUSTICE", course.rule.damageJustice],
+                    ["Damage per JUSTICE CRITICAL", course.rule.damageJusticeCritical],
+                  ] as [string, number | undefined][]).map(([label, value]) => (
+                    <TableRow key={label}>
+                      <TableCell style={{ fontWeight: 600 }}>{label}</TableCell>
+                      <TableCell align="right">{value}</TableCell>
+                    </TableRow>
+                  ))}
+                </Fragment>
+              )}
               <TableRow>
                 <TableCell style={{ fontWeight: 600 }}>Reward</TableCell>
                 <TableCell align="right">

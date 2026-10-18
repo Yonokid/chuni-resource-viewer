@@ -13,11 +13,22 @@ export interface CourseInfo {
   fromLevel?: AssetRef;
 }
 
+export interface CourseRule extends AssetRef {
+  explain: string;
+  life: number;
+  recoveryLife: number;
+  clearLife: number;
+  damageMiss: number;
+  damageAttack: number;
+  damageJustice: number;
+  damageJusticeCritical: number;
+}
+
 export interface Course extends BaseData {
   disableFlag: boolean;
   difficulty: AssetRef;
   category?: number;
-  rule: AssetRef | null;
+  rule: (AssetRef & Partial<CourseRule>) | null;  // courseRule is embedded when the version has it
   reward: AssetRef | null;
   reward2nd?: AssetRef | null;
   priority: number;
