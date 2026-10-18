@@ -22,6 +22,7 @@ const KIND_LABELS: Record<string, string> = {
   rightsInfo: "Copyright notices",
   battleReward: "Net battle reward",
   dailyBonusPreset: "Daily bonuses",
+  playRewardSet: "Play rewards",
   avatarAccessoryGacha: "Avatar gacha",
 };
 
@@ -73,6 +74,7 @@ const EventPage = () => {
                   ),
                 ],
                 ["Battle Reward", sub?.battleReward?.name],
+                ["Play Rewards", sub?.playRewardSet && <AssetLink type="playRewardSet" asset={sub.playRewardSet} />],
                 ["Daily Bonuses", sub?.dailyBonusPreset && <AssetLink type="dailyBonusPreset" asset={sub.dailyBonusPreset} />],
                 ["Avatar Gacha", sub?.gacha && <AssetLink type="avatarAccessoryGacha" asset={sub.gacha} />],
                 [
