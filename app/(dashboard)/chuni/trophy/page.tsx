@@ -28,6 +28,7 @@ export interface Condition {
   playerRating?: number;
   totalGamePoint?: number;
   anyCharaRankMax?: boolean;
+  charaTargetRank?: number;
   anySkillLvMax?: boolean;
   haveTrophies?: AssetRef[];
   japanRegion?: string;

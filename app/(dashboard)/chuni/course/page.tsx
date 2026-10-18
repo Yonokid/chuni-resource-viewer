@@ -7,10 +7,11 @@ import { getBaseUrl } from "@/app/utils/global";
 
 export interface CourseInfo {
   type: number;
-  kind: "selectMusic" | "selectLevel";
+  kind: "selectMusic" | "selectLevel" | "selectMusicList";
   music?: AssetRef | null;
   difficulty?: AssetRef | null;
   fromLevel?: AssetRef;
+  musicList?: { music: AssetRef | null; difficulty: AssetRef | null }[];
 }
 
 export interface CourseRule extends AssetRef {

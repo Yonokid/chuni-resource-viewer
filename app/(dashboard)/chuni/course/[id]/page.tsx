@@ -74,6 +74,13 @@ const CoursePage = () => {
                         <AssetLink type="music" asset={info.music} />
                         {info.difficulty && ` (${info.difficulty.name})`}
                       </Fragment>
+                    ) : info.kind === "selectMusicList" ? (
+                      info.musicList?.map((m, j) => (
+                        <div key={j}>
+                          <AssetLink type="music" asset={m.music} />
+                          {m.difficulty && ` (${m.difficulty.name})`}
+                        </div>
+                      ))
                     ) : (
                       `Random ${info.fromLevel?.name}`
                     )}

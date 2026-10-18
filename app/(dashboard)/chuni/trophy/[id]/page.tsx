@@ -45,6 +45,7 @@ const ConditionRow = ({ cond, index }: { cond: Condition; index: number }) => {
         )}
         {cond.memberNum && <Chip size="small" label={`${cond.memberNum} players`} />}
         {cond.missNum && <Chip size="small" label={`${cond.missNum} miss${cond.missNum > 1 ? "es" : ""}`} />}
+        {cond.charaTargetRank && <Chip size="small" label={`Character Rank ${cond.charaTargetRank}`} />}
         {cond.playNum && <Chip size="small" label={`${cond.playNum} plays`} />}
         {cond.japanRegion && (
           <Chip
