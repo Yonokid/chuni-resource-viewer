@@ -50,8 +50,11 @@ const SongPage = () => {
     setAudioType(event.target.value as "normal" | "pre");
   };
 
-  const getAudioSrc = (id: number) => {
-    return audioType === "normal"
+  const getAudioSrc = (song: Song) => {
+    const id = song.id;
+    // 2.00+ songs have no preview clip
+    const hasPreview = (song.previewEndTime ?? 0) > (song.previewStartTime ?? 0);
+    return audioType === "normal" || !hasPreview
       ? getBaseUrl("chuni", `music/music${id.toString().padStart(4, "0")}.mp3`)
       : getBaseUrl(
           "chuni",
@@ -106,6 +109,7 @@ const SongPage = () => {
                   }}
                 >
                   <Typography>Audio:</Typography>
+                  {(song.previewEndTime ?? 0) > (song.previewStartTime ?? 0) && (
                   <FormControl component="fieldset">
                     <RadioGroup
                       aria-label="audio-version"
@@ -126,10 +130,11 @@ const SongPage = () => {
                       />
                     </RadioGroup>
                   </FormControl>
+                  )}
                 </Grid>
               </Paper>
               <Box sx={{ minWidth: 800 }}>
-                <AudioPlayer src={getAudioSrc(song.id)}></AudioPlayer>
+                <AudioPlayer src={getAudioSrc(song)}></AudioPlayer>
               </Box>
               <Table sx={{ minWidth: 800 }}>
                 <TableBody>

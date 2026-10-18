@@ -84,9 +84,11 @@ const SkillPage = () => {
                 </Stack>,
               ],
               ["Max Level", skill.maxLv],
-              ["Price", skill.price],
+              ["Seed", skill.seedName ?? null],
+              ["Price", skill.price || null],
               ["Use Limit", skill.useLimit ? skill.useNum : "Unlimited"],
-              ["Extra Uses per Level", skill.growthUseNum || null],
+              ["Extra Uses per Level", (Array.isArray(skill.growthUseNum) ? skill.growthUseNum.join(", ") : skill.growthUseNum) || null],
+              ["Growth Levels", skill.growthExLv?.join(", ") || null],
               ["Owned by Default", skill.defaultHave ? "Yes" : null],
             ]}
           />

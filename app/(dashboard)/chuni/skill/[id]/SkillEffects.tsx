@@ -69,6 +69,11 @@ const chipsFor = (enums: Enums | null, fields: Record<string, unknown>): React.R
       case "rateAddGauge":
         add(key, `Gauge gain ${value}%`);
         break;
+      case "valueGrowthAddGauge":
+      case "rateGrowthAddGauge":
+      case "growthDamageRate":
+        add(key, `${key}: ${Array.isArray(value) ? value.join(", ") : value}`); // list per level from 2.00
+        break;
       case "damageRate":
         add(key, `Damage ${value}%`);
         break;

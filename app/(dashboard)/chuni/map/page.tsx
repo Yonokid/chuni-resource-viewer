@@ -52,9 +52,11 @@ export interface MapAreaInfo {
   chara: AssetRef | null;
   skill: AssetRef | null;
   trophy: AssetRef | null;
-  normalGauge: GaugeRef | null;
-  challengeGauge: GaugeRef | null;
-  challengeRating: { advanced: number; expert: number; master: number };
+  normalGauge?: GaugeRef | null;
+  challengeGauge?: GaugeRef | null;
+  gauge?: GaugeRef | null; // 2.00+: one gauge per area
+  challengeRating?: { advanced: number; expert: number; master: number };
+  pageIndex?: number;
   grids?: MapGrid[];
   bonus?: MapBonus | null;
 }
@@ -63,6 +65,7 @@ export interface Map extends BaseData {
   ddsMapId: string;
   ddsMapName: string;
   mapType?: number;
+  category?: AssetRef | null;
   stopMapArea?: AssetRef | null;
   stopUnlockEvent?: AssetRef | null;
   areas?: MapAreaInfo[];

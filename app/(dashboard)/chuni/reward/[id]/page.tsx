@@ -31,13 +31,14 @@ const RewardPage = () => {
                   <TableCell align="right">{reward.gamePoint}</TableCell>
                 </TableRow>
               )}
-              {(["ticket", "trophy", "chara", "skill", "namePlate", "music", "mapIcon", "systemVoice"] as const).map(
+              {(["ticket", "trophy", "chara", "skill", "skillSeed", "namePlate", "music", "mapIcon", "systemVoice", "avatarAccessory", "frame"] as const).map(
                 (key) =>
                   reward[key] && (
                     <TableRow key={key}>
                       <TableCell style={{ fontWeight: 600 }}>{key}</TableCell>
                       <TableCell align="right">
-                        <AssetLink type={key} asset={reward[key]} />
+                        <AssetLink type={key === "skillSeed" ? "skill" : key} asset={reward[key]} />
+                        {key === "skillSeed" && reward.skillSeedCount ? ` ×${reward.skillSeedCount}` : ""}
                       </TableCell>
                     </TableRow>
                   )

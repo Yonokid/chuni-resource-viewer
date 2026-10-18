@@ -16,6 +16,7 @@ export interface CharaRank {
   index: number;
   type?: number;
   skill?: AssetRef;
+  skillSeed?: AssetRef; // 2.00+: seed item granted at this rank
   flavorText?: string;
 }
 
@@ -23,10 +24,10 @@ export interface Chara extends BaseData {
   illustratorName: string;
   works: string;
   flavorText: string[];
-  firstSkill: string;
-  skillId: string;
+  firstSkill: string | null; // dropped in 2.00
+  skillId: string | null;
   rareType: number;
-  addImages: AssetRef[];
+  addImages: (AssetRef & { rank?: number })[];
   ranks: CharaRank[];
   releaseTagName?: string;
   explainText?: string;

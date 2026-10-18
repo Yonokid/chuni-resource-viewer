@@ -18,12 +18,16 @@ export interface Present extends BaseData {
   ticket: AssetRef | null;
   chara: AssetRef | null;
   skill: AssetRef | null;
+  skillSeed?: AssetRef | null; // 2.00+
+  avatarAccessory?: AssetRef | null;
+  frame?: AssetRef | null;
+  symbolChat?: AssetRef | null;
   trophy: AssetRef | null;
 }
 
 const grantLabel = (item: Present): string | null => {
   if (item.gamePoint > 0) return `${item.gamePoint} pt`;
-  return item.ticket?.name ?? item.chara?.name ?? item.skill?.name ?? item.trophy?.name ?? null;
+  return item.ticket?.name ?? item.chara?.name ?? item.skill?.name ?? item.skillSeed?.name ?? item.trophy?.name ?? null;
 };
 
 const Presents = () => {

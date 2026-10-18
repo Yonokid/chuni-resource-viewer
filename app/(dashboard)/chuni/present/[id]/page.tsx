@@ -52,6 +52,25 @@ const PresentPage = () => {
                   </TableCell>
                 </TableRow>
               )}
+              {(["avatarAccessory", "frame", "symbolChat"] as const).map(
+                (key) =>
+                  present[key] && (
+                    <TableRow key={key}>
+                      <TableCell style={{ fontWeight: 600 }}>{key}</TableCell>
+                      <TableCell align="right">
+                        <AssetLink type={key} asset={present[key]} />
+                      </TableCell>
+                    </TableRow>
+                  ),
+              )}
+              {present.skillSeed && (
+                <TableRow>
+                  <TableCell style={{ fontWeight: 600 }}>Skill seed</TableCell>
+                  <TableCell align="right">
+                    <AssetLink type="skill" asset={present.skillSeed} />
+                  </TableCell>
+                </TableRow>
+              )}
               {present.trophy && (
                 <TableRow>
                   <TableCell style={{ fontWeight: 600 }}>Trophy</TableCell>

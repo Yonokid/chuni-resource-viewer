@@ -65,7 +65,7 @@ const CharaPage = () => {
                 {chara.addImages.map((c) => (
                   <Chip
                     key={c.id}
-                    label={`Costume via ${c.name}`}
+                    label={`Costume via ${c.name}${c.rank ? ` (rank ${c.rank})` : ""}`}
                     component={Link}
                     href={`/chuni/chara/${c.id}`}
                     clickable
@@ -73,7 +73,7 @@ const CharaPage = () => {
                 ))}
               </Stack>
             </Box>
-            <Card variant="outlined">
+            {chara.skillId && <Card variant="outlined">
               <CardActionArea component={Link} href={`/chuni/skill/${chara.skillId}`}>
                 <CardContent>
                   <Typography variant="overline" color="text.secondary">
@@ -82,7 +82,7 @@ const CharaPage = () => {
                   <Typography variant="h6">{chara.firstSkill}</Typography>
                 </CardContent>
               </CardActionArea>
-            </Card>
+            </Card>}
             <InfoTable
               maxWidth={600}
               rows={[
@@ -96,6 +96,9 @@ const CharaPage = () => {
                     `Rank ${r.index} Skill`,
                     <AssetLink key={r.index} type="skill" asset={r.skill!} />,
                   ]),
+                ...chara.ranks
+                  .filter((r) => r.skillSeed)
+                  .map((r): [string, React.ReactNode] => [`Rank ${r.index} Reward`, r.skillSeed!.name]),
               ]}
             />
             {chara.flavorText.length > 0 && (

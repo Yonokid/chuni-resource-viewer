@@ -23,6 +23,8 @@ export interface EventSubstance {
   quests?: AssetRef[];
   duel?: AssetRef | null;
   mapFilter?: AssetRef | null;
+  rights?: AssetRef[]; // kind rightsInfo (2.00+)
+  battleReward?: AssetRef | null; // kind battleReward (2.00+)
 }
 
 export interface Event extends BaseData {

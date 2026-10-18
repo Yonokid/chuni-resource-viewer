@@ -26,7 +26,9 @@ export interface Skill extends BaseData {
   targetCharas: AssetRef[];
   explainText: string[];
   forceLv?: number;
-  growthUseNum?: number;
+  growthUseNum?: number | number[]; // list per level from 2.00
+  growthExLv?: number[];
+  seedName?: string;
   defaultHave?: boolean;
   chgInvalidColor?: boolean;
   substances?: Substance[];

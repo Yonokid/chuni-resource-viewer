@@ -13,6 +13,10 @@ export interface Reward extends BaseData {
   trophy: AssetRef | null;
   chara: AssetRef | null;
   skill: AssetRef | null;
+  skillSeed?: AssetRef | null; // 2.00+
+  skillSeedCount?: number;
+  avatarAccessory?: AssetRef | null;
+  frame?: AssetRef | null;
   namePlate: AssetRef | null;
   music: AssetRef | null;
   mapIcon: AssetRef | null;

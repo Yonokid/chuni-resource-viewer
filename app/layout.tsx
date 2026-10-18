@@ -27,6 +27,14 @@ import {
   SportsMma as SportsMmaIcon,
   RecordVoiceOver as RecordVoiceOverIcon,
   PinDrop as PinDropIcon,
+  Face as FaceIcon,
+  FilterFrames as FilterFramesIcon,
+  Chat as ChatIcon,
+  Casino as CasinoIcon,
+  MilitaryTech as MilitaryTechIcon,
+  Style as StyleIcon,
+  Groups as GroupsIcon,
+  PlaylistAddCheck as PlaylistAddCheckIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -70,6 +78,14 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     SportsMmaIcon: <SportsMmaIcon />,
     RecordVoiceOverIcon: <RecordVoiceOverIcon />,
     PinDropIcon: <PinDropIcon />,
+    FaceIcon: <FaceIcon />,
+    FilterFramesIcon: <FilterFramesIcon />,
+    ChatIcon: <ChatIcon />,
+    CasinoIcon: <CasinoIcon />,
+    MilitaryTechIcon: <MilitaryTechIcon />,
+    StyleIcon: <StyleIcon />,
+    GroupsIcon: <GroupsIcon />,
+    PlaylistAddCheckIcon: <PlaylistAddCheckIcon />,
   };
 
   return iconMap[iconName];

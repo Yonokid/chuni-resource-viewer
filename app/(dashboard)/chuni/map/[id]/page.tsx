@@ -41,10 +41,10 @@ const AreaRow = ({ area, index }: { area: MapAreaInfo; index: number }) => {
       <TableCell>
         {grids.length ? Math.max(...grids.map((grid) => grid.index)) : "—"}
       </TableCell>
-      <TableCell>{gaugeTiles(area.normalGauge, "maxGauge")}</TableCell>
+      <TableCell>{gaugeTiles(area.normalGauge ?? area.gauge, "maxGauge")}</TableCell>
       <TableCell>
         <AssetLink type="music" asset={area.music} />
-        {area.music && (
+        {area.music && area.challengeGauge && (
           <div>Norma {gaugeTiles(area.challengeGauge, "normGauge")}</div>
         )}
       </TableCell>

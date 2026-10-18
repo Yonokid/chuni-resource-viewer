@@ -19,6 +19,8 @@ const KIND_LABELS: Record<string, string> = {
   course: "Courses",
   quest: "Quests",
   duel: "Duel",
+  rightsInfo: "Copyright notices",
+  battleReward: "Net battle reward",
 };
 
 const EventPage = () => {
@@ -67,6 +69,11 @@ const EventPage = () => {
                       ))}
                     </Stack>
                   ),
+                ],
+                ["Battle Reward", sub?.battleReward?.name],
+                [
+                  "Copyright Notices",
+                  sub?.rights && sub.rights.length > 0 && sub.rights.map((r) => r.name).join(", "),
                 ],
                 ["Duel", sub?.duel && <AssetLink type="duel" asset={sub.duel} />],
                 ["Movie", sub?.movie && <AssetLink type="movie" asset={sub.movie} />],
