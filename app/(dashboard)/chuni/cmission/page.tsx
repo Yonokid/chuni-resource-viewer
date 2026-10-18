@@ -4,6 +4,7 @@ import { Divider, List, ListItemAvatar, ListItemButton, ListItemText } from "@mu
 import DataList, { BaseData } from "@/app/Components/Data";
 import { AssetRef } from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
+import { charaImage } from "./charaImage";
 
 export interface CMissionRound {
   reward: AssetRef | null;
@@ -30,9 +31,6 @@ export interface CMission extends BaseData {
   rounds: CMissionRound[];
   stages: CMissionStage[];
 }
-
-export const charaImage = (chara: AssetRef) =>
-  getBaseUrl("chuni", `chara/CHU_UI_Character_${(chara.id / 10).toString().padStart(4, "0")}_00_02.webp`);
 
 const Missions = () => {
   return (

@@ -1,5 +1,6 @@
 "use client";
-import { CMission, charaImage } from "../page";
+import { CMission } from "../page";
+import { charaImage } from "../charaImage";
 import DataDetail from "@/app/Components/DataDetail";
 import AssetLink from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
