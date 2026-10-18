@@ -92,6 +92,9 @@ const collectScreen = (gltf: GLTF, back: THREE.Scene, front: THREE.Scene) => {
   });
 };
 
+// UnrealBloomPass mip weights at radius 0.4: 0.2·f + 0.48 for f = 1, 0.8, 0.6, 0.4, 0.2.
+const BLOOM_GAIN = 3;
+
 /** Post filters of the background scene; returns a per-frame updater for animated parameters. */
 const addFilters = (composer: EffectComposer, filters: Filter[]) => {
   const updates = filters.map((f) => {
@@ -104,10 +107,11 @@ const addFilters = (composer: EffectComposer, filters: Filter[]) => {
       const v = Object.fromEntries(sampleTint(f, time).map((x, i) => [f.params[i], x]));
       if (pass instanceof UnrealBloomPass) {
         // ponytail: BloomRange is subtracted from the colour (FilterBloom 0x5f1c50), so it's the threshold; Bloom2
-        // passes it with its RetinaRatio, guessed here as range / ratio. Intensity is the strength (FilterBloom's
-        // is ~3x FilterBloom2's). Attenuation, stars and Bloom2's tone mapping are ignored.
+        // passes it with its RetinaRatio, guessed here as range / ratio. Intensity is the total glow added (FilterBloom's
+        // is ~3x FilterBloom2's); three's five mips sum to ~3x `strength` at radius 0.4, hence BLOOM_GAIN.
+        // Attenuation, stars and Bloom2's tone mapping are ignored.
         pass.threshold = f.kind === "bloom2" ? Math.min(v.threshold / (v.retina || 1), 1) : v.threshold;
-        pass.strength = f.kind === "bloom" ? v.intensity / 3 : v.intensity;
+        pass.strength = (f.kind === "bloom" ? v.intensity / 3 : v.intensity) / BLOOM_GAIN;
       } else {
         const u = (pass as ShaderPass).uniforms;
         u.color.value.set(v["color.r"], v["color.g"], v["color.b"]);
