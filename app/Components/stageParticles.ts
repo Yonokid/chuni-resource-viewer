@@ -48,11 +48,15 @@ const fragmentShader = `
   uniform sampler2D map;
   uniform vec2 grid;
   uniform vec4 tint;
+  uniform float aspect; // cell width / height: AIR's 8x128 and 1024x16 streaks stay thin instead of square
   varying vec4 vColor;
   varying float vFrame;
   void main() {
+    vec2 uv = gl_PointCoord - 0.5;
+    uv = (aspect < 1.0 ? vec2(uv.x / aspect, uv.y) : vec2(uv.x, uv.y * aspect)) + 0.5;
+    if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) discard;
     vec2 cell = vec2(mod(vFrame, grid.x), floor(vFrame / grid.x));
-    vec4 c = texture2D(map, (cell + gl_PointCoord) / grid) * vColor * tint;
+    vec4 c = texture2D(map, (cell + uv) / grid) * vColor * tint;
     if (c.a < 0.004) discard;
     gl_FragColor = c;
   }`;
@@ -112,6 +116,7 @@ export class Emitter {
       uniforms: {
         map: { value: map },
         grid: { value: new THREE.Vector2(def.cols, rows) },
+        aspect: { value: map.image ? (map.image.width / def.cols) / (map.image.height / rows) : 1 },
         tint: { value: new THREE.Vector4(t[0], t[1], t[2], t[3]) },
         scale: { value: 500 },
         maxSize: { value: 64 },
