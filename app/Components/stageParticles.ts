@@ -5,7 +5,8 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 export interface ParticleDef {
   shape: number; // 2/11/12 box (full size), 3 disc (radius size[0]), else sphere (radius size[0])
   size: number[];
-  count: number;
+  count: number; // live cap: min(max particles, emission rate × life)
+  emit?: number; // particles emitted per frame (huge when everything spawns at once)
   life: number;
   startSize: number[];
   endSize: number[]; // [-1, -1] = keep the start size
@@ -24,17 +25,21 @@ export interface ParticleDef {
 }
 
 const MAX_PARTICLES = 3000;
+const MAX_POINT_SIZE = 64; // D3DRS_POINTSIZE_MAX default, in 1080p pixels
 
 const vertexShader = `
   attribute float aSize;
   attribute vec4 aColor;
   attribute float aFrame;
   uniform float scale;
+  uniform float maxSize;
   varying vec4 vColor;
   varying float vFrame;
   void main() {
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = aSize * scale / max(-mv.z, 0.001);
+    // sea draws D3D9 point sprites: perspective size, clamped to D3DRS_POINTSIZE_MAX (64 px by default), which keeps
+    // emitters right in front of the camera (World's End's bubbles and noise grid) from filling the screen
+    gl_PointSize = min(aSize * scale / max(-mv.z, 0.001), maxSize);
     gl_Position = projectionMatrix * mv;
     vColor = aColor;
     vFrame = aFrame;
@@ -109,6 +114,7 @@ export class Emitter {
         grid: { value: new THREE.Vector2(def.cols, rows) },
         tint: { value: new THREE.Vector4(t[0], t[1], t[2], t[3]) },
         scale: { value: 500 },
+        maxSize: { value: 64 },
       },
       transparent: true,
       depthWrite: false,
@@ -148,7 +154,8 @@ export class Emitter {
   step(frames: number) {
     frames *= this.def.rate ?? 1;
     const { life } = this.def;
-    this.spawnDebt += (this.n / Math.max(life, 1)) * frames;
+    // the steady state keeps n alive; a slower emitter (the World's End bubbles: 2 every 200 frames) keeps fewer
+    this.spawnDebt += Math.min(this.def.emit ?? Infinity, this.n / Math.max(life, 1)) * frames;
     while (this.spawnDebt >= 1) {
       this.spawn(this.next);
       this.next = (this.next + 1) % this.n;
@@ -181,8 +188,11 @@ export class Emitter {
     color.needsUpdate = sizeAttr.needsUpdate = frameAttr.needsUpdate = true;
   }
 
-  setScale(pixelsPerUnitAtOne: number) {
-    (this.points.material as THREE.ShaderMaterial).uniforms.scale.value = pixelsPerUnitAtOne;
+  /** Pixels per world unit at distance 1, and canvas pixels per game pixel (the game renders 1920x1080). */
+  setScale(pixelsPerUnitAtOne: number, pixelsPerGamePixel: number) {
+    const u = (this.points.material as THREE.ShaderMaterial).uniforms;
+    u.scale.value = pixelsPerUnitAtOne;
+    u.maxSize.value = MAX_POINT_SIZE * pixelsPerGamePixel;
   }
 }
 

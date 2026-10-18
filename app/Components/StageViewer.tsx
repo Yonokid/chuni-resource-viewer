@@ -507,7 +507,7 @@ const StageViewer = ({ background, lane }: { background?: string; lane?: string 
       // point sprites: pixels per world unit at distance 1 for the background camera
       const pxScale = renderer.domElement.height / (2 * Math.tan((bgView.fov * Math.PI) / 360));
       for (const e of emitters) {
-        e.setScale(pxScale);
+        e.setScale(pxScale, renderer.domElement.height / 1080);
         e.step(Math.min(dt * 60, 4));
       }
       for (const { tint, rate, mats } of tints) {
