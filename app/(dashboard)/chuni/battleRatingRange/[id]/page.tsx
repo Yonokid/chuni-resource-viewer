@@ -1,8 +1,8 @@
 "use client";
-import { BattleRatingRange, level } from "../page";
+import { BattleRatingRange } from "../page";
 import DataDetail from "@/app/Components/DataDetail";
 import InfoTable from "@/app/Components/InfoTable";
-import { getBaseUrl } from "@/app/utils/global";
+import { getBaseUrl, level } from "@/app/utils/global";
 import { Fragment } from "react";
 import { Typography } from "@mui/material";
 

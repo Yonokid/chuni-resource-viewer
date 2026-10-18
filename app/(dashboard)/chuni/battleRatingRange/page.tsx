@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
-import { getBaseUrl } from "@/app/utils/global";
+import { getBaseUrl, level } from "@/app/utils/global";
 
 export interface BattleRatingRange extends BaseData {
   minBattleRating: number;
@@ -10,8 +10,6 @@ export interface BattleRatingRange extends BaseData {
   maxMusicLevel: number;
   selectableByCPU: boolean[];
 }
-
-export const level = (n: number) => (n / 10).toFixed(1);
 
 const BattleRatingRanges = () => {
   return (

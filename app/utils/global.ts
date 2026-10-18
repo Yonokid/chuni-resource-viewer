@@ -59,3 +59,4 @@ export function getVersion(game: string): string {
     Object.keys(gameVersions[game])[0]
   );
 }
+export const level = (n: number) => (n / 10).toFixed(1);
