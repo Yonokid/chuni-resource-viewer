@@ -15,6 +15,8 @@ export interface Reward extends BaseData {
   skill: AssetRef | null;
   namePlate: AssetRef | null;
   music: AssetRef | null;
+  mapIcon: AssetRef | null;
+  systemVoice: AssetRef | null;
 }
 
 const Rewards = () => {

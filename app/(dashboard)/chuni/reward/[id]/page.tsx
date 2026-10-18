@@ -31,7 +31,7 @@ const RewardPage = () => {
                   <TableCell align="right">{reward.gamePoint}</TableCell>
                 </TableRow>
               )}
-              {(["ticket", "trophy", "chara", "skill", "namePlate", "music"] as const).map(
+              {(["ticket", "trophy", "chara", "skill", "namePlate", "music", "mapIcon", "systemVoice"] as const).map(
                 (key) =>
                   reward[key] && (
                     <TableRow key={key}>
