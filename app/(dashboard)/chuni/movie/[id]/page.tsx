@@ -1,36 +1,30 @@
-import type { Metadata } from "next";
-import { SERVER_URL, gameVersions } from "@/app/utils/global";
-import type { Movie } from "../page";
-import MovieView from "./MovieView";
+"use client";
+import { Movie } from "../page";
+import DataDetail from "@/app/Components/DataDetail";
+import { getBaseUrl } from "@/app/utils/global";
+import { Fragment } from "react";
+import { Typography, Box } from "@mui/material";
 
-// Crawlers (Discord etc.) have no localStorage, so version comes from ?v= or defaults to the first one.
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ v?: string }>;
-}): Promise<Metadata> {
-  const { id } = await params;
-  const { v } = await searchParams;
-  const base = `${SERVER_URL}/chuni/${v ?? Object.keys(gameVersions.chuni)[0]}/movie`;
-  const movies: Movie[] = await fetch(`${base}/movie.json`)
-    .then((r) => r.json())
-    .catch(() => []);
-  const movie = movies.find((m) => m.id === parseInt(id, 10));
-  if (!movie) return {};
+const MoviePage = () => {
+  return (
+    <DataDetail
+      endpoint={getBaseUrl("chuni", "movie/movie.json")}
+      render={(movie: Movie) => (
+        <Fragment>
+          <Typography variant="h4">{movie.name}</Typography>
+          <Box sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+            <video
+              controls
+              preload="metadata"
+              style={{ maxWidth: "100%", width: 800 }}
+            >
+              <source src={getBaseUrl("chuni", `movie/${movie.mp4name}`)} type="video/mp4" />
+            </video>
+          </Box>
+        </Fragment>
+      )}
+    />
+  );
+};
 
-  const video = `${base}/${movie.mp4name}`;
-  return {
-    title: movie.name,
-    openGraph: {
-      title: movie.name,
-      type: "video.other",
-      videos: [{ url: video, secureUrl: video, type: "video/mp4", width: 1920, height: 1080 }],
-    },
-  };
-}
-
-export default function MoviePage() {
-  return <MovieView />;
-}
+export default MoviePage;
