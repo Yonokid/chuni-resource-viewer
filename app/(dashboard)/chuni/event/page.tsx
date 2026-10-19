@@ -48,13 +48,14 @@ const Events = () => {
         <List>
           {data.map((item: Event, index: number) => (
             <Fragment key={index}>
-              <ListItemButton component="a" href={`event/${item.id}`}>
+              <ListItemButton component="a" href={`event/${item.id}`} sx={{ flexDirection: { xs: "column", sm: "row" }, alignItems: { xs: "stretch", sm: "center" } }}>
                 <ListItemText primary={item.name} />
                 <Image
                   src={getBaseUrl("chuni", `event/${item.ddsBannerName}`)}
                   alt=" "
                   width={640}
                   height={112}
+                  style={{ maxWidth: "100%", height: "auto" }}
                 ></Image>
               </ListItemButton>
               <Divider />

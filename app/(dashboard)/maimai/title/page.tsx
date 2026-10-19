@@ -102,7 +102,7 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
-        <FormControl size="small" sx={{ minWidth: 200 }}>
+        <FormControl size="small" sx={{ minWidth: 200, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}>
           <InputLabel>Unlock Type</InputLabel>
           <Select
             value={selectedUnlockType}
@@ -117,7 +117,7 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
             ))}
           </Select>
         </FormControl>
-        <FormControl size="small" sx={{ minWidth: 180 }}>
+        <FormControl size="small" sx={{ minWidth: 180, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}>
           <InputLabel>Version</InputLabel>
           <Select
             value={selectedVersion}
@@ -137,12 +137,12 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
       <List>
         {filtered.map((item: Title, index: number) => (
           <Fragment key={index}>
-            <ListItemButton component="a" href={`title/${item.id}`}>
+            <ListItemButton component="a" href={`title/${item.id}`} sx={{ flexDirection: { xs: "column", sm: "row" }, alignItems: { xs: "stretch", sm: "center" } }}>
               <ListItemText>
                 <MaimaiTitle key={item.id} item={item} />
               </ListItemText>
               <ListItemText
-                sx={{ textAlign: "right", flex: "0 0 45%" }}
+                sx={{ textAlign: { xs: "left", sm: "right" }, flex: { xs: "1 1 auto", sm: "0 0 45%" } }}
                 primary={item.normText}
               />
             </ListItemButton>
