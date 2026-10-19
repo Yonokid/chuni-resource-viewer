@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 export interface BaseData {
@@ -18,6 +18,8 @@ interface Endpoint<T> {
   sorts?: Record<string, (a: T, b: T) => number>;
 }
 
+const PAGE_SIZE = 50;
+
 const DataList = <T extends BaseData>({
   endpoint,
   render,
@@ -30,6 +32,8 @@ const DataList = <T extends BaseData>({
   const [sortKey, setSortKey] = useState("ID");
   const [desc, setDesc] = useState(false);
   const [search, setSearch] = useState("");
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const sentinel = useRef<HTMLDivElement>(null);
 
   const options = useMemo<Record<string, (a: T, b: T) => number>>(
     () => ({
@@ -62,6 +66,20 @@ const DataList = <T extends BaseData>({
         setLoading(false);
       });
   }, [endpoint]);
+
+  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc]);
+
+  const more = sortable && !!sorted && limit < sorted.length;
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!more || !el) return;
+    const io = new IntersectionObserver(
+      ([e]) => e.isIntersecting && setLimit((l) => l + PAGE_SIZE),
+      { rootMargin: "400px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [more, limit]);
 
   if (loading) {
     if (skeleton) {
@@ -109,7 +127,8 @@ const DataList = <T extends BaseData>({
           </FormControl>
         </Box>
       )}
-      {render(sorted!)}
+      {render(sortable ? sorted!.slice(0, limit) : sorted!)}
+      {more && <div ref={sentinel} style={{ height: 1, width: "100%" }} />}
     </>
   );
 };
