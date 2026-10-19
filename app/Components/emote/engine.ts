@@ -74,7 +74,10 @@ const contentAt = (frames: Frame[], t: number): Content | null => {
   if (f.type === 3 && n && n.type !== 0 && n.content && n.time > f.time) {
     const u = (t - f.time) / (n.time - f.time);
     for (const k of Object.keys(DEFAULTS)) {
-      if (k in c || k in n.content) c[k] = lerp((c[k] ?? DEFAULTS[k]) as number, (n.content[k] ?? DEFAULTS[k]) as number, u);
+      if (!(k in c || k in n.content)) continue;
+      const from = (c[k] ?? DEFAULTS[k]) as number, to = (n.content[k] ?? DEFAULTS[k]) as number;
+      // angles are stored mod 360 (355 means -5): turn the short way round instead of sweeping through 180
+      c[k] = k === "angle" ? from + (((((to - from) % 360) + 540) % 360) - 180) * u : lerp(from, to, u);
     }
   }
   return c;
