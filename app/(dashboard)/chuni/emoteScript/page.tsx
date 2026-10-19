@@ -2,6 +2,7 @@
 import React, { Fragment } from "react";
 import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
+import { dialogText } from "@/app/Components/emote/dialogText";
 import { getBaseUrl } from "@/app/utils/global";
 
 export interface EmoteTimelineSlot {
@@ -20,9 +21,6 @@ export interface EmoteScript extends BaseData {
   isChangeDialog?: number;
   textDialog?: string;
 }
-
-// $n is the game's line break inside dialog text
-export const dialogText = (text?: string) => (text ?? "").replaceAll("$n", "\n");
 
 const EmoteScripts = () => {
   return (

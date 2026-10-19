@@ -1,5 +1,6 @@
 "use client";
-import { dialogText, EmoteScript } from "../page";
+import { EmoteScript } from "../page";
+import { dialogText } from "@/app/Components/emote/dialogText";
 import DataDetail from "@/app/Components/DataDetail";
 import InfoTable from "@/app/Components/InfoTable";
 import { getBaseUrl } from "@/app/utils/global";
