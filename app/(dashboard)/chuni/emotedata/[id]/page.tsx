@@ -6,7 +6,7 @@ import EmotePlayer, { useEmote } from "@/app/Components/emote/EmotePlayer";
 import { getBaseUrl } from "@/app/utils/global";
 import { Box, FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography } from "@mui/material";
 
-const Viewer = ({ chara }: { chara: "yuni" | "navi" }) => {
+const Viewer = ({ chara }: { chara: "uni" | "navi" }) => {
   const { renderer } = useEmote(chara);
   const [main, setMain] = useState("");
   const [diff, setDiff] = useState("");
@@ -36,9 +36,6 @@ const Viewer = ({ chara }: { chara: "yuni" | "navi" }) => {
       <Paper variant="outlined" sx={{ p: 2, display: "inline-block", alignSelf: "flex-start" }}>
         <EmotePlayer chara={chara} main={main || initial} diffs={diff ? [diff] : []} height={640} />
       </Paper>
-      <Typography variant="body2" color="text.secondary">
-        Pose renderer only: no mesh deformation, masks or physics yet.
-      </Typography>
     </Stack>
   );
 };
@@ -54,7 +51,7 @@ const EmoteDataPage = () => {
               {item.name}
             </Typography>
           </Box>
-          <Viewer chara={item.name as "yuni" | "navi"} />
+          <Viewer chara={item.name as "uni" | "navi"} />
         </Stack>
       )}
     />

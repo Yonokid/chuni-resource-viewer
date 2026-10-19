@@ -31,7 +31,7 @@ export const useEmote = (chara: string) => {
 };
 
 interface EmotePlayerProps {
-  chara: "yuni" | "navi";
+  chara: "uni" | "navi";
   /** timeline labels (metadata.timelineControl[].label): body motion, then face/effect overlays */
   main?: string;
   diffs?: string[];
@@ -42,7 +42,7 @@ interface EmotePlayerProps {
 const EmotePlayer = ({ chara, main, diffs = [], height = 480 }: EmotePlayerProps) => {
   const { renderer, error } = useEmote(chara);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const width = Math.round(height * (chara === "yuni" ? 0.6 : 0.8));
+  const width = Math.round(height * (chara === "uni" ? 0.6 : 0.8));
   const diffKey = diffs.join("\n");
 
   useEffect(() => {

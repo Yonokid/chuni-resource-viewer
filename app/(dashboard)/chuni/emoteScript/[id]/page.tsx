@@ -81,7 +81,7 @@ const EmoteScriptPage = () => {
                 const diffId = [...slots].reverse().find((t) => t.diff[c])?.diff[c];
                 const main = mainId ? mains.get(mainId) : undefined;
                 if (!main) return null;
-                const chara = main.startsWith("Navi") ? "navi" : "yuni";
+                const chara = main.startsWith("Navi") ? "navi" : "uni";
                 return (
                   <Paper key={c} variant="outlined" sx={{ p: 1 }}>
                     <EmotePlayer chara={chara} main={main} diffs={diffId && diffs.get(diffId) ? [diffs.get(diffId)!] : []} height={420} />
@@ -95,7 +95,7 @@ const EmoteScriptPage = () => {
                 Character atlases
               </Typography>
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                {["yuni", "navi"].map((name) => (
+                {["uni", "navi"].map((name) => (
                   <Paper key={name} variant="outlined" sx={{ p: 1, lineHeight: 0 }}>
                     <img
                       src={getBaseUrl("chuni", `emotedata/${name}.webp`)}
