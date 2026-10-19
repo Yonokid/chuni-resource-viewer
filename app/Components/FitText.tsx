@@ -23,7 +23,7 @@ const FitText: React.FC<FitTextProps> = ({
       if (textRef.current) {
         const parentElement = textRef.current.parentElement;
         if (parentElement) {
-          const parentWidth = textRef.current.parentElement.clientWidth;
+          const parentWidth = parentElement.clientWidth;
           const textWidth = textRef.current.scrollWidth;
 
           if (textWidth > parentWidth) {

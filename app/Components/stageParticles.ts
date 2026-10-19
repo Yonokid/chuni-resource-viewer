@@ -116,7 +116,7 @@ export class Emitter {
       uniforms: {
         map: { value: map },
         grid: { value: new THREE.Vector2(def.cols, rows) },
-        aspect: { value: map.image ? (map.image.width / def.cols) / (map.image.height / rows) : 1 },
+        aspect: { value: map.image ? ((map.image as { width: number; height: number }).width / def.cols) / ((map.image as { width: number; height: number }).height / rows) : 1 },
         tint: { value: new THREE.Vector4(t[0], t[1], t[2], t[3]) },
         scale: { value: 500 },
         maxSize: { value: 64 },

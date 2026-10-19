@@ -54,13 +54,13 @@ import "@fontsource/roboto/700.css";
 
 const GLOBAL_SEGMENTS = ["about", "settings", ""];
 
-const GAMES: { [key: string]: { title: string; icon: JSX.Element } } = {
+const GAMES: { [key: string]: { title: string; icon: React.JSX.Element } } = {
   chuni: { title: "CHUNITHM", icon: <SportsEsportsIcon /> },
   maimai: { title: "maimai DX", icon: <SportsEsportsIcon /> },
 };
 
-const getIconComponent = (iconName: string): JSX.Element | undefined => {
-  const iconMap: { [key: string]: JSX.Element } = {
+const getIconComponent = (iconName: string): React.JSX.Element | undefined => {
+  const iconMap: { [key: string]: React.JSX.Element } = {
     HomeIcon: <HomeIcon />,
     AlbumIcon: <AlbumIcon />,
     Person2Icon: <Person2Icon />,
