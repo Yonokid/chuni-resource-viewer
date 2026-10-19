@@ -94,15 +94,15 @@ const DataList = <T extends BaseData>({
   return (
     <>
       {sortable && (
-        <Box sx={{ display: "flex", gap: 1, p: 1, width: "100%" }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, p: 1, width: "100%" }}>
         <TextField
           label="Search"
           size="small"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{ minWidth: 200 }}
+          sx={{ minWidth: 200, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}
         />
-          <FormControl size="small" sx={{ minWidth: 160 }}>
+          <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
             <InputLabel>Sort by</InputLabel>
             <Select
               value={sortKey}
@@ -116,7 +116,7 @@ const DataList = <T extends BaseData>({
               ))}
             </Select>
           </FormControl>
-          <FormControl size="small" sx={{ minWidth: 130 }}>
+          <FormControl size="small" sx={{ minWidth: 130, flex: { xs: 1, sm: "0 1 auto" } }}>
             <Select
               value={desc ? "desc" : "asc"}
               onChange={(e) => setDesc(e.target.value === "desc")}

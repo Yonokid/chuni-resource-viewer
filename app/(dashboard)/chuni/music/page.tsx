@@ -46,12 +46,12 @@ const SkeletonGrid = (count: number) => {
     for (let j = 0; j < 3; j++) {
       row.push(
         <div key={`${i}-${j}`} style={{ margin: "8px" }}>
-          <Skeleton variant="rectangular" width={300} height={280} />
+          <Skeleton variant="rectangular" sx={{ width: { xs: "calc(100vw - 48px)", sm: 300 } }} height={280} />
         </div>,
       );
     }
     rows.push(
-      <div key={i} style={{ display: "flex" }}>
+      <div key={i} style={{ display: "flex", flexWrap: "wrap" }}>
         {row}
       </div>,
     );
@@ -74,12 +74,12 @@ const SongCards = (props: MediaProps) => {
         <Fragment>
           {data &&
             data.map((item: Song, index: number) => (
-              <Grid key={index}>
+              <Grid key={index} size={{ xs: 12, sm: "auto" }}>
                 <Link
                   href={`music/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Card sx={{ width: 300 }}>
+                  <Card sx={{ width: { xs: "100%", sm: 300 } }}>
                     <CardActionArea>
                       <CardContent sx={{ padding: 0 }}>
                         <>
