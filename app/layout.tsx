@@ -40,6 +40,7 @@ import {
   PlaylistAddCheck as PlaylistAddCheckIcon,
   Assignment as AssignmentIcon,
   LockOpen as LockOpenIcon,
+  Pets as PetsIcon,
 } from "@mui/icons-material";
 import { type Navigation } from "@toolpad/core";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -96,6 +97,7 @@ const getIconComponent = (iconName: string): JSX.Element | undefined => {
     PlaylistAddCheckIcon: <PlaylistAddCheckIcon />,
     AssignmentIcon: <AssignmentIcon />,
     LockOpenIcon: <LockOpenIcon />,
+    PetsIcon: <PetsIcon />,
   };
 
   return iconMap[iconName];

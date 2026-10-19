@@ -20,6 +20,7 @@ export interface Reward extends BaseData {
   namePlate: AssetRef | null;
   music: AssetRef | null;
   mapIcon: AssetRef | null;
+  mate?: AssetRef | null;
   systemVoice: AssetRef | null;
 }
 
