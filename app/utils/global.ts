@@ -54,6 +54,11 @@ export function setVersion(game: string, version: string): void {
   localStorage.setItem(`${game}_version`, version);
 }
 export function getVersion(game: string): string {
+  const v = new URLSearchParams(window.location.search).get("v");
+  if (v && v in gameVersions[game]) {
+    if (localStorage.getItem(`${game}_version`) !== v) setVersion(game, v);
+    return v;
+  }
   return (
     localStorage.getItem(`${game}_version`) ??
     Object.keys(gameVersions[game])[0]

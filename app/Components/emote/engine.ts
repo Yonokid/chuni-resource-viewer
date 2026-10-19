@@ -50,7 +50,8 @@ export interface EmoteJson {
     charaProfile: { pixelMarker: { top: number; bottom: number; boundsLeft: number; boundsRight: number } };
   };
   object: Record<string, { motion: Record<string, Motion> }>;
-  source: { tex: { icon: Record<string, Icon> } };
+  // one entry per texture atlas: `tex`, or `tex#000`... when a model has several; layers name theirs in `src`
+  source: Record<string, { icon: Record<string, Icon>; texture: { pixel: string } }>;
 }
 
 const DEFAULTS: Record<string, number | number[]> = {
@@ -110,7 +111,7 @@ const localMatrix = (order: number[], c: Record<string, number | number[]>): Mat
 };
 
 interface Ctx { x: number; y: number; z: number; m: Matrix; opa: number }
-interface Draw { ctx: Ctx; icon: Icon; ox: number; oy: number }
+interface Draw { ctx: Ctx; icon: Icon; atlas: CanvasImageSource; ox: number; oy: number }
 
 const sampleVariable = (frames: Frame[], t: number): number => {
   const ks = frames.filter((f) => f.type !== 0 && f.content).map((f) => [f.time, (f.content as { value: number }).value]);
@@ -132,7 +133,13 @@ export class EmoteRenderer {
   private variables = new Map<string, number>();
   private draws: Draw[] = [];
 
-  constructor(private model: EmoteJson, private atlas: CanvasImageSource) {}
+  /** atlases: decoded texture per source key (model.source), e.g. { tex: img } */
+  constructor(private model: EmoteJson, private atlases: Record<string, CanvasImageSource>) {}
+
+  /** width / height of the character's bounds, for sizing the canvas */
+  aspect() {
+    return characterAspect(this.model);
+  }
 
   timelines() {
     return this.model.metadata.timelineControl;
@@ -177,8 +184,9 @@ export class EmoteRenderer {
         opa: Math.round((ctx.opa * (cc.opa as number)) / 255),
       };
       const src = c.src as string | undefined, icon = c.icon as string | undefined;
-      if (src === "tex" && icon && this.model.source.tex.icon[icon]) {
-        this.draws.push({ ctx: cur, icon: this.model.source.tex.icon[icon], ox: cc.ox as number, oy: cc.oy as number });
+      const sprite = src && icon ? this.model.source[src]?.icon[icon] : undefined;
+      if (src && sprite && this.atlases[src]) {
+        this.draws.push({ ctx: cur, icon: sprite, atlas: this.atlases[src], ox: cc.ox as number, oy: cc.oy as number });
       } else if (src && icon && this.model.object[src]?.motion[icon] && !stack.has(`${src}/${icon}`)) {
         const sub = this.model.object[src].motion[icon];
         const next = new Set(stack).add(`${src}/${icon}`);
@@ -197,25 +205,32 @@ export class EmoteRenderer {
     this.draws = this.draws.filter((d) => d.ctx.opa > 0).sort((a, b) => a.ctx.z - b.ctx.z);
 
     const pm = this.model.metadata.charaProfile.pixelMarker;
-    const scale = (height * 0.96) / (pm.bottom - pm.top);
+    const scale = Math.min((height * 0.96) / (pm.bottom - pm.top), (width * 0.96) / (pm.boundsRight - pm.boundsLeft));
     const cy = (pm.top + pm.bottom) / 2;
+    const cx = (pm.boundsLeft + pm.boundsRight) / 2;
     g.setTransform(1, 0, 0, 1, 0, 0);
     g.clearRect(0, 0, width, height);
     g.imageSmoothingQuality = "high";
-    for (const { ctx, icon, ox, oy } of this.draws) {
+    for (const { ctx, icon, atlas, ox, oy } of this.draws) {
       const res = icon.resolution || 1;
       const ow = ox + icon.originX, oh = oy + icon.originY;
       const s = scale / res;
       g.setTransform(
         ctx.m[0] * s, ctx.m[2] * s, ctx.m[1] * s, ctx.m[3] * s,
-        scale * (ctx.x - (ctx.m[0] * ow + ctx.m[1] * oh)) + width / 2,
+        scale * (ctx.x - (ctx.m[0] * ow + ctx.m[1] * oh) - cx) + width / 2,
         scale * (ctx.y - (ctx.m[2] * ow + ctx.m[3] * oh)) + height / 2 - scale * cy,
       );
       g.globalAlpha = ctx.opa / 255;
       const cw = Math.ceil(icon.width * res), ch = Math.ceil(icon.height * res);
-      g.drawImage(this.atlas, icon.left, icon.top, cw, ch, 0, 0, cw, ch);
+      g.drawImage(atlas, icon.left, icon.top, cw, ch, 0, 0, cw, ch);
     }
     g.setTransform(1, 0, 0, 1, 0, 0);
     g.globalAlpha = 1;
   }
 }
+
+/** Width / height of the character's bounds, for sizing the canvas. */
+export const characterAspect = (model: EmoteJson) => {
+  const pm = model.metadata.charaProfile.pixelMarker;
+  return (pm.boundsRight - pm.boundsLeft) / (pm.bottom - pm.top);
+};

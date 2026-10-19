@@ -6,7 +6,7 @@ import EmotePlayer, { useEmote } from "@/app/Components/emote/EmotePlayer";
 import { getBaseUrl } from "@/app/utils/global";
 import { Box, FormControl, InputLabel, MenuItem, Paper, Select, Stack, Typography } from "@mui/material";
 
-const Viewer = ({ chara }: { chara: "uni" | "navi" }) => {
+const Viewer = ({ chara }: { chara: string }) => {
   const { renderer } = useEmote(chara);
   const [main, setMain] = useState("");
   const [diff, setDiff] = useState("");
@@ -48,10 +48,10 @@ const EmoteDataPage = () => {
         <Stack spacing={3}>
           <Box>
             <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
-              {item.name}
+              {item.title ?? item.name}
             </Typography>
           </Box>
-          <Viewer chara={item.name as "uni" | "navi"} />
+          <Viewer chara={item.name} />
         </Stack>
       )}
     />

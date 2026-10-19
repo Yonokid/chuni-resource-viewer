@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { getBaseUrl } from "@/app/utils/global";
-import { EmoteJson, EmoteRenderer, Timeline } from "./engine";
+import { characterAspect, EmoteJson, EmoteRenderer, Timeline } from "./engine";
 
 const FPS = 60; // timeline clock is in frames
 
@@ -20,9 +20,13 @@ export const useEmote = (chara: string) => {
   useEffect(() => {
     let cancelled = false;
     setRenderer(null);
-    Promise.all([fetch(getBaseUrl("chuni", `emotedata/${chara}.json`)).then((r) => r.json() as Promise<EmoteJson>), loadImage(getBaseUrl("chuni", `emotedata/${chara}.webp`))])
-      .then(([json, atlas]) => !cancelled && setRenderer(new EmoteRenderer(json, atlas)))
-      .catch(() => !cancelled && setError(true));
+    setError(false);
+    (async () => {
+      const json: EmoteJson = await fetch(getBaseUrl("chuni", `emotedata/${chara}.json`)).then((r) => r.json());
+      const keys = Object.keys(json.source);
+      const images = await Promise.all(keys.map((k) => loadImage(getBaseUrl("chuni", `emotedata/${json.source[k].texture.pixel}`))));
+      if (!cancelled) setRenderer(new EmoteRenderer(json, Object.fromEntries(keys.map((k, i) => [k, images[i]]))));
+    })().catch(() => !cancelled && setError(true));
     return () => {
       cancelled = true;
     };
@@ -31,7 +35,8 @@ export const useEmote = (chara: string) => {
 };
 
 interface EmotePlayerProps {
-  chara: "uni" | "navi";
+  /** emotedata name (emotedata.json), e.g. uni, navi, exyear */
+  chara: string;
   /** timeline labels (metadata.timelineControl[].label): body motion, then face/effect overlays */
   main?: string;
   diffs?: string[];
@@ -42,7 +47,7 @@ interface EmotePlayerProps {
 const EmotePlayer = ({ chara, main, diffs = [], height = 480 }: EmotePlayerProps) => {
   const { renderer, error } = useEmote(chara);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const width = Math.round(height * (chara === "uni" ? 0.6 : 0.8));
+  const width = Math.round(height * Math.min(Math.max(renderer?.aspect() ?? 0.6, 0.6), 1.8));
   const diffKey = diffs.join("\n");
 
   useEffect(() => {

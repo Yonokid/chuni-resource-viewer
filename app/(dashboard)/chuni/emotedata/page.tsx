@@ -5,8 +5,9 @@ import DataList, { BaseData } from "@/app/Components/Data";
 import { getBaseUrl } from "@/app/utils/global";
 
 export interface EmoteData extends BaseData {
+  title?: string;
   file: string;
-  texture: string;
+  textures?: string[];
 }
 
 const EmoteCharacters = () => {
@@ -18,7 +19,7 @@ const EmoteCharacters = () => {
           {data.map((item: EmoteData) => (
             <Fragment key={item.id}>
               <ListItemButton component="a" href={`/chuni/emotedata/${item.id}`}>
-                <ListItemText primary={item.name} />
+                <ListItemText primary={item.title ?? item.name} />
               </ListItemButton>
               <Divider />
             </Fragment>

@@ -81,31 +81,14 @@ const EmoteScriptPage = () => {
                 const diffId = [...slots].reverse().find((t) => t.diff[c])?.diff[c];
                 const main = mainId ? mains.get(mainId) : undefined;
                 if (!main) return null;
-                const chara = main.startsWith("Navi") ? "navi" : "uni";
+                // timeline labels start with the character's emotedata name (Uni00..., Navi00..., Exyear00...)
+                const chara = (/^[A-Za-z]+/.exec(main)?.[0] ?? "uni").toLowerCase();
                 return (
                   <Paper key={c} variant="outlined" sx={{ p: 1 }}>
                     <EmotePlayer chara={chara} main={main} diffs={diffId && diffs.get(diffId) ? [diffs.get(diffId)!] : []} height={420} />
                   </Paper>
                 );
               })}
-            </Box>
-
-            <Box>
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Character atlases
-              </Typography>
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                {["uni", "navi"].map((name) => (
-                  <Paper key={name} variant="outlined" sx={{ p: 1, lineHeight: 0 }}>
-                    <img
-                      src={getBaseUrl("chuni", `emotedata/${name}.webp`)}
-                      alt={name}
-                      title={name}
-                      style={{ maxWidth: 320, maxHeight: 320, objectFit: "contain" }}
-                    />
-                  </Paper>
-                ))}
-              </Box>
             </Box>
           </Stack>
         );
