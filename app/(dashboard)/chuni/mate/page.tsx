@@ -28,6 +28,7 @@ export interface Mate extends BaseData {
   disableFlag: boolean;
   defaultHave: boolean;
   emoteFile: string;
+  emote: string; // exported E-mote model name: mate/<emote>.json
   imageFile: string;
   image: string;
   chara: AssetRef | null;

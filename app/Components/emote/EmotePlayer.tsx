@@ -14,7 +14,7 @@ const loadImage = (url: string) =>
     img.src = url;
   });
 
-export const useEmote = (chara: string) => {
+export const useEmote = (chara: string, dir = "emotedata") => {
   const [renderer, setRenderer] = useState<EmoteRenderer | null>(null);
   const [error, setError] = useState(false);
   useEffect(() => {
@@ -22,15 +22,15 @@ export const useEmote = (chara: string) => {
     setRenderer(null);
     setError(false);
     (async () => {
-      const json: EmoteJson = await fetch(getBaseUrl("chuni", `emotedata/${chara}.json`)).then((r) => r.json());
+      const json: EmoteJson = await fetch(getBaseUrl("chuni", `${dir}/${chara}.json`)).then((r) => r.json());
       const keys = Object.keys(json.source);
-      const images = await Promise.all(keys.map((k) => loadImage(getBaseUrl("chuni", `emotedata/${json.source[k].texture.pixel}`))));
+      const images = await Promise.all(keys.map((k) => loadImage(getBaseUrl("chuni", `${dir}/${json.source[k].texture.pixel}`))));
       if (!cancelled) setRenderer(new EmoteRenderer(json, Object.fromEntries(keys.map((k, i) => [k, images[i]]))));
     })().catch(() => !cancelled && setError(true));
     return () => {
       cancelled = true;
     };
-  }, [chara]);
+  }, [chara, dir]);
   return { renderer, error };
 };
 
@@ -41,11 +41,13 @@ interface EmotePlayerProps {
   main?: string;
   diffs?: string[];
   height?: number;
+  /** folder under the version root holding <chara>.json and its atlases */
+  dir?: string;
 }
 
 /** Plays a main timeline (+ overlay timelines) of an E-mote character on a canvas. */
-const EmotePlayer = ({ chara, main, diffs = [], height = 480 }: EmotePlayerProps) => {
-  const { renderer, error } = useEmote(chara);
+const EmotePlayer = ({ chara, main, diffs = [], height = 480, dir }: EmotePlayerProps) => {
+  const { renderer, error } = useEmote(chara, dir);
   const canvas = useRef<HTMLCanvasElement>(null);
   const width = Math.round(height * Math.min(Math.max(renderer?.aspect() ?? 0.6, 0.6), 1.8));
   const diffKey = diffs.join("\n");

@@ -1,10 +1,45 @@
 "use client";
-import { Mate } from "../page";
+import { useState } from "react";
+import { Mate, MateAction } from "../page";
+import EmotePlayer, { useEmote } from "@/app/Components/emote/EmotePlayer";
 import DataDetail from "@/app/Components/DataDetail";
 import AssetLink from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
 import { Fragment } from "react";
-import { Box, Typography, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Paper, Select, Typography, Table, TableBody, TableRow, TableCell } from "@mui/material";
+
+const IDLE = "待01"; // looping base pose every action plays over
+const IDLE_NAVI = "Navi00通常待機00"; // the default (no mate) model is Navi
+const SPECIAL = "専01"; // extra timeline of special-motion actions
+
+const Viewer = ({ mate }: { mate: Mate }) => {
+  const { renderer } = useEmote(mate.emote, "mate");
+  const [actionId, setActionId] = useState(0);
+  const labels = new Set(renderer?.timelines().map((t) => t.label));
+  const action: MateAction | undefined = mate.actions.find((a) => a.id === actionId);
+  const diffs = action ? [action.emote, ...(action.isSpecialMotion ? [SPECIAL] : [])].filter((l) => labels.has(l)) : [];
+  return (
+    <Box sx={{ mt: 3 }}>
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        E-mote
+      </Typography>
+      <FormControl size="small" sx={{ minWidth: 280, mb: 2 }}>
+        <InputLabel>Action</InputLabel>
+        <Select label="Action" value={actionId} onChange={(e) => setActionId(Number(e.target.value))}>
+          <MenuItem value={0}>Idle</MenuItem>
+          {mate.actions.map((a) => (
+            <MenuItem key={a.id} value={a.id}>
+              {`${a.actionType} · ${a.emote}${a.isVoice ? " · voice" : ""}${a.isSpecialMotion ? " · special" : ""}`}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Paper variant="outlined" sx={{ p: 2, display: "block", width: "fit-content" }}>
+        <EmotePlayer chara={mate.emote} dir="mate" main={labels.has(IDLE) ? IDLE : IDLE_NAVI} diffs={diffs} height={640} />
+      </Paper>
+    </Box>
+  );
+};
 
 const MatePage = () => {
   return (
@@ -55,37 +90,7 @@ const MatePage = () => {
               </Table>
             </Fragment>
           )}
-          {item.actions.length > 0 && (
-            <Fragment>
-              <Typography variant="h6" sx={{ mt: 3 }}>
-                Actions
-              </Typography>
-              <Table sx={{ maxWidth: 800 }}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Emote</TableCell>
-                    <TableCell>Voice</TableCell>
-                    <TableCell>Special</TableCell>
-                    <TableCell align="right">Cue</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {item.actions.map((a) => (
-                    <TableRow key={a.id}>
-                      <TableCell>{a.id}</TableCell>
-                      <TableCell>{a.actionType}</TableCell>
-                      <TableCell>{a.emote}</TableCell>
-                      <TableCell>{a.isVoice ? "Yes" : "No"}</TableCell>
-                      <TableCell>{a.isSpecialMotion ? "Yes" : "No"}</TableCell>
-                      <TableCell align="right">{a.cueId}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Fragment>
-          )}
+          {item.emote && <Viewer mate={item} />}
         </Fragment>
       )}
     />
