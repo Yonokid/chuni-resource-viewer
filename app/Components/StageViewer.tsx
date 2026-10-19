@@ -452,7 +452,7 @@ const StageViewer = ({ background, lane }: { background?: string; lane?: string 
 
     const loader = new GLTFLoader();
     const load = (url: string, onLoad: (gltf: GLTF) => void) =>
-      loader.load(url, onLoad, undefined, () => setError(`Failed to load ${url}`));
+      loader.load(url, onLoad, undefined, (e) => { console.error(e); setError(`Failed to load ${url}: ${e instanceof Error ? e.message : String(e)}`); });
     if (background)
       load(background, (gltf) => {
         fixMaterials(gltf);
