@@ -25,13 +25,14 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
         position: "relative",
         display: "inline-block",
         overflow: "hidden",
+        maxWidth: "100%",
       }}
     >
       <img
         src={spriteUrl("trophyRank", item.rareType)}
         alt=""
         width={583}
-        style={{ display: "block", height: "auto" }}
+        style={{ display: "block", height: "auto", maxWidth: "100%" }}
       />
       <div
         style={{
@@ -39,7 +40,7 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
           top: "50%",
           left: "10px",
           transform: "translateY(-50%)",
-          width: "565px",
+          width: "calc(100% - 18px)",
           overflow: "hidden",
         }}
       >

@@ -59,12 +59,12 @@ const Trophies = () => {
         <List>
           {data.map((item: Trophy, index: number) => (
             <Fragment key={index}>
-              <ListItemButton component="a" href={`trophy/${item.id}`}>
+              <ListItemButton component="a" href={`trophy/${item.id}`} sx={{ flexDirection: { xs: "column", sm: "row" }, alignItems: { xs: "stretch", sm: "center" } }}>
                 <ListItemText>
                   <AnimatedTitle key={item.id} item={item} />
                 </ListItemText>
                 <ListItemText
-                  sx={{ textAlign: "right", flex: "0 0 45%" }}
+                  sx={{ textAlign: { xs: "left", sm: "right" }, flex: { xs: "1 1 auto", sm: "0 0 45%" } }}
                   primary={item.explainText}
                 />
               </ListItemButton>
