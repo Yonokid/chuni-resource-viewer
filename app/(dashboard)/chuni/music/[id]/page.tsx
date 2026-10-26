@@ -37,6 +37,25 @@ const difficulties: string[] = [
   "ULTIMA",
 ];
 
+// Static chart from chuni.chart: one wide image of 4-bar columns, read left to right. Huge charts are .png
+// (WebP caps at 16383 px); charts not rendered yet hide themselves.
+const ChartImage = ({ file }: { file: string }) => {
+  const stem = file.replace(/\.c2s$/, "");
+  const [ext, setExt] = useState<"webp" | "png" | null>("webp");
+  if (!ext) return null;
+  return (
+    <Box sx={{ maxWidth: "100%", overflowX: "auto", mt: 2, bgcolor: "#2b2a5c", borderRadius: 1 }}>
+      <img
+        src={getBaseUrl("chuni", `music/charts/${stem}.${ext}`)}
+        alt={`Chart ${stem}`}
+        loading="lazy"
+        style={{ display: "block" }}
+        onError={() => setExt(ext === "webp" ? "png" : null)}
+      />
+    </Box>
+  );
+};
+
 const SongPage = () => {
   const [audioType, setAudioType] = useState("pre");
   const [value, setValue] = useState("3");
@@ -77,7 +96,7 @@ const SongPage = () => {
             sx={{
               justifyContent: "center",
               alignItems: "center",
-              padding: 4,
+              padding: { xs: 1, sm: 4 },
             }}
           >
             <Image
@@ -88,6 +107,7 @@ const SongPage = () => {
               alt="Jacket"
               width="400"
               height="400"
+              style={{ maxWidth: "100%", height: "auto" }}
             ></Image>
             <Grid
               container
@@ -96,16 +116,17 @@ const SongPage = () => {
               sx={{
                 justifyContent: "center",
                 alignItems: "center",
+                width: "100%",
               }}
             >
-              <Paper>
+              <Paper sx={{ width: "100%", maxWidth: 800 }}>
                 <Grid
                   container
                   spacing={2}
                   sx={{
                     justifyContent: "center",
                     alignItems: "center",
-                    minWidth: 800,
+                    px: 1,
                   }}
                 >
                   <Typography>Audio:</Typography>
@@ -133,10 +154,10 @@ const SongPage = () => {
                   )}
                 </Grid>
               </Paper>
-              <Box sx={{ minWidth: 800 }}>
+              <Box sx={{ width: "100%", maxWidth: 800 }}>
                 <AudioPlayer src={getAudioSrc(song)}></AudioPlayer>
               </Box>
-              <Table sx={{ minWidth: 800 }}>
+              <Table sx={{ width: "100%", maxWidth: 800, "& td": { overflowWrap: "anywhere" } }}>
                 <TableBody>
                   <TableRow>
                     <TableCell style={{ fontWeight: 600 }}>ID</TableCell>
@@ -186,7 +207,7 @@ const SongPage = () => {
             }}
           >
             <TabContext value={value}>
-              <Paper>
+              <Paper sx={{ maxWidth: "100%" }}>
                 <Tabs
                   value={value}
                   onChange={handleChange}
@@ -206,8 +227,8 @@ const SongPage = () => {
                 </Tabs>
               </Paper>
               {song.charts.map((elem, idx) => (
-                <TabPanel key={`diffi-panel-${idx}`} value={String(idx)}>
-                  <Box sx={{ minWidth: 800 }}>
+                <TabPanel key={`diffi-panel-${idx}`} value={String(idx)} sx={{ px: { xs: 0, sm: 3 }, width: "100%", maxWidth: "100%" }}>
+                  <Box sx={{ width: "100%", maxWidth: 800, mx: "auto" }}>
                     <InfoTable
                       rows={[
                         elem.stars
@@ -219,6 +240,7 @@ const SongPage = () => {
                       ]}
                     />
                   </Box>
+                  {elem.file && <ChartImage file={elem.file} />}
                 </TabPanel>
               ))}
             </TabContext>
