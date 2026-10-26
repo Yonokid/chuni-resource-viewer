@@ -1,11 +1,13 @@
 "use client";
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { matches, needles, searchKey } from "@/app/utils/search";
 
 export interface BaseData {
   id: number;
   name: string;
   version: number;
+  sortName?: string;
 }
 
 interface Endpoint<T> {
@@ -45,14 +47,16 @@ const DataList = <T extends BaseData>({
     [sorts],
   );
 
+  const keys = useMemo(() => new Map(data?.map((d) => [d, searchKey(d.name, d.sortName)])), [data]);
+
   const sorted = useMemo(() => {
     if (!data) return data;
     const cmp = options[sortKey] ?? options.ID;
-    const q = search.toLowerCase();
+    const ns = needles(search);
     return data
-      .filter((d) => d.name.toLowerCase().includes(q))
+      .filter((d) => matches(keys.get(d)!, ns))
       .sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
-  }, [data, options, sortKey, desc, search]);
+  }, [data, keys, options, sortKey, desc, search]);
 
   useEffect(() => {
     fetch(endpoint)
