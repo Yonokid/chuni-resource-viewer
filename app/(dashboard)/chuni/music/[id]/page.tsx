@@ -45,13 +45,14 @@ type ChartLayout = { ext: string; columns: { x: number; bars: [number, number][]
 const COL_W = 200; // chuni.chart column pitch
 const LABEL_W = 50; // bar numbers sit in the 50 px left of each column
 const PAD = 14; // keeps bar numbers and note caps on the cut edges
+const CHART_BG = "#2b2a5c";
 
 const ChartImage = ({ file }: { file: string }) => {
   const stem = file.replace(/\.c2s$/, "");
   const [layout, setLayout] = useState<ChartLayout | null>(null);
   const [failed, setFailed] = useState(false);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("10");
+  const [to, setTo] = useState("14");
   useEffect(() => {
     fetch(getBaseUrl("chuni", `music/charts/${stem}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject()))
@@ -85,14 +86,17 @@ const ChartImage = ({ file }: { file: string }) => {
           onChange={(e) => setTo(e.target.value)} sx={{ width: 100 }} />
         {ranged && <Button size="small" onClick={() => { setFrom(""); setTo(""); }}>Show all</Button>}
       </Box>
-      <Box sx={{ maxWidth: "100%", overflowX: "auto", bgcolor: "#2b2a5c", borderRadius: 1 }}>
+      <Box sx={{ maxWidth: "100%", overflowX: "auto", bgcolor: CHART_BG, borderRadius: 1 }}>
         {ranged ? (
           <Box sx={{ display: "flex", alignItems: "flex-end", width: "max-content", pr: 6 }}>
             {slices.map(({ x, top, height }) => (
               <Box key={x} role="img" aria-label={`Chart ${stem}, measures ${lo}-${hi}`} sx={{
-                width: COL_W, height, flex: "none",
+                width: COL_W, height, flex: "none", position: "relative",
                 background: `url("${src}") no-repeat ${LABEL_W - x}px ${-top}px`,
-              }} />
+              }}>
+                {/* the top line is labelled with the next bar (hi + 1): hide it, each bar keeps its bottom label */}
+                <Box sx={{ position: "absolute", top: 0, left: 0, width: LABEL_W, height: PAD + 10, bgcolor: CHART_BG }} />
+              </Box>
             ))}
           </Box>
         ) : (
