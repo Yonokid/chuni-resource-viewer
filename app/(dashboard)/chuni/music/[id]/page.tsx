@@ -44,15 +44,16 @@ const difficulties: string[] = [
 type ChartLayout = { ext: string; columns: { x: number; bars: [number, number][] }[] };
 const COL_W = 200; // chuni.chart column pitch
 const LABEL_W = 50; // bar numbers sit in the 50 px left of each column
-const PAD = 14; // keeps bar numbers and note caps on the cut edges
+const PAD = 14; // keeps the bottom bar number and note caps on the cut edge
+const TOP_CUT = 4; // past the 3 px half-height of a note cap
 const CHART_BG = "#2b2a5c";
 
 const ChartImage = ({ file }: { file: string }) => {
   const stem = file.replace(/\.c2s$/, "");
   const [layout, setLayout] = useState<ChartLayout | null>(null);
   const [failed, setFailed] = useState(false);
-  const [from, setFrom] = useState("10");
-  const [to, setTo] = useState("14");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   useEffect(() => {
     fetch(getBaseUrl("chuni", `music/charts/${stem}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject()))
@@ -73,7 +74,8 @@ const ChartImage = ({ file }: { file: string }) => {
     if (i < 0 || i === bars.length - 1 || j === 0) return [];
     const bottom = bars[i][1];
     const top = bars[j < 0 ? bars.length - 1 : j][1];
-    return bottom > top ? [{ x, top: top - PAD, height: bottom - top + 2 * PAD }] : [];
+    // cut just under the top line: it and the notes on it belong to the next bar
+    return bottom > top ? [{ x, top: top + TOP_CUT, height: bottom - top - TOP_CUT + PAD }] : [];
   });
 
   return (
@@ -94,8 +96,8 @@ const ChartImage = ({ file }: { file: string }) => {
                 width: COL_W, height, flex: "none", position: "relative",
                 background: `url("${src}") no-repeat ${LABEL_W - x}px ${-top}px`,
               }}>
-                {/* the top line is labelled with the next bar (hi + 1): hide it, each bar keeps its bottom label */}
-                <Box sx={{ position: "absolute", top: 0, left: 0, width: LABEL_W, height: PAD + 10, bgcolor: CHART_BG }} />
+                {/* rest of the next bar's number, centred on the line just cut */}
+                <Box sx={{ position: "absolute", top: 0, left: 0, width: LABEL_W, height: 6, bgcolor: CHART_BG }} />
               </Box>
             ))}
           </Box>
