@@ -20,6 +20,8 @@ import {
   Tab,
   Tabs,
   Chip,
+  TextField,
+  Button,
 } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 import { getBaseUrl } from "@/app/utils/global";
@@ -37,21 +39,66 @@ const difficulties: string[] = [
   "ULTIMA",
 ];
 
-// Static chart from chuni.chart: one wide image of 4-bar columns, read left to right. Huge charts are .png
-// (WebP caps at 16383 px); charts not rendered yet hide themselves.
+// Static chart from chuni.chart: one wide image of 4-bar columns, read left to right, plus a .json of where each
+// bar line sits so a measure range can be cut out of it. Charts not rendered yet hide themselves.
+type ChartLayout = { ext: string; columns: { x: number; bars: [number, number][] }[] };
+const COL_W = 200; // chuni.chart column pitch
+const LABEL_W = 50; // bar numbers sit in the 50 px left of each column
+const PAD = 14; // keeps bar numbers and note caps on the cut edges
+
 const ChartImage = ({ file }: { file: string }) => {
   const stem = file.replace(/\.c2s$/, "");
-  const [ext, setExt] = useState<"webp" | "png" | null>("webp");
-  if (!ext) return null;
+  const [layout, setLayout] = useState<ChartLayout | null>(null);
+  const [failed, setFailed] = useState(false);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  useEffect(() => {
+    fetch(getBaseUrl("chuni", `music/charts/${stem}.json`))
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(setLayout, () => setFailed(true));
+  }, [stem]);
+  if (failed || !layout) return null;
+
+  const src = getBaseUrl("chuni", `music/charts/${stem}.${layout.ext}`);
+  const bars = layout.columns.flatMap((c) => c.bars.slice(0, -1).map(([b]) => b));
+  const [first, last] = [bars[0], bars[bars.length - 1]];
+  const lo = Math.max(Number(from) || first, first);
+  const hi = Math.min(Number(to) || last, last);
+  const ranged = from !== "" || to !== "";
+  // each column's slice of [lo, hi]: from the bar line under lo up to the one above hi
+  const slices = layout.columns.flatMap(({ x, bars }) => {
+    const i = bars.findIndex(([b]) => b >= lo);
+    const j = bars.findIndex(([b]) => b > hi);
+    if (i < 0 || i === bars.length - 1 || j === 0) return [];
+    const bottom = bars[i][1];
+    const top = bars[j < 0 ? bars.length - 1 : j][1];
+    return bottom > top ? [{ x, top: top - PAD, height: bottom - top + 2 * PAD }] : [];
+  });
+
   return (
-    <Box sx={{ maxWidth: "100%", overflowX: "auto", mt: 2, bgcolor: "#2b2a5c", borderRadius: 1 }}>
-      <img
-        src={getBaseUrl("chuni", `music/charts/${stem}.${ext}`)}
-        alt={`Chart ${stem}`}
-        loading="lazy"
-        style={{ display: "block" }}
-        onError={() => setExt(ext === "webp" ? "png" : null)}
-      />
+    <Box sx={{ mt: 2, width: "100%" }}>
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap", mb: 1 }}>
+        <Typography variant="body2">Measures</Typography>
+        <TextField size="small" type="number" label="From" placeholder={String(first)} value={from}
+          onChange={(e) => setFrom(e.target.value)} sx={{ width: 100 }} />
+        <TextField size="small" type="number" label="To" placeholder={String(last)} value={to}
+          onChange={(e) => setTo(e.target.value)} sx={{ width: 100 }} />
+        {ranged && <Button size="small" onClick={() => { setFrom(""); setTo(""); }}>Show all</Button>}
+      </Box>
+      <Box sx={{ maxWidth: "100%", overflowX: "auto", bgcolor: "#2b2a5c", borderRadius: 1 }}>
+        {ranged ? (
+          <Box sx={{ display: "flex", alignItems: "flex-end", width: "max-content", pr: 6 }}>
+            {slices.map(({ x, top, height }) => (
+              <Box key={x} role="img" aria-label={`Chart ${stem}, measures ${lo}-${hi}`} sx={{
+                width: COL_W, height, flex: "none",
+                background: `url("${src}") no-repeat ${LABEL_W - x}px ${-top}px`,
+              }} />
+            ))}
+          </Box>
+        ) : (
+          <img src={src} alt={`Chart ${stem}`} loading="lazy" style={{ display: "block" }} />
+        )}
+      </Box>
     </Box>
   );
 };
