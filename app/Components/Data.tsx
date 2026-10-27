@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { matches, needles, searchKey } from "@/app/utils/search";
+import { gameVersions } from "@/app/utils/global";
 
 export interface BaseData {
   id: number;
@@ -34,6 +35,7 @@ const DataList = <T extends BaseData>({
   const [sortKey, setSortKey] = useState("ID");
   const [desc, setDesc] = useState(false);
   const [search, setSearch] = useState("");
+  const [version, setVersion] = useState("");
   const [limit, setLimit] = useState(PAGE_SIZE);
   const sentinel = useRef<HTMLDivElement>(null);
 
@@ -47,6 +49,9 @@ const DataList = <T extends BaseData>({
     [sorts],
   );
 
+  const versions = useMemo(() => [...new Set(data?.map((d) => d.version))].sort((a, b) => a - b), [data]);
+  const versionNames = gameVersions[endpoint.includes("/maimai/") ? "maimai" : "chuni"];
+
   const keys = useMemo(() => new Map(data?.map((d) => [d, searchKey(d.name, d.sortName)])), [data]);
 
   const sorted = useMemo(() => {
@@ -54,9 +59,9 @@ const DataList = <T extends BaseData>({
     const cmp = options[sortKey] ?? options.ID;
     const ns = needles(search);
     return data
-      .filter((d) => matches(keys.get(d)!, ns))
+      .filter((d) => (!version || d.version === +version) && matches(keys.get(d)!, ns))
       .sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
-  }, [data, keys, options, sortKey, desc, search]);
+  }, [data, keys, options, sortKey, desc, search, version]);
 
   useEffect(() => {
     fetch(endpoint)
@@ -71,7 +76,7 @@ const DataList = <T extends BaseData>({
       });
   }, [endpoint]);
 
-  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc]);
+  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc, version]);
 
   const more = sortable && !!sorted && limit < sorted.length;
   useEffect(() => {
@@ -106,6 +111,23 @@ const DataList = <T extends BaseData>({
           onChange={(e) => setSearch(e.target.value)}
           sx={{ minWidth: 200, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}
         />
+          <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
+            <InputLabel shrink>Version</InputLabel>
+            <Select
+              value={version}
+              label="Version"
+              displayEmpty
+              notched
+              onChange={(e) => setVersion(e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              {versions.map((v) => (
+                <MenuItem key={v} value={String(v)}>
+                  {versionNames[v] ?? v}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
             <InputLabel>Sort by</InputLabel>
             <Select
