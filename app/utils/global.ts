@@ -46,12 +46,20 @@ export const gameVersions: { [game: string]: { [key: string]: string } } = {
 };
 export function getBaseUrl(game: string, path: string = ""): string {
   const version = getVersion(game);
+  // English content: the parser writes <type>/<type>.en.json next to each table
+  if (game === "chuni" && getLanguage() === "en") path = path.replace(/^(\w+)\/\1\.json$/, "$1/$1.en.json");
   return path
     ? `${SERVER_URL}/${game}/${version}/${path}`
     : `${SERVER_URL}/${game}/${version}`;
 }
 export function setVersion(game: string, version: string): void {
   localStorage.setItem(`${game}_version`, version);
+}
+export function getLanguage(): string {
+  return localStorage.getItem("content_language") ?? "ja";
+}
+export function setLanguage(language: string): void {
+  localStorage.setItem("content_language", language);
 }
 export function getVersion(game: string): string {
   const v = new URLSearchParams(window.location.search).get("v");

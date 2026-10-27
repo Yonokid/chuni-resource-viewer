@@ -9,7 +9,7 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { gameVersions, getVersion, setVersion } from "@/app/utils/global";
+import { gameVersions, getLanguage, getVersion, setLanguage, setVersion } from "@/app/utils/global";
 import { Fragment, useState } from "react";
 
 function GameVersionSelector({ game }: { game: string }) {
@@ -43,10 +43,37 @@ function GameVersionSelector({ game }: { game: string }) {
   );
 }
 
+function LanguageSelector() {
+  const [language, setSelectedLanguage] = useState<string>(getLanguage());
+  return (
+    <FormControl component="fieldset" style={{ margin: "1% 0" }}>
+      <FormLabel>Content Language (CHUNITHM)</FormLabel>
+      <RadioGroup
+        value={language}
+        onChange={(event) => {
+          setLanguage(event.target.value);
+          setSelectedLanguage(event.target.value);
+          window.location.reload();
+        }}
+        row
+      >
+        <FormControlLabel value="ja" control={<Radio />} label="Japanese" />
+        <FormControlLabel value="en" control={<Radio />} label="English" />
+      </RadioGroup>
+    </FormControl>
+  );
+}
+
 export default function SettingsPage() {
   return (
     <Fragment>
       <Grid container direction="column" spacing={4}>
+        <Grid>
+          <Typography variant="h6" gutterBottom>
+            Language
+          </Typography>
+          <LanguageSelector />
+        </Grid>
         {Object.keys(gameVersions).map((game) => (
           <Grid key={game}>
             <Typography variant="h6" gutterBottom>
