@@ -2,6 +2,13 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { matches, needles, searchKey } from "@/app/utils/search";
+import { gameVersions } from "@/app/utils/global";
+
+/** "v1 1.25.00" → 12500, the gameVersions key; NaN if the tag has no x.yy. */
+const releaseCode = (tag: string) => {
+  const m = tag.match(/(\d+)\.(\d+)/);
+  return m ? +m[1] * 10000 + +m[2] * 100 : NaN;
+};
 
 export interface BaseData {
   id: number;
@@ -49,10 +56,14 @@ const DataList = <T extends BaseData>({
     [sorts],
   );
 
-  const releases = useMemo(
-    () => [...new Set(data?.map((d) => d.releaseTagName).filter(Boolean) as string[])].sort(),
-    [data],
-  );
+  const versionNames = gameVersions[endpoint.includes("/maimai/") ? "maimai" : "chuni"];
+  const releaseName = (tag?: string) => tag && (versionNames[releaseCode(tag)] ?? tag);
+  const releases = useMemo(() => {
+    const tags = [...new Set(data?.map((d) => d.releaseTagName).filter(Boolean) as string[])];
+    tags.sort((a, b) => releaseCode(a) - releaseCode(b) || a.localeCompare(b));
+    return [...new Set(tags.map(releaseName))] as string[];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const keys = useMemo(() => new Map(data?.map((d) => [d, searchKey(d.name, d.sortName)])), [data]);
 
@@ -61,7 +72,7 @@ const DataList = <T extends BaseData>({
     const cmp = options[sortKey] ?? options.ID;
     const ns = needles(search);
     return data
-      .filter((d) => (!release || d.releaseTagName === release) && matches(keys.get(d)!, ns))
+      .filter((d) => (!release || releaseName(d.releaseTagName) === release) && matches(keys.get(d)!, ns))
       .sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
   }, [data, keys, options, sortKey, desc, search, release]);
 
