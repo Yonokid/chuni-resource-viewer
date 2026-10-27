@@ -27,7 +27,7 @@ export interface Chara extends BaseData {
   firstSkill: string | null; // dropped in 2.00
   skillId: string | null;
   rareType: number;
-  addImages: (AssetRef & { rank?: number })[];
+  addImages: (AssetRef & { image?: AssetRef; rank?: number })[];
   ranks: CharaRank[];
   releaseTagName?: string;
   explainText?: string;
