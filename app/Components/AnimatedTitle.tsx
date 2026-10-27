@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import { spriteUrl } from "@/app/utils/enums";
+import { getBaseUrl } from "@/app/utils/global";
 import "../index.css";
 import { Trophy } from "../(dashboard)/chuni/trophy/page";
 
@@ -19,6 +20,16 @@ const getAnimationStyle = (text: string): React.CSSProperties => {
 };
 
 const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ item }) => {
+  if (item.image) {
+    return (
+      <img
+        src={getBaseUrl("chuni", `trophy/${item.image}`)}
+        alt={item.name}
+        width={583}
+        style={{ display: "block", height: "auto", maxWidth: "100%" }}
+      />
+    );
+  }
   return (
     <div
       style={{

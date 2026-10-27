@@ -46,6 +46,8 @@ export interface OpenCondition {
 export interface Trophy extends BaseData {
   explainText: string;
   rareType: number;
+  /** Custom plate with the name baked in (2.30+ Spirit/Tribute/Legend/KOP), replaces the rareType plate. */
+  image?: string;
   defaultHave: boolean;
   conditions: Condition[];
   openCondition?: OpenCondition;
