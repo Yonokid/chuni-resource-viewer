@@ -4,6 +4,7 @@ import { Divider, List, ListItemAvatar, ListItemButton, ListItemText } from "@mu
 import DataList, { BaseData } from "@/app/Components/Data";
 import { AssetRef } from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
+import { getUnlocked } from "@/app/utils/unlocks";
 
 export interface MapIcon extends BaseData {
   disableFlag: boolean;
@@ -15,6 +16,7 @@ export interface MapIcon extends BaseData {
 }
 
 const MapIcons = () => {
+  const unlocked = getUnlocked("mapIcon");
   return (
     <DataList<MapIcon>
       endpoint={`${getBaseUrl("chuni", "mapIcon/mapIcon.json")}`}
@@ -22,7 +24,7 @@ const MapIcons = () => {
         <List>
           {data.map((item: MapIcon, index: number) => (
             <Fragment key={index}>
-              <ListItemButton component="a" href={`/chuni/mapIcon/${item.id}`}>
+              <ListItemButton component="a" href={`/chuni/mapIcon/${item.id}`} selected={unlocked.has(item.id)}>
                 <ListItemAvatar sx={{ minWidth: 0, mr: 2 }}>
                   <img src={getBaseUrl("chuni", `mapIcon/${item.image}`)} alt="" width={96} />
                 </ListItemAvatar>

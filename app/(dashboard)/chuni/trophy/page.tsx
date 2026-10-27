@@ -4,6 +4,7 @@ import { Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import DataList, { BaseData } from "@/app/Components/Data";
 import { AssetRef } from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
+import { getUnlocked } from "@/app/utils/unlocks";
 import AnimatedTitle from "../../../Components/AnimatedTitle";
 
 export interface Condition {
@@ -51,6 +52,7 @@ export interface Trophy extends BaseData {
 }
 
 const Trophies = () => {
+  const unlocked = getUnlocked("trophy");
   return (
     <DataList<Trophy>
       endpoint={`${getBaseUrl("chuni", "trophy/trophy.json")}`}
@@ -59,7 +61,7 @@ const Trophies = () => {
         <List>
           {data.map((item: Trophy, index: number) => (
             <Fragment key={index}>
-              <ListItemButton component="a" href={`trophy/${item.id}`} sx={{ flexDirection: { xs: "column", sm: "row" }, alignItems: { xs: "stretch", sm: "center" } }}>
+              <ListItemButton component="a" href={`trophy/${item.id}`} selected={unlocked.has(item.id)} sx={{ flexDirection: { xs: "column", sm: "row" }, alignItems: { xs: "stretch", sm: "center" } }}>
                 <ListItemText>
                   <AnimatedTitle key={item.id} item={item} />
                 </ListItemText>

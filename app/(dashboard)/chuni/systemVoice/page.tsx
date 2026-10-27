@@ -4,6 +4,7 @@ import { Divider, List, ListItemAvatar, ListItemButton, ListItemText } from "@mu
 import DataList, { BaseData } from "@/app/Components/Data";
 import { AssetRef } from "@/app/Components/AssetLink";
 import { getBaseUrl } from "@/app/utils/global";
+import { getUnlocked } from "@/app/utils/unlocks";
 
 export interface SystemVoice extends BaseData {
   disableFlag: boolean;
@@ -17,6 +18,7 @@ export interface SystemVoice extends BaseData {
 }
 
 const SystemVoices = () => {
+  const unlocked = getUnlocked("systemVoice");
   return (
     <DataList<SystemVoice>
       endpoint={`${getBaseUrl("chuni", "systemVoice/systemVoice.json")}`}
@@ -24,7 +26,7 @@ const SystemVoices = () => {
         <List>
           {data.map((item: SystemVoice, index: number) => (
             <Fragment key={index}>
-              <ListItemButton component="a" href={`/chuni/systemVoice/${item.id}`}>
+              <ListItemButton component="a" href={`/chuni/systemVoice/${item.id}`} selected={unlocked.has(item.id)}>
                 <ListItemAvatar sx={{ minWidth: 0, mr: 2 }}>
                   <img src={getBaseUrl("chuni", `systemVoice/${item.image}`)} alt="" width={96} />
                 </ListItemAvatar>
