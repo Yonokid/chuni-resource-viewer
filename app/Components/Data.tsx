@@ -2,13 +2,13 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { matches, needles, searchKey } from "@/app/utils/search";
-import { gameVersions } from "@/app/utils/global";
 
 export interface BaseData {
   id: number;
   name: string;
   version: number;
   sortName?: string;
+  releaseTagName?: string;
 }
 
 interface Endpoint<T> {
@@ -35,7 +35,7 @@ const DataList = <T extends BaseData>({
   const [sortKey, setSortKey] = useState("ID");
   const [desc, setDesc] = useState(false);
   const [search, setSearch] = useState("");
-  const [version, setVersion] = useState("");
+  const [release, setRelease] = useState("");
   const [limit, setLimit] = useState(PAGE_SIZE);
   const sentinel = useRef<HTMLDivElement>(null);
 
@@ -49,8 +49,10 @@ const DataList = <T extends BaseData>({
     [sorts],
   );
 
-  const versions = useMemo(() => [...new Set(data?.map((d) => d.version))].sort((a, b) => a - b), [data]);
-  const versionNames = gameVersions[endpoint.includes("/maimai/") ? "maimai" : "chuni"];
+  const releases = useMemo(
+    () => [...new Set(data?.map((d) => d.releaseTagName).filter(Boolean) as string[])].sort(),
+    [data],
+  );
 
   const keys = useMemo(() => new Map(data?.map((d) => [d, searchKey(d.name, d.sortName)])), [data]);
 
@@ -59,9 +61,9 @@ const DataList = <T extends BaseData>({
     const cmp = options[sortKey] ?? options.ID;
     const ns = needles(search);
     return data
-      .filter((d) => (!version || d.version === +version) && matches(keys.get(d)!, ns))
+      .filter((d) => (!release || d.releaseTagName === release) && matches(keys.get(d)!, ns))
       .sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
-  }, [data, keys, options, sortKey, desc, search, version]);
+  }, [data, keys, options, sortKey, desc, search, release]);
 
   useEffect(() => {
     fetch(endpoint)
@@ -76,7 +78,7 @@ const DataList = <T extends BaseData>({
       });
   }, [endpoint]);
 
-  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc, version]);
+  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc, release]);
 
   const more = sortable && !!sorted && limit < sorted.length;
   useEffect(() => {
@@ -111,23 +113,25 @@ const DataList = <T extends BaseData>({
           onChange={(e) => setSearch(e.target.value)}
           sx={{ minWidth: 200, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}
         />
-          <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
-            <InputLabel shrink>Version</InputLabel>
-            <Select
-              value={version}
-              label="Version"
-              displayEmpty
-              notched
-              onChange={(e) => setVersion(e.target.value)}
-            >
-              <MenuItem value="">All</MenuItem>
-              {versions.map((v) => (
-                <MenuItem key={v} value={String(v)}>
-                  {versionNames[v] ?? v}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {releases.length > 0 && (
+            <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
+              <InputLabel shrink>Release</InputLabel>
+              <Select
+                value={release}
+                label="Release"
+                displayEmpty
+                notched
+                onChange={(e) => setRelease(e.target.value)}
+              >
+                <MenuItem value="">All</MenuItem>
+                {releases.map((r) => (
+                  <MenuItem key={r} value={r}>
+                    {r}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
             <InputLabel>Sort by</InputLabel>
             <Select
