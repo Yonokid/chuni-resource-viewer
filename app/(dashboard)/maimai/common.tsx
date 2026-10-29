@@ -36,7 +36,11 @@ const REF_TYPES: Record<string, string> = {
   PartnerId: "partner", TitleId: "title", PlateId: "plate", IconId: "icon", music: "music", silhouette: "mapSilhouette",
   Silhouette: "mapSilhouette",
   FrameId: "frame", frameId: "frame", partnerId: "partner", matchingUserTitle: "title", allEquipTitles: "title",
-  partnerName: "partner", NamePlate: "plate", Frame: "frame", Icon: "icon", shopItemCategoryName: "shopItemCategory", TicketId: "ticket", seasonId: "udemaeSeasonEvent", classBoss: "udemaeBoss",
+  partnerName: "partner", NamePlate: "plate", Frame: "frame", Icon: "icon", shopItemCategoryName: "shopItemCategory",
+  gateName: "kaleidxScopeGate", Gate: "kaleidxScopeGate", keyName: "kaleidxScopeKey", Key: "kaleidxScopeKey",
+  musicGroup01Name: "kaleidxScopeMusicGroup", musicGroup02Name: "kaleidxScopeMusicGroup", musicGroup03Name: "kaleidxScopeMusicGroup",
+  getMusicName: "music", iconName: "icon", musicIds: "music", MusicIds: "music", festaSide01: "festaSide", festaSide02: "festaSide", festaSide03: "festaSide",
+  festaRankingRewardList: "festaRankingReward", circlePointRewardName: "circlePointReward", TicketId: "ticket", seasonId: "udemaeSeasonEvent", classBoss: "udemaeBoss",
 };
 
 export const Ref = ({ field, value }: { field?: string; value: StringID }) => {
