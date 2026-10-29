@@ -19,6 +19,9 @@ export interface MaiItem extends BaseData {
   [field: string]: unknown;
 }
 
+/** ids 10000-19999 are the DX (でらっくす) charts of a song. */
+export const isDX = (s: { id: number }) => s.id >= 10000 && s.id < 20000;
+
 export const table = (type: string) => getBaseUrl("maimai", `${type}/${type}.json`);
 export const asset = (type: string, file: string) => getBaseUrl("maimai", `${type}/${file}`);
 

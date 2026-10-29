@@ -3,8 +3,8 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } fro
 import AudioPlayer from "../../../chuni/music/[id]/AudioPlayer";
 import InfoTable from "@/app/Components/InfoTable";
 import DataDetail from "@/app/Components/DataDetail";
-import { Ref, asset, table } from "../../common";
-import { Song, isDX } from "../page";
+import { Ref, asset, isDX, table } from "../../common";
+import { Song } from "../page";
 
 const DIFFICULTIES = ["BASIC", "ADVANCED", "EXPERT", "MASTER", "Re:MASTER", "UTAGE"];
 const level = (n: { level: number; levelDecimal: number }) => `${n.level}${n.levelDecimal >= 7 ? "+" : ""} (${n.level}.${n.levelDecimal})`;

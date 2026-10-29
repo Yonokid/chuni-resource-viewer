@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Box, Card, CardActionArea, CardMedia, Grid, Typography } from "@mui/material";
 import DataList from "@/app/Components/Data";
 import FitText from "@/app/Components/FitText";
-import { MaiItem, StringID, asset, table } from "../common";
+import { MaiItem, StringID, asset, isDX, table } from "../common";
 
 export interface Notes {
   file: { path: string };
@@ -25,9 +25,6 @@ export interface Song extends MaiItem {
   audio?: string | null;
   movie?: string | null;
 }
-
-/** ids 10000-19999 are the DX (でらっくす) charts of a song. */
-export const isDX = (s: Song) => s.id >= 10000 && s.id < 20000;
 
 // Stable references so DataList's memos don't rerun every render.
 const filters = {
