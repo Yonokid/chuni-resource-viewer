@@ -9,7 +9,7 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { gameVersions, getLanguage, getVersion, setLanguage, setVersion } from "@/app/utils/global";
+import { gameVersions, getLanguage, getVersion, missingVersions, setLanguage, setVersion } from "@/app/utils/global";
 import { Fragment, useState } from "react";
 
 function GameVersionSelector({ game }: { game: string }) {
@@ -35,6 +35,7 @@ function GameVersionSelector({ game }: { game: string }) {
             value={version}
             control={<Radio />}
             label={name}
+            disabled={missingVersions[game]?.includes(version)}
           />
         ))}
       </RadioGroup>
