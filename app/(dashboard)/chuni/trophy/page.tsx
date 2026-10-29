@@ -53,12 +53,39 @@ export interface Trophy extends BaseData {
   openCondition?: OpenCondition;
 }
 
+/** condition.type (chuni-parsing-library enums.py INT_ENUMS) -> filter label. */
+const conditionTypes: Record<number, string> = {
+  0: "Event",
+  1: "Play Music",
+  2: "Play Setting",
+  3: "Music Result",
+  4: "Total Result",
+  5: "Player",
+  6: "Character",
+  7: "Skill",
+  8: "Trophy",
+  9: "Travel",
+  10: "Music",
+};
+
+/** Requirement types of a trophy; a condition holding only its `type` has no requirement. */
+const requirementTypes = (t: Trophy) => {
+  const types = (t.conditions ?? [])
+    .filter((c) => Object.keys(c).length > 1)
+    .map((c) => conditionTypes[c.type] ?? `Type ${c.type}`);
+  return types.length ? types : ["None"];
+};
+
+// Stable reference so DataList's memo doesn't rerun every render.
+const filters = { Requirement: requirementTypes };
+
 const Trophies = () => {
   const unlocked = getUnlocked("trophy");
   return (
     <DataList<Trophy>
       endpoint={`${getBaseUrl("chuni", "trophy/trophy.json")}`}
       sorts={{ Rarity: (a, b) => a.rareType - b.rareType }}
+      filters={filters}
       render={(data) => (
         <List>
           {data.map((item: Trophy, index: number) => (

@@ -26,6 +26,8 @@ interface Endpoint<T> {
   /** Set false for detail views to hide the sort controls. */
   sortable?: boolean;
   sorts?: Record<string, (a: T, b: T) => number>;
+  /** Extra dropdown filters: label -> the values an item matches (options are collected from the data). */
+  filters?: Record<string, (d: T) => string[]>;
 }
 
 const PAGE_SIZE = 50;
@@ -35,6 +37,7 @@ const DataList = <T extends BaseData>({
   render,
   skeleton,
   sorts,
+  filters,
   sortable = true,
 }: Endpoint<T>) => {
   const [data, setData] = useState<T[] | null>(null);
@@ -43,6 +46,7 @@ const DataList = <T extends BaseData>({
   const [desc, setDesc] = useState(false);
   const [search, setSearch] = useState("");
   const [release, setRelease] = useState("");
+  const [picked, setPicked] = useState<Record<string, string>>({});
   const [limit, setLimit] = useState(PAGE_SIZE);
   const sentinel = useRef<HTMLDivElement>(null);
 
@@ -65,6 +69,15 @@ const DataList = <T extends BaseData>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
+  const filterOptions = useMemo(
+    () =>
+      Object.entries(filters ?? {}).map(([label, fn]) => {
+        const values = [...new Set(data?.flatMap(fn))];
+        return [label, values.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))] as const;
+      }),
+    [data, filters],
+  );
+
   const keys = useMemo(() => new Map(data?.map((d) => [d, searchKey(d.name, d.sortName)])), [data]);
 
   const sorted = useMemo(() => {
@@ -72,9 +85,14 @@ const DataList = <T extends BaseData>({
     const cmp = options[sortKey] ?? options.ID;
     const ns = needles(search);
     return data
-      .filter((d) => (!release || releaseName(d.releaseTagName) === release) && matches(keys.get(d)!, ns))
+      .filter(
+        (d) =>
+          (!release || releaseName(d.releaseTagName) === release) &&
+          Object.entries(picked).every(([label, v]) => !v || filters![label](d).includes(v)) &&
+          matches(keys.get(d)!, ns),
+      )
       .sort((a, b) => (desc ? cmp(b, a) : cmp(a, b)));
-  }, [data, keys, options, sortKey, desc, search, release]);
+  }, [data, keys, options, sortKey, desc, search, release, picked, filters]);
 
   useEffect(() => {
     fetch(endpoint)
@@ -89,7 +107,7 @@ const DataList = <T extends BaseData>({
       });
   }, [endpoint]);
 
-  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc, release]);
+  useEffect(() => setLimit(PAGE_SIZE), [search, sortKey, desc, release, picked]);
 
   const more = sortable && !!sorted && limit < sorted.length;
   useEffect(() => {
@@ -143,6 +161,25 @@ const DataList = <T extends BaseData>({
               </Select>
             </FormControl>
           )}
+          {filterOptions.map(([label, values]) => (
+            <FormControl key={label} size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
+              <InputLabel shrink>{label}</InputLabel>
+              <Select
+                value={picked[label] ?? ""}
+                label={label}
+                displayEmpty
+                notched
+                onChange={(e) => setPicked((p) => ({ ...p, [label]: e.target.value }))}
+              >
+                <MenuItem value="">All</MenuItem>
+                {values.map((v) => (
+                  <MenuItem key={v} value={v}>
+                    {v}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          ))}
           <FormControl size="small" sx={{ minWidth: 160, flex: { xs: 1, sm: "0 1 auto" } }}>
             <InputLabel>Sort by</InputLabel>
             <Select
