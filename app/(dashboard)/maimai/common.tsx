@@ -35,6 +35,7 @@ const REF_TYPES: Record<string, string> = {
   TreasureId: "mapTreasure", type: "cardType", eventName: "event", OpenEventId: "event",
   PartnerId: "partner", TitleId: "title", PlateId: "plate", IconId: "icon", music: "music", silhouette: "mapSilhouette",
   Silhouette: "mapSilhouette",
+  FrameId: "frame", TicketId: "ticket", seasonId: "udemaeSeasonEvent", classBoss: "udemaeBoss",
 };
 
 export const Ref = ({ field, value }: { field?: string; value: StringID }) => {
