@@ -36,19 +36,50 @@ const RARE_TYPE_LABELS: Record<number, string> = {
   4: "Rainbow",
 };
 
+/** unlock_type (chuni-parsing-library maimai/title.py unlock_types) -> filter label. */
+const UNLOCK_TYPE_LABELS: Record<string, string> = {
+  None: "Transferred",
+  RATING: "Rating",
+  CHARA_KAKUSEI: "Character Awakening",
+  CHARA_KAISU: "Character Awakening Count",
+  MAP_CHARA_KAKUSEI: "Chiho Character Awakening",
+  TOTAL_CHARA_KAKUSEI: "Tour Member Awakening",
+  PARTNER: "Partner",
+  MUSIC: "Play Song",
+  MUSIC_GROUP: "Song Set",
+  MUSIC_GENRE_SELECTED: "Genre Select",
+  TRACK_SKIP: "Track Skip",
+  FULLCOMBO_COUNT: "Full Combo Count",
+  DANNI: "Dan Rank",
+  MAP_KYORI: "Travel Distance",
+  MAP_COMPLETE: "Chiho Complete",
+  TODOHUKEN: "Prefecture",
+  TODOHUKEN_SEIHA: "All Prefectures",
+  LOGIN_RUIKEI: "Total Logins",
+  LOGIN_RENZOKU: "Consecutive Logins",
+  MAI2DX_N_PLAY: "maimai DX Plays",
+  OTOMODACHI_WIN: "Otomodachi Win",
+  NPC_OTOMODACHI_N_WIN: "NPC Otomodachi Wins",
+  NPC_OTOMODACHI_N_REN_WIN: "NPC Otomodachi Win Streak",
+  ZENKOKU_OTOMODACHI_N_WIN: "National Otomodachi Wins",
+  ZENKOKU_OTOMODACHI_N_REN_WIN: "National Otomodachi Win Streak",
+  TITLESET_DP: "Title Set (2P)",
+  MATCHING_FOR_TITLESETPLAYER: "Title Set (Matching)",
+  SATELLITE: "Satellite",
+};
+
+// Stable reference so DataList's memo doesn't rerun every render.
+const filters = {
+  Requirement: (t: Title) => [UNLOCK_TYPE_LABELS[t.unlock_type] ?? t.unlock_type],
+};
+
 interface TitleListProps {
   data: Title[];
 }
 
 const TitleList: React.FC<TitleListProps> = ({ data }) => {
   const [selectedRareTypes, setSelectedRareTypes] = useState<number[]>([]);
-  const [selectedUnlockType, setSelectedUnlockType] = useState<string>("all");
   const [selectedVersion, setSelectedVersion] = useState<string>("all");
-
-  const unlockTypes = useMemo(() => {
-    const types = Array.from(new Set(data.map((t) => t.unlock_type))).sort();
-    return types;
-  }, [data]);
 
   const versions = useMemo(() => {
     const versionMap = gameVersions["maimai"];
@@ -63,15 +94,12 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
         if (selectedRareTypes.length > 0 && !selectedRareTypes.includes(item.rareType)) {
           return false;
         }
-        if (selectedUnlockType !== "all" && item.unlock_type !== selectedUnlockType) {
-          return false;
-        }
         if (selectedVersion !== "all" && item.version !== Number(selectedVersion)) {
           return false;
         }
         return true;
       });
-  }, [data, selectedRareTypes, selectedUnlockType, selectedVersion]);
+  }, [data, selectedRareTypes, selectedVersion]);
 
   const handleRareTypeToggle = (
     _event: React.MouseEvent<HTMLElement>,
@@ -102,21 +130,6 @@ const TitleList: React.FC<TitleListProps> = ({ data }) => {
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
-        <FormControl size="small" sx={{ minWidth: 200, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}>
-          <InputLabel>Unlock Type</InputLabel>
-          <Select
-            value={selectedUnlockType}
-            label="Unlock Type"
-            onChange={(e) => setSelectedUnlockType(e.target.value)}
-          >
-            <MenuItem value="all">All</MenuItem>
-            {unlockTypes.map((type) => (
-              <MenuItem key={type} value={type}>
-                {type}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
         <FormControl size="small" sx={{ minWidth: 180, flex: { xs: "1 1 100%", sm: "0 1 auto" } }}>
           <InputLabel>Version</InputLabel>
           <Select
@@ -158,6 +171,7 @@ const Trophies: React.FC = () => {
   return (
     <DataList<Title>
       endpoint={`${getBaseUrl("maimai", "title/title.json")}`}
+      filters={filters}
       render={(data) => <TitleList data={data} />}
     />
   );
