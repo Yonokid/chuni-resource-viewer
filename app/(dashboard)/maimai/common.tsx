@@ -30,9 +30,11 @@ const isStringID = (v: unknown): v is StringID =>
 
 /** StringID field -> the table its id points into (for links). */
 const REF_TYPES: Record<string, string> = {
-  charaId: "chara", CharacterId: "chara", chara: "cardChara", musicId: "music", MusicId: "music", mapId: "map",
+  charaId: "chara", CharacterId: "chara", chara: "cardCharaPack", musicId: "music", MusicId: "music", mapId: "map",
   titleId: "title", plateId: "plate", iconId: "icon", otomodachiId: "mapOtomodachi", Otomodachi: "mapOtomodachi",
   TreasureId: "mapTreasure", type: "cardType", eventName: "event", OpenEventId: "event",
+  PartnerId: "partner", TitleId: "title", PlateId: "plate", IconId: "icon", music: "music", silhouette: "mapSilhouette",
+  Silhouette: "mapSilhouette",
 };
 
 export const Ref = ({ field, value }: { field?: string; value: StringID }) => {

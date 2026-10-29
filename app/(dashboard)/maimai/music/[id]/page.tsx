@@ -58,7 +58,13 @@ export default function SongPage() {
           />
           {song.movie && (
             <Box sx={{ mt: 2 }}>
-              <video controls preload="none" style={{ maxWidth: "100%", width: 800 }} src={asset("music", song.movie)} />
+              <video
+                controls
+                preload="metadata"
+                style={{ maxWidth: "100%", width: 800 }}
+                src={asset("music", song.movie)}
+                onError={(e) => (e.currentTarget.style.display = "none")} // movies stay local, the server has none
+              />
             </Box>
           )}
         </>
