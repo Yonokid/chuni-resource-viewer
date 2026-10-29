@@ -44,6 +44,10 @@ export const gameVersions: { [game: string]: { [key: string]: string } } = {
     "17000": "MAGiCAL"
   },
 };
+// Versions in the list with no data dump: shown greyed out in the version picker.
+export const missingVersions: { [game: string]: string[] } = {
+  maimai: ["15000", "15500", "16500", "17000"],
+};
 export function getBaseUrl(game: string, path: string = ""): string {
   const version = getVersion(game);
   // English content: the parser writes <type>/<type>.en.json next to each table

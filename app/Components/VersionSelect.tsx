@@ -2,7 +2,7 @@
 import { IconButton, MenuItem, Select, Tooltip } from "@mui/material";
 import { UploadFile as UploadFileIcon } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
-import { gameVersions, getVersion, setVersion } from "@/app/utils/global";
+import { gameVersions, getVersion, missingVersions, setVersion } from "@/app/utils/global";
 import { importUnlocks } from "@/app/utils/unlocks";
 
 function ImportUnlocks() {
@@ -42,7 +42,7 @@ export default function VersionSelect() {
         }}
       >
         {Object.entries(gameVersions[game]).map(([v, name]) => (
-          <MenuItem key={v} value={v}>
+          <MenuItem key={v} value={v} disabled={missingVersions[game]?.includes(v)}>
             {name}
           </MenuItem>
         ))}

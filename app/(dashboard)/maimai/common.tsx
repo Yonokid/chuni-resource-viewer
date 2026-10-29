@@ -32,10 +32,11 @@ const isStringID = (v: unknown): v is StringID =>
 const REF_TYPES: Record<string, string> = {
   charaId: "chara", CharacterId: "chara", chara: "cardCharaPack", musicId: "music", MusicId: "music", mapId: "map",
   titleId: "title", plateId: "plate", iconId: "icon", otomodachiId: "mapOtomodachi", Otomodachi: "mapOtomodachi",
-  TreasureId: "mapTreasure", type: "cardType", eventName: "event", OpenEventId: "event",
+  TreasureId: "mapTreasure", type: "cardType", eventName: "event", eventName2: "event", OpenEventId: "event",
   PartnerId: "partner", TitleId: "title", PlateId: "plate", IconId: "icon", music: "music", silhouette: "mapSilhouette",
   Silhouette: "mapSilhouette",
-  FrameId: "frame", TicketId: "ticket", seasonId: "udemaeSeasonEvent", classBoss: "udemaeBoss",
+  FrameId: "frame", frameId: "frame", partnerId: "partner", matchingUserTitle: "title", allEquipTitles: "title",
+  partnerName: "partner", NamePlate: "plate", Frame: "frame", Icon: "icon", shopItemCategoryName: "shopItemCategory", TicketId: "ticket", seasonId: "udemaeSeasonEvent", classBoss: "udemaeBoss",
 };
 
 export const Ref = ({ field, value }: { field?: string; value: StringID }) => {
@@ -69,10 +70,13 @@ export const allRows = (item: MaiItem): [string, React.ReactNode][] =>
 
 /** Release*Kind prefix -> the ReleaseItemConditions field it reads (Manager.MaiStudio.Serialize). First match wins. */
 const KIND_FIELDS: [string, string][] = [
-  ["MUSIC_GROUP", "musicGroupId"], ["MUSIC", "musicId"], ["CHARA", "charaId"], ["MAP", "mapId"],
-  ["NPC_OTOMODACHI", ""], ["ZENKOKU_OTOMODACHI", ""], ["OTOMODACHI", "otomodachiId"], ["TITLE", "titleId"],
+  ["MUSIC_GROUP", "musicGroupId"], ["MUSIC_GENRE_SELECTED", "musicGenreId"], ["MUSIC", "musicId"], ["TRACK_SKIP", "musicId"], ["CHARA", "charaId"], ["MAP", "mapId"],
+  ["NPC_OTOMODACHI", ""], ["ZENKOKU_OTOMODACHI", ""], ["OTOMODACHI", "otomodachiId"], ["TITLESET_DP", "allEquipTitles"], ["TITLE", "titleId"],
   ["PLATE", "plateId"], ["ICON", "iconId"], ["DIFFICULTY", "difficultyId"], ["RANK", "rankId"], ["TODOHUKEN", "todohukenId"],
   ["SATELLITE", "satelliteId"], ["DANNI", "gradeId"], ["FULLCOMBO", "fcId"], ["SYNC", "syncId"],
+  ["FRAME", "frameId"], ["MIRROR_MODE", "mirrorModeId"], // 1.30+
+  ["DELUXE_SCORE", "deluxeScoreId"], // 1.35+
+  ["PARTNER", "partnerId"], ["MOVIE_BRIGHTNESS", "moviebrightnessID"], ["MATCHING_FOR_TITLESETPLAYER", "matchingUserTitle"], // 1.40+
 ];
 
 /** One ReleaseConditions slot (titles, icons, plates): "Total · LOGIN_RENZOKU 30". */
@@ -83,7 +87,7 @@ export const conditionText = (c: Record<string, unknown>): React.ReactNode => {
   return (
     <>
       {`${c.Category} · ${kind}${c.param ? ` ${c.param}` : ""} `}
-      {ref !== undefined && (isStringID(ref) ? <Ref field={field} value={ref} /> : String(ref))}
+      {ref !== undefined && field && show(field, ref)}
     </>
   );
 };
