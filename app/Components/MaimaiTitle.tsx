@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import "../index.css";
 import { Title } from "../(dashboard)/maimai/title/page";
 
-type GetAnimationStyle = (name: string) => React.CSSProperties;
+const RARE_TYPES = ["Normal", "Bronze", "Silver", "Gold", "Rainbow"];
 
 interface maimaiTitleProps {
   item: Title;
@@ -28,7 +28,7 @@ const MaimaiTitle: React.FC<maimaiTitleProps> = ({ item }) => {
       }}
     >
       <Image
-        src={`/maimai/title_${item.rareType}.webp`}
+        src={`/maimai/title_${Math.max(0, RARE_TYPES.indexOf(item.rareType))}.webp`}
         alt=""
         width={268}
         height={25}
